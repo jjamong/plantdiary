@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+html,body {}
+body {font-family:'Nanum-G', sans-serif;font-weight:400;}
+#wrap {width:100%;min-width:320px;height:100%; color:#1a1a1a;}
+
+div > a, li > a {display: block; width: 100%; height: 100%;}
+.clear:after { content:""; display:block; clear:both;}
+.fl {float:left;}
+h2, h3 {font-weight:400;}
+table tbody th {font-weight:400;}
+.blind{  overflow:hidden; visibility:hidden; position:absolute; height:1px; text-indent:-9999em;}
+
+input[type="checkbox"] + label {display:inline-block; padding:0 4px; position:relative; top:-2px; font-size:10px; color:#fff; -webkit-user-select: none; -moz-user-select: none; -ms-user-select:none;}
+textarea {resize:none;}
+
+.web {display: none;}
+
+
+/* footer */
+.common-layer-popup {}
+.common-layer-popup .alert-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
+.common-layer-popup .alert-layer .message-section {padding: 20px;}
+.common-layer-popup .alert-layer .message {text-align: center; font-size: 12px;}
+.common-layer-popup .alert-layer .btn-section {padding:10px; border-top: 1px solid green; text-align: center;}
+.common-layer-popup .alert-layer .btn-section button {font-size: 12px; line-height: 12px; background: #fff; font-weight: 400;}
