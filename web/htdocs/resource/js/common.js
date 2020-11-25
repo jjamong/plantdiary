@@ -39,71 +39,71 @@ var _docH = _doc.height();
  *      dimHtml			: 	dim Markup       String     
  * ======================================================================== */
 
-+function ($) {
-	//'use strict';
+// +function ($) {
+// 	//'use strict';
 
-	$.fn.layerPop = function(settings){
-		$.fn.layerPop.defaults = {
-			dim : true,
-			opacity : 0.9,
-			alignType : 'center',
-			name : null,
-			dimHtml : '<div class=\'dim\'></div>',
-		}
+// 	$.fn.layerPop = function(settings){
+// 		$.fn.layerPop.defaults = {
+// 			dim : true,
+// 			opacity : 0.5,
+// 			alignType : 'center',
+// 			name : null,
+// 			dimHtml : '<div class=\'dim\'></div>',
+// 		}
 
-    	return this.each(function(){
-    		var href
-    		var options  	    = $.extend({}, $.fn.layerPop.defaults, settings || {});
-    		var $el 	        = $(this);
-    		var $target    	 =  $($el.attr('data-target') || ( (href = $el.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')));
-    		var $targetLayer    = $target[0];
+//     	return this.each(function(){
+//     		var href
+//     		var options  	    = $.extend({}, $.fn.layerPop.defaults, settings || {});
+//     		var $el 	        = $(this);
+//     		var $target    	 =  $($el.attr('data-target') || ( (href = $el.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')));
+//     		var $targetLayer    = $target[0];
     		
-    		var _elHeight = ($target.outerHeight())/2;
-    		var _elWidth = ($target.outerWidth())/2;
+//     		var _elHeight = ($target.outerHeight())/2;
+//     		var _elWidth = ($target.outerWidth())/2;
    
     		
-    		$($el[0]).on('click', function(){
+//     		$($el[0]).on('click', function(){
     			
-    			if(options.alignType == 'center'){
-    				var _scrollY = _win.scrollTop();
-    				var centerTop = Math.max(0, ((_win.height() - $target.outerHeight()) / 2) + _scrollY);
-    				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : centerTop, 'margin-left' : -_elWidth });
-    			}
-    			else if(options.alignType == 'top'){
-    				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : 100 , 'margin-left' : -_elWidth });
-    			}
-    			else if(options.alignType == 'fixed'){
-    				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'fixed', 'left' : '50%', 'top' : '50%' , 'margin-left' : -_elWidth, 'margin-top' : -_elHeight });
-    			}
+//     			if(options.alignType == 'center'){
+//     				var _scrollY = _win.scrollTop();
+//     				var centerTop = Math.max(0, ((_win.height() - $target.outerHeight()) / 2) + _scrollY);
+//     				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : centerTop, 'margin-left' : -_elWidth });
+//     			}
+//     			else if(options.alignType == 'top'){
+//     				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : 100 , 'margin-left' : -_elWidth });
+//     			}
+//     			else if(options.alignType == 'fixed'){
+//     				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'fixed', 'left' : '50%', 'top' : '50%' , 'margin-left' : -_elWidth, 'margin-top' : -_elHeight });
+//     			}
     			
-    			if(options.dim == true){
-    				if(!$('.dim').length > 0){
-    					_docBody.append(options.dimHtml);
-    				}
-    				_winW = _win.width();
-    				_docH = _doc.height();
-    				$('.dim').css({ 'width':_winW, 'height' : _docH, 'opacity': options.opacity, 'top' : 0 , 'width' : _docW, 'height' : _docH }).show();
-    			}
-    		});
+//     			if(options.dim == true){
+//     				if(!$('.dim').length > 0){
+//     					_docBody.append(options.dimHtml);
+//     				}
+//     				_winW = _win.width();
+//     				_docH = _doc.height();
+//     				$('.dim').css({ 'width':_winW, 'height' : _docH, 'opacity': options.opacity, 'top' : 0 , 'width' : _docW, 'height' : _docH }).show();
+//     			}
+//     		});
 
-			$('.layer-close').on('click',function(){
-				var $this = $(this);
-				$('.dim').hide();
-				$target.hide();
-			});
-    	});    	
-	};
+// 			$('.layer-close').on('click',function(){
+// 				var $this = $(this);
+// 				$('.dim').hide();
+// 				$target.hide();
+// 			});
+//     	});    	
+// 	};
 
-	$(window).resize(function(){
+// 	$(window).resize(function(){
 	
-		var scrollH = _win.scrollTop();
-		var outerH = _win.outerHeight();
-		var outerW = _win.outerWidth();
+// 		var scrollH = _win.scrollTop();
+// 		var outerH = _win.outerHeight();
+// 		var outerW = _win.outerWidth();
 	    
-		$('.dim').css({'height': scrollH + outerH, 'width': outerW })
-	});
+// 		$('.dim').css({'height': scrollH + outerH, 'width': outerW })
+// 	});
 
-}(jQuery);
+// }(jQuery);
 
 /* ========================================================================
  * Bstones: touchSlider.js v0.1
@@ -883,5 +883,69 @@ $('body').on('touchmove.scrollable', '.a', function(e) {
 /* --// slick 모바일 드래그 오류 해결 스크립트 */
 
 $(function () {
-	
+
 });
+
+/*
+
+	$.fn.layerPop = function(settings){
+		$.fn.layerPop.defaults = {
+			dim : true,
+			opacity : 0.5,
+			alignType : 'center',
+			name : null,
+			dimHtml : '<div class=\'dim\'></div>',
+		}
+
+    	return this.each(function(){
+    		var href
+    		var options  	    = $.extend({}, $.fn.layerPop.defaults, settings || {});
+    		var $el 	        = $(this);
+    		var $target    	 =  $($el.attr('data-target') || ( (href = $el.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')));
+    		var $targetLayer    = $target[0];
+    		
+    		var _elHeight = ($target.outerHeight())/2;
+    		var _elWidth = ($target.outerWidth())/2;
+   
+    		
+    		$($el[0]).on('click', function(){
+    			
+    			if(options.alignType == 'center'){
+    				var _scrollY = _win.scrollTop();
+    				var centerTop = Math.max(0, ((_win.height() - $target.outerHeight()) / 2) + _scrollY);
+    				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : centerTop, 'margin-left' : -_elWidth });
+    			}
+    			else if(options.alignType == 'top'){
+    				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : 100 , 'margin-left' : -_elWidth });
+    			}
+    			else if(options.alignType == 'fixed'){
+    				$('#'+$targetLayer.id).css({'display':'block', 'z-index' : 110, 'position':'fixed', 'left' : '50%', 'top' : '50%' , 'margin-left' : -_elWidth, 'margin-top' : -_elHeight });
+    			}
+    			
+    			if(options.dim == true){
+    				if(!$('.dim').length > 0){
+    					_docBody.append(options.dimHtml);
+    				}
+    				_winW = _win.width();
+    				_docH = _doc.height();
+    				$('.dim').css({ 'width':_winW, 'height' : _docH, 'opacity': options.opacity, 'top' : 0 , 'width' : _docW, 'height' : _docH }).show();
+    			}
+    		});
+
+			$('.layer-close').on('click',function(){
+				var $this = $(this);
+				$('.dim').hide();
+				$target.hide();
+			});
+    	});    	
+	};
+
+	$(window).resize(function(){
+	
+		var scrollH = _win.scrollTop();
+		var outerH = _win.outerHeight();
+		var outerW = _win.outerWidth();
+	    
+		$('.dim').css({'height': scrollH + outerH, 'width': outerW })
+	});
+*/

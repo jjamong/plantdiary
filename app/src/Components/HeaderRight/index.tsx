@@ -10,9 +10,9 @@ const TouchableOpacity = Styled.TouchableOpacity`
     marginRight: 20px;
 `;
 const Text = Styled.Text`
-    color: #0CAF9C;
+    color: #00A964;
     fontSize: 14px;
-    fontWeight: bold;
+    fontFamily: 'NanumGothic-Bold';
 `;
 
 const HeaderRight = (props) => {

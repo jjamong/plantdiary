@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, Platform} from 'react-native';
 import Styled from 'styled-components/native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {WebView} from 'react-native-webview'
@@ -26,18 +25,12 @@ const MyPlantForm = () => {
     const router = useRoute();
     
     const {getUserInfo} = useContext(UserContext);
-
     const {webViewUrl, headerButton, webViewSendMessage, confirmAlert} = useContext(ConfigContext);
     
     const [spinner, setSpinner] = useState(false);
-    
-    // const [adopDate, setAdopDate] = useState(new Date());
-    // const [showAdopDate, setShowAdopDate] = useState(false);
-    
-    // const [lastWateringDate, setLastWateringDate] = useState(new Date());
-    // const [showLastWateringDate, setShowLastWateringDate] = useState(false);
-    
+
     useEffect(() => {
+        myplantFormWebview.reload();
         firstLoadCheck = true;
         screenFocus();
     }, []);

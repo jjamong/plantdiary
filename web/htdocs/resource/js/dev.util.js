@@ -17,14 +17,19 @@
 		},
 		
 		/*
-			쿠키를 삭제한다
+			쿠키를 생성한다 (활성주기는 일단위로 설정)
 			@param String cookieName (쿠키명)
+			@param String value (쿠키값)
+			@param int expiredays (활성일수)
 			@return void
 		*/
-		deleteCookie :function ( cookieName ){
-			var expireDate = new Date();
-			expireDate.setDate( expireDate.getDate() - 1 );
-			document.cookie = cookieName + "= " + "; path=/; expires=" + expireDate.toGMTString();
+		setCookie : function ( cookieName, value, expiredays ){
+			var todayDate = new Date();
+			var expireSeconds = expiredays * 60 * 60 * 24;
+			todayDate.setSeconds( todayDate.getDate() + expireSeconds );
+			var cookieTxt = cookieName + "=" + escape( value ) + "; path=/; ";
+			if(!!expiredays) cookieTxt += "expires=" + todayDate.toGMTString() + ";";
+			document.cookie = cookieTxt;
 		},
 		
 		/*
@@ -47,6 +52,17 @@
 				if ( x == 0 ) break; 
 			}
 			return ""; 
+		},
+
+		/*
+			쿠키를 삭제한다
+			@param String cookieName (쿠키명)
+			@return void
+		*/
+		deleteCookie :function ( cookieName ){
+			var expireDate = new Date();
+			expireDate.setDate( expireDate.getDate() - 1 );
+			document.cookie = cookieName + "= " + "; path=/; expires=" + expireDate.toGMTString();
 		},
 
 		/*
@@ -79,6 +95,21 @@
 		},
 
 		/*
+			요일 변경
+			@param date 날자
+			@return String 요일(월~일요일)
+		*/
+		dayWeek : function (date) {
+			let result;
+
+			let week = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일');
+			let today = new Date(date).getDay();
+			result = week[today];
+
+			return result;
+		},
+
+		/*
 			D-Day 계산
 			@param date 목표날짜
 			@return String d-day
@@ -99,14 +130,87 @@
 		dDayHtml : function (day) {
 			let html;
 			if (day == 0) {
-				html = '<span class="waterday">D-0';
+				html = '<span class="waterday">물 주는 날';
 			} else	if (day > 0) {
-				html = '<span class="inadvance">D-' + day;
+				html = '<span class="remain">' + day + '일 남음';
 			} else if (day < 0) {
-				html = '<span class="warning">D+' + (day * -1);
+				html = '<span class="warning">' + (day * -1) + '일 지남';
 			}
 			html += '</span>';
 			return html; 
+		},
+
+		/*
+			이미지 파일 찾기 시 미리보기
+		*/
+		imagePreview : function ($element, cancelImage) {
+			$element.on('change', function(e) {
+				myplantImgFile = e.target.files;
+				if (myplantImgFile.length > 0) {
+					let reader = new FileReader();
+					reader.onload = function(e) {
+						$element.parent().parent().find('label .img').html('<img src="' + e.target.result + '" />');
+					};
+					reader.readAsDataURL(e.target.files[0]);
+				} else {
+					// 등록일 경우
+					if (!cancelImage) {
+						$element.parent().parent().find('label .img').html('<img src="/resource/images/plant_default_img.jpg" />');
+					} else {
+
+					}
+					// // 등록일 경우
+					// if (!myplantSeq) {
+					// 	$('.myplant-img-section .image-view .default').html('<img src="/resource/images/plant_default_img.jpg" />');
+					// // 수정일 경우
+					// } else {
+					// 	$('.myplant-img-section .image-view .default').html('<img src="/uploads/myplant/' + app.userData.user_seq + '/' + sysMyplantImg + '" />');
+					// }
+				}
+			});
+		},
+
+		/*
+			레이어 팝업 노출
+		*/
+		openLayer : function(layerId, layerClass, message) {
+
+			// 메시지 설정
+			if (message) $('#' + layerId + ' .message').html(message);
+			
+			let _win = $(window);
+			let _doc = $(document);
+			let _docBody = $(document.body);
+			let _winW = _win.width();
+			let _winH = _win.height();
+			let _docW = _doc.width();
+			let _docH = _doc.height();
+
+			let $el = $('#' + layerId);
+    		let _elWidth = ($el.outerWidth())/2;
+
+			let _scrollY = _win.scrollTop();
+			let centerTop = Math.max(0, ((_win.height() - $el.outerHeight()) / 2) + _scrollY);
+			$el.css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : centerTop, 'margin-left' : -_elWidth });
+			$el.addClass(layerClass)
+
+			// dim 설정
+			let dimHtml = '<div class=\'dim\'></div>';
+			let opacity = 'opacity : 0.5';
+			if(!$('.dim').length > 0){
+				_docBody.append(dimHtml);
+			}
+			_winW = _win.width();
+			_docH = _doc.height();
+			$('.dim').css({ 'width':_winW, 'height' : _docH, 'opacity': opacity, 'top' : 0 , 'width' : _docW, 'height' : _docH }).show();
+		},
+
+		closeLayer : function(layerId, layerClass) {
+			let $el = $('#' + layerId);
+
+			$('.dim').hide();
+			$el.removeClass(layerClass);
+			$el.hide();
 		},
 
 		/*
@@ -312,22 +416,6 @@
 				}
 			}
 			return rstr;
-		},
-		
-		/*
-			쿠키를 생성한다 (활성주기는 일단위로 설정)
-			@param String cookieName (쿠키명)
-			@param String value (쿠키값)
-			@param int expiredays (활성일수)
-			@return void
-		*/
-		setCookie : function ( cookieName, value, expiredays ){
-			var todayDate = new Date();
-			var expireSeconds = expiredays * 60 * 60 * 24;
-			todayDate.setSeconds( todayDate.getDate() + expireSeconds );
-			var cookieTxt = cookieName + "=" + escape( value ) + "; path=/; ";
-			if(!!expiredays) cookieTxt += "expires=" + todayDate.toGMTString() + ";";
-			document.cookie = cookieTxt;
 		},
 
 		/*

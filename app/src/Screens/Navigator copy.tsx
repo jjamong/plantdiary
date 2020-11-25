@@ -13,16 +13,20 @@ import CommunityScreen from '~/Screens/Main/Community';
 
 // import SettingScreen from '~/Screens/Setting';
 
-import LoginScreen from '~/Screens/Login/Login';
+// import LoginScreen from '~/Screens/Login/Login';
 // import JoinScreen from '~/Screens/Login/Join';
 
 // 컴포넌트
 import HeaderRight from '~/Components/HeaderRight';
 
+
 // 스타일 설정
 const ContentContainer = Styled.View`flex: 1;`
-const Image = Styled.Image`width: 30px; height: 30px;`
-const BottomTabText = Styled.Text`marginTop: 4px; fontFamily:NanumGothic-Bold; fontSize:12px;`
+const Image = Styled.Image`
+width: 40px;
+height: 40px;
+`
+const BottomTabText = Styled.Text``
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -35,15 +39,21 @@ const bottomTabBarOptions = () => {
         {
             showLabel: false,
                 style: {
-                height: 60,
+                height: 90,
                 background: 'red',
             },
                 tabStyle: {
-                height: 60,
+                height: 90,
                 backgroundColor: '#fff',
             },
-            activeTintColor: '#00A964',
-            inactiveTintColor: '#000',
+                activeTintColor: '#00A964',
+                inactiveTintColor: '#000',
+                labelStyle: {
+                fontSize: 12,
+                fontWeight: 'bold',
+                lineHeight: 14,
+                bottom: 2
+            },
         }
     )  
 };
@@ -65,8 +75,8 @@ const bottomTabBarScreenOptions = (title, screen) => {
             iconOff = require('~/Assets/Images/calendar_icon_off.png')
             break;
         case 'Community':
-            iconOn = require('~/Assets/Images/community_icon_on.png')
-            iconOff = require('~/Assets/Images/community_icon_off.png')
+            iconOn = require('~/Assets/Images/setting_icon_on.png')
+            iconOff = require('~/Assets/Images/setting_icon_off.png')
             break;
     }
 
@@ -74,7 +84,8 @@ const bottomTabBarScreenOptions = (title, screen) => {
         {
             tabBarIcon: ({color, focused}) => (
             <>
-                <Image source={focused ? iconOn : iconOff} />
+                {title == '' && <CalendarImage source={focused ? iconOn : iconOff} />}
+                {title != '' && <Image source={focused ? iconOn : iconOff} />}
                 <BottomTabText style = {{color: color}}>
                     {title}
                 </BottomTabText>
@@ -99,9 +110,9 @@ const headerTitleOption = (title, component) => {
                 elevation: 0.5,
             },
             headerTitleStyle: {
-                fontFamily: 'NanumGothic-Bold',
                 fontSize: 16,
-                color: '#00A964',
+                fontWeight: 'bold',
+                color: '#0CAF9C',
                 textAlignVertical: 'center',
             },
             headerRight: () => component
@@ -115,8 +126,7 @@ const headerTitleOption = (title, component) => {
 const MainNavigator = () => {
     return (
         <BottomTab.Navigator
-            //initialRouteName={"Calendar"}
-            initialRouteName={"MyPlantList"}
+            initialRouteName={"Calendar"}
             tabBarOptions={bottomTabBarOptions()}
         >
 
@@ -131,7 +141,7 @@ const MainNavigator = () => {
             <BottomTab.Screen
                 name="Calendar"
                 component={CommunityScreen}
-                options={bottomTabBarScreenOptions('캘린더', 'Calendar')}
+                options={bottomTabBarScreenOptions('', 'Calendar')}
             />
             {/* <BottomTab.Screen
                 name="Calendar"
@@ -160,12 +170,11 @@ const MyPlant = () => {
 
     return (
         <Stack.Navigator>
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="MyPlantList"
                 component={MyPlantListScreen}
                 options={{headerShown: false}}
-            />
-
+            /> */}
             {/*       
             <Stack.Screen
                 name="MyPlantDetail"
@@ -255,12 +264,12 @@ const Navigator = () => {
                         options={{headerShown: false}}
                     />
 
-                    <Stack.Screen
+                    {/* <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         options={headerTitleOption('로그인')}
                     />
-                    {/* <Stack.Screen
+                    <Stack.Screen
                         name="Setting"
                         component={SettingScreen}
                         options={headerTitleOption('설정')}

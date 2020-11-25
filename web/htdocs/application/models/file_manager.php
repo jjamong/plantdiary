@@ -22,18 +22,18 @@ class File_manager extends CI_Model {
 
         // 폴더 없을 경우 생성
         if (!(is_dir(UPLOAD_PATH.$path) > 0)) {
-            mkdir(UPLOAD_PATH.$path);
+            mkdir(UPLOAD_PATH.$path, 0777, true);
         }
 
 		$config['upload_path']		= $_SERVER['DOCUMENT_ROOT'].SITE_URL."uploads/".$path;		// 업로드 파일이 위치할 폴더경로
-		$config['allowed_types']	= $type;												// 업로드를 허용할 파일의 마임타입(mime types)을 설정
-        $config['overwrite']		= FALSE;												// 같은 이름의 파일이 이미 존재한다면 덮어쓸지 여부
-        $config['max_size']			= $size;												// 업로드 파일의 최대크기(KB)를 지정합니다 [2MB (2048KB)], 0으로 설정하면 크기 제한이 없음
-        $config['max_width']		= '0';												// 업로드 파일의 최대 높이(픽셀단위)를 설정합니다. 0이면 제한이 없습니다.
-        $config['max_height']		= '0';											// 파일이름의 최대길이를 지정합니다.0이면 제한이 없습니다.
-        $config['max_filename']		= '0';													// 파일이름의 최대길이를 지정합니다.0이면 제한이 없습니다.
-        $config['encrypt_name']		= TRUE;												// 파일이름은 랜덤하게 암호화된 문자열로 변합니다
-        $config['remove_spaces']	=	TRUE;												// 파일명에 공백이 있을경우 밑줄(_)로 변경
+		$config['allowed_types']	= $type;												    // 업로드를 허용할 파일의 마임타입(mime types)을 설정
+        $config['overwrite']		= FALSE;												    // 같은 이름의 파일이 이미 존재한다면 덮어쓸지 여부
+        $config['max_size']			= $size;												    // 업로드 파일의 최대크기(KB)를 지정합니다 [2MB (2048KB)], 0으로 설정하면 크기 제한이 없음
+        $config['max_width']		= '0';												        // 업로드 파일의 최대 높이(픽셀단위)를 설정합니다. 0이면 제한이 없습니다.
+        $config['max_height']		= '0';											            // 파일이름의 최대길이를 지정합니다.0이면 제한이 없습니다.
+        $config['max_filename']		= '0';													    // 파일이름의 최대길이를 지정합니다.0이면 제한이 없습니다.
+        $config['encrypt_name']		= TRUE;												        // 파일이름은 랜덤하게 암호화된 문자열로 변합니다
+        $config['remove_spaces']	= TRUE;												    // 파일명에 공백이 있을경우 밑줄(_)로 변경
 
 		return $config;
     }
@@ -49,8 +49,7 @@ class File_manager extends CI_Model {
 		$orig_name = array();
 
 		for($i=0; $i<sizeof($arrayFile); $i++){
-			if ($this->upload->do_upload($arrayFile[$i]))		// true 
-			{
+			if ($this->upload->do_upload($arrayFile[$i])) {
 				//$upload_data = $this->upload->data($arrayFile[$i]);
 				$upload_data = $this->upload->data();
 				//$$arrayFile[$i] = element('file_name', $upload_data);	// 파일 이름 암호화 저장
@@ -70,14 +69,15 @@ class File_manager extends CI_Model {
 				}  
 
 			} else {
-				$sys_name[$i] = "";
+				$sys_name[$i] = '';
 				$orig_name[$i] = '';
 			}
 		}
-		for($i=0; $i<sizeof($arrayFile); $i++){
-			if($sys_name[$i] != "") {
-				$this->db->set($arrayFile[$i], $sys_name[$i], TRUE);
-				$this->db->set(substr($arrayFile[$i],4), $orig_name[$i], TRUE);	// pc_img에 원본이름 저장
+		for($i=0; $i<sizeof($arrayFile); $i++) {
+			if($sys_name[$i] != '') {
+                $arrayFile[$i] = explode('-', $arrayFile[$i])[0];
+                $this->db->set($arrayFile[$i], $sys_name[$i], TRUE);
+				$this->db->set(substr($arrayFile[$i], 4), $orig_name[$i], TRUE);	// pc_img에 원본이름 저장
 			}
 		}
     }

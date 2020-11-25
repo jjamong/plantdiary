@@ -53,7 +53,7 @@
     background-color: #fff;
     border-radius: 50% 50% 50% 0;
     transform: rotate(135deg);
-    background: linear-gradient( to bottom, #278BAB, #1FB5A4 );
+    background: linear-gradient( to bottom, #278BAB, #00A964 );
 }
 #calendar .fc-view-harness .icon .count {
     transform: rotate(-135deg);
@@ -92,8 +92,8 @@
 .calendar .plant-list .list li .content-section {float: right; margin-left: 1rem; text-align: left; line-height: 1.5rem; width: calc(100% - 6rem);}
 .calendar .plant-list .list li .content-section .title {font-size: 1.1rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 .calendar .plant-list .list li .content-section .day {font-size: 1rem; font-weight: 800;}
-.calendar .plant-list .list li .content-section .day .waterday{color: #1FB5A4;}
-.calendar .plant-list .list li .content-section .day .inadvance{color: #1FB5A4;}
+.calendar .plant-list .list li .content-section .day .waterday{color: #00A964;}
+.calendar .plant-list .list li .content-section .day .inadvance{color: #00A964;}
 .calendar .plant-list .list li .content-section .day .warning{color: #f74d4d;}
 .calendar .plant-list .list li .control-section {position: absolute; bottom: 0.8rem; right: 0;}
 .calendar .plant-list .list li .control-section .btn {float: left; margin-left: 0.5rem; padding: 0 0.5rem; height: 100%; line-height: 2rem; font-size: 1rem; color: #fff;}
@@ -105,66 +105,101 @@
 /* 물주기 변경 */
 .water-procrastina .close {text-align: right; font-size: 1.2rem; font-weight: 400; color: #1A789C;;}
 .water-procrastina .contens-section {padding: 1rem 2rem;}
-.water-procrastina .form-section .water-procrastina-section select {appearance: none; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; width: 100%; height: 2rem; margin-top: 0.5rem; border-bottom: 1px solid #1FB5A4; background: #fff; font-size: 1.1rem; color: #666;}
+.water-procrastina .form-section .water-procrastina-section select {appearance: none; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; width: 100%; height: 2rem; margin-top: 0.5rem; border-bottom: 1px solid #00A964; background: #fff; font-size: 1.1rem; color: #666;}
 .water-procrastina .form-section label,
-.water-procrastina .form-section .label {color: #1FB5A4; font-size: 1rem;}
+.water-procrastina .form-section .label {color: #00A964; font-size: 1rem;}
 .water-procrastina .btn-section {margin: 1rem auto 0; width: 5rem; line-height: 2rem; text-align: center; font-size: 1rem; color: #fff;}
 .water-procrastina .btn-section .btn {border-radius: 1rem; background: #1A789C;}
 
-/* 내식물 */
-.myplant-list {}
-.myplant-list .contens-section {padding: 0 0.8rem;}
-.myplant-list .setting {position: fixed; width: 1.5rem; height: 1.5rem; top: 0.8rem; right: 0.8rem;}
-.myplant-list .title-section {height: 4rem; }
-.myplant-list .title-section .title {line-height: 3.2rem; font-size: 1.2rem; font-weight: 700;}
-.myplant-list .list {margin-top: 1rem;}
-.myplant-list .list li {position: relative; padding: 0.8rem 0; background: #fff; border-bottom: 1px solid #ededed;}
-.myplant-list .list li:last-child {border-bottom: 0;}
-.myplant-list .list .item {overflow: hidden;}
-.myplant-list .list li .plant-img {float: left; width: 5rem; height: 5rem;}
-.myplant-list .list li .plant-img img {width: 5rem; height: 5rem; border-radius: 50%;}
-.myplant-list .list li .content-section {float: right; margin-left: 1rem; text-align: left; line-height: 1.5rem; width: calc(100% - 6rem);}
-.myplant-list .list li .content-section .title {font-size: 1.1rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-.myplant-list .list li .content-section .day {font-size: 1rem; font-weight: 800;}
-.myplant-list .list li .content-section .day .waterday{color: #1FB5A4;}
-.myplant-list .list li .content-section .day .inadvance{color: #1FB5A4;}
-.myplant-list .list li .content-section .day .warning{color: #f74d4d;}
-.myplant-list .list li .control-section {position: absolute; bottom: 0.8rem; right: 0;}
-.myplant-list .list li .control-section .btn {float: left; margin-left: 0.5rem; padding: 0 0.5rem; height: 100%; line-height: 1.5rem; font-size: 0.8rem; color: #1A789C;}
-.myplant-list .list li .control-section .water {border-radius: 1rem; border: 1px solid #1A789C;}
-    
-
-.myplant-list .list li .control-section .procrastina {border-radius: 1rem; background: #d2d2d2;}
+/* 내식물 - 리스트 */
+.myplant-list.container {padding: 20px 10px;}
+.myplant-list .contens-section {}
+.myplant-list .setting {position: fixed; width: 20px; height: 20px; top: 18px; right: 10px;}
+.myplant-list .title-section {}
+.myplant-list .title-section .title {line-height: 16px; font-size: 16px; font-weight: 700; color:#00A964; text-align: center;}
+.myplant-list .list {margin-top: 20px;}
+.myplant-list .list li {overflow: hidden; padding: 20px 0; border-bottom: 1px solid #E6E6E6;}
+.myplant-list .list li:last-child {border: 0;}
+.myplant-list .list .content-section {float: left; overflow: hidden;}
+.myplant-list .list .content-section .item:first-child {margin-top: 0;}
+.myplant-list .list .content-section .item {overflow: hidden; margin-top: 10px; font-size: 12px; color:#808080}
+.myplant-list .list .content-section .item .tit {float: left; width: 80px;}
+.myplant-list .list .content-section .item .txt {float: left; margin-left: 10px;}
+.myplant-list .list .content-section .item .txt.title {color: #535353; font-weight: 700;}
+.myplant-list .list .content-section .item .txt.water_day .waterday {color:#00A964;}
+.myplant-list .list .content-section .item .txt.water_day .remain {color:#FCC251;}
+.myplant-list .list .content-section .item .txt.water_day .warning {color:#f74d4d;}
+.myplant-list .list .content-section .item .last_water_day {line-height: 16px;}
+.myplant-list .list .image-section {float: right;}
+.myplant-list .list .image-section .plant-img {}
+.myplant-list .list .image-section .img {margin: 0 auto; width: 70px; height: 70px; border: 1px solid; border-radius: 50%; color:#00A964}
+.myplant-list .list .image-section img {border-radius: 50%;}
+.myplant-list .list .control-section {margin-top: 7px; overflow: hidden;}
+.myplant-list .list .control-section .btn:first-child {margin-left: 0;}
+.myplant-list .list .control-section .btn {float: left; margin-left: 5px; padding: 0 10px; line-height: 25px; font-size: 12px;}
+.myplant-list .list .control-section .water {border-radius: 1rem; background: #00A964; color:#fff;}
+.myplant-list .list .control-section .diary {border-radius: 1rem; border: 1px solid #00A964; color:#00A964;}
 .myplant-list .btn-section {display: none; position: fixed; right: 0.5rem; bottom: 0.5rem;}
+.myplant-list .btn-section .plus {width: 48px; height: 48px;}
 .myplant-list .login {margin-top: 10rem; text-align: center;}
 
-.myplant-form .contens-section {padding: 3rem 2rem;}
+/* 내식물 - 등록/수정 폼 */
+.myplant-form .contens-section {}
 .myplant-form .header-title-section {height: 2rem; line-height: 2rem;  text-align: right;}
-.myplant-form .header-title-section .text {margin-right: 1rem; display: inline; color: #1FB5A4}
+.myplant-form .header-title-section .text {margin-right: 12px; display: inline; color: #00A964}
+.myplant-form .contens-section .contents {background: #E6E6E6;}
 .myplant-form .form-section {}
-.myplant-form .form-section .item {margin-top: 2rem;}
-.myplant-form .form-section .item.sys_myplant_img {padding-top: 0.1rem;}
-.myplant-form .form-section .item:first-child {margin-top: 0rem}
-.myplant-form .form-section .myplant-img-section .image-view {display: block; margin-top: 1rem; width: 100%; height: 8rem; border: 1px solid #1FB5A4; font-size: 0; text-align: center;}
-.myplant-form .form-section .myplant-img-section .image-view img {height: 100%;}
+.myplant-form .form-section .myplant-img-section {}
+.myplant-form .form-section .myplant-img-section .image-view {position: relative; display: block; border-radius: 40%; margin: 0 auto; width: 100px; height: 100px; border: 1px solid #00A964;}
+.myplant-form .form-section .myplant-img-section .image-view .default img {border-radius: 40%; width: 100%; height: 100%;}
+.myplant-form .form-section .myplant-img-section .camera {display: block; position: absolute; bottom: 0; right: 0; width: 30px; height: 30px; line-height: 40px; text-align: center; border: 1px solid #808080; border-radius: 50%; background: #fff;}
+.myplant-form .form-section .myplant-img-section .camera img {width: 20px; height: 20px;}
 .myplant-form .form-section .sys_myplant_img input {display: none;}
-.myplant-form .form-section .water-interval-section select {appearance: none; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; width: 100%; height: 2rem; margin-top: 0.5rem; border-bottom: 1px solid #1FB5A4; background: #fff; font-size: 1.1rem; color: #666;}
-.myplant-form .form-section label,
-.myplant-form .form-section .label {color: #1FB5A4; font-size: 1rem;}
-.myplant-form .form-section input {width: 100%; height: 2.5rem; border: 0; line-height: 3rem; font-size: 1.1rem; border-bottom: 1px solid #1FB5A4;}
-.myplant-form .form-section .msg {margin-top: 0.5rem; font-size: 1rem; line-height: 1.5rem; color: #f74d4d;}
+.myplant-form .form-section .water-interval-section select {appearance: none; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; width: 100%; height: 2rem; margin-top: 0.5rem; border-bottom: 1px solid #00A964; background: #fff; font-size: 1.1rem; color: #666;}
+.myplant-form .form-section label {color: #00A964; font-size: 12px;}
+.myplant-form .form-section .input input {width: 100%; height: 2.5rem; border: 0; line-height: 3rem; font-size: 14px; border-bottom: 1px solid #00A964; color:#1a1a1a;}
+.myplant-form .form-section .date input {background: url(../images/datepicker_icon.png) no-repeat right 10px; background-size: 20px; -webkit-appearance: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+.myplant-form .form-section .msg {margin-top: 10px; font-size: 12px; line-height: 12px; color: #f74d4d;}
+.myplant-form .plant-form-section {padding: 20px; background: #fff;}
+.myplant-form .plant-form-section .item {margin-top: 24px;}
+.myplant-form .plant-form-section .item:first-child {margin-top: 0rem}
+.myplant-form .diary-form-section {margin-top: 20px; padding: 20px; background: #fff;}
+.myplant-form .diary-form-section .item {margin-top: 12px;}
+.myplant-form .diary-form-section .item:first-child {margin-top: 0rem}
+.myplant-form .diary-form-section .diary-date-section {text-align: center;}
+.myplant-form .diary-form-section .diary-date-section input {width: auto; border-bottom: 0; font-size: 16px;}
+.myplant-form .diary-form-section .water-yn-section,
+.myplant-form .diary-form-section .medicine-yn-section,
+.myplant-form .diary-form-section .pot-replace-yn-section {overflow: hidden;}
+.myplant-form .diary-form-section .label {float: left; line-height: 40px;}
+.myplant-form .diary-form-section .toggle-water {float: right; line-height: 40px;}
+.myplant-form .diary-form-section .radio-section {float: right; padding-top: 10px; height: 37px;}
+.myplant-form .diary-form-section .input-radio {float: left;}
+.myplant-form .diary-form-section .input-radio:last-child {margin-right: 0}
+.myplant-form .diary-form-section .input-radio {margin-right: 15px;}
+.myplant-form .diary-form-section .soil-condition-yn-section {overflow: hidden;}
+.myplant-form .diary-form-section .diary-img-section {overflow: hidden;}
+.myplant-form .diary-form-section .diary-img-section .label {float: none; color: #00A964; font-size: 12px;}
+.myplant-form .diary-form-section .diary-img-section .image-section {overflow: hidden;}
+.myplant-form .diary-form-section .diary-img-section .image-section .image:first-child {margin-left: 0;}
+.myplant-form .diary-form-section .diary-img-section .image-section .image {float: left; margin-left: 2%; width: 32%; height: 100px; border: 1px solid #00A964;}
+.myplant-form .diary-form-section .diary-img-section .image-section .img {height: 100%;}
+.myplant-form .diary-form-section .diary-img-section .image-section img {width: 100%; height: 100%;}
+.myplant-form .diary-form-section .diary-img-section .image-section input {display: none;}
+.myplant-form .diary-form-section .diary-content-section .textarea-diary-content textarea {padding: 10px; width: 100%; height: 80px; border: 1px solid #00A964; font-size: 14px;}
+
 
 /* 내 식물 상세 */
 .myplant-detail .contens-section {}
 .myplant-detail .header-title-section {height: 2rem; line-height: 2rem;  text-align: right;}
-.myplant-detail .header-title-section .text {margin-right: 1rem; display: inline; color: #1FB5A4}
+.myplant-detail .header-title-section .text {margin-right: 1rem; display: inline; color: #00A964}
 .myplant-detail .image-section .img {line-height: 0; text-align: center;}
 .myplant-detail .content-section {position: relative; top: -1rem; border-top-left-radius: 1rem; border-top-right-radius: 1rem; background: #ededed;}
 .myplant-detail .title-section {overflow: hidden; padding: 1rem; border-top-left-radius: 1rem; border-top-right-radius: 1rem; background: #fff; box-shadow: 0px 1px 3px 0 rgba(0,0,0,.12);}
 .myplant-detail .title-section .title {word-break: break-all; font-weight: 700; font-size: 1.8rem;}
 .myplant-detail .title-section .day {font-size: 1rem; font-weight: 800;}
-.myplant-detail .title-section .day .waterday{color: #1FB5A4;}
-.myplant-detail .title-section .day .inadvance{color: #1FB5A4;}
+.myplant-detail .title-section .day .waterday{color: #00A964;}
+.myplant-detail .title-section .day .inadvance{color: #00A964;}
 .myplant-detail .title-section .day .warning{color: #f74d4d;}
 .myplant-detail .title-section .control-section {float: right; bottom: 0.8rem; right: 0;}
 .myplant-detail .title-section .control-section .btn {float: left; margin-left: 0.5rem; padding: 0 0.5rem; height: 100%; line-height: 2rem; font-size: 1rem; color: #fff;}
@@ -182,7 +217,7 @@
 
 .myplant-detail .detail-section .desc-title {
     font-size: 1rem;
-    color: #1FB5A4;
+    color: #00A964;
 }
 .myplant-detail .detail-section .desc {
     margin-top: 0.5rem;
@@ -195,7 +230,7 @@
     font-size: 1rem;
     font-weight: 700;
 }
-.myplant-detail .btn-section .modify {color: #1FB5A4;}
+.myplant-detail .btn-section .modify {color: #00A964;}
 .myplant-detail .btn-section .delete {margin-top:1rem; color: #f74d4d;}
 
 /* 설정 */

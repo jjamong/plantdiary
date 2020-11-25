@@ -1,8 +1,8 @@
 @charset "utf-8";
 
 html,body {}
-body {font-family:'Nanum-G', sans-serif;font-weight:400;}
-#wrap {width:100%;min-width:320px;height:100%; color:#1a1a1a;}
+body {font-family:'Nanum-G', sans-serif; font-weight:400;}
+#wrap {width:100%; min-width:320px; height:100%; color:#1a1a1a;}
 
 div > a, li > a {display: block; width: 100%; height: 100%;}
 .clear:after { content:""; display:block; clear:both;}
@@ -17,10 +17,107 @@ textarea {resize:none;}
 .web {display: none;}
 
 
-/* footer */
+
+
+
+*,
+*::before,
+*::after {box-sizing: border-box;}
+.toggle-checkbox {display: none;}
+.toggle-btn {
+  display: block;
+  margin: 0 auto;
+  font-size: 1.4em;
+  transition: all 350ms ease-in;
+}
+.toggle-btn, .toggle-btn:before, .toggle-btn:after,
+.toggle-checkbox,
+.toggle-checkbox:before,
+.toggle-checkbox:after,
+.toggle-feature,
+.toggle-feature:before,
+.toggle-feature:after {
+  transition: all 250ms ease-in;
+}
+.toggle-btn:before, .toggle-btn:after,
+.toggle-checkbox:before,
+.toggle-checkbox:after,
+.toggle-feature:before,
+.toggle-feature:after {
+  content: "";
+  display: block;
+}
+.toggle-water .toggle-btn {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    border-radius: 70px;
+}
+.toggle-water .toggle-btn:before {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+.toggle-water {
+    margin-top: 2px;
+    position: relative;
+}
+.toggle-water .toggle-btn {
+    background-color: #E6E6E6;
+}
+.toggle-water .toggle-btn:before {
+    background-color: #fff;
+}
+.toggle-water .toggle-checkbox:checked + .toggle-btn {
+    background-color: #00A964;
+}
+.toggle-water .toggle-checkbox:checked + .toggle-btn:before {transform: translate(26px, 0); background-color: #fff;}
+
+.input-radio {position: relative;}
+.input-radio input[type="radio"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
+.input-radio input[type="radio"] + label {display: inline-block; position: relative; padding-left: 25px; font-size: 14px; line-height: 14px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+.input-radio input[type="radio"] + label:before {content: ''; position: absolute; left: 0; top: -4px; width: 21px; height: 21px; text-align: center; border: 1px solid #E6E6E6; border-radius: 100%; box-shadow: 0px 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05); }
+.input-radio input[type="radio"] + label:active:before,
+.input-radio input[type="radio"]:checked + label:active:before { box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1); }
+.input-radio input[type="radio"]:checked + label:before {border-color: #00A964;}
+.input-radio input[type="radio"]:checked + label:after {content: ''; position: absolute; top: 0px; left: 4px; width: 13px; height: 13px; background: #00A964; border-radius: 100%;}
+
+
+/* 레이어 팝업 */
 .common-layer-popup {}
-.common-layer-popup .alert-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
-.common-layer-popup .alert-layer .message-section {padding: 20px;}
-.common-layer-popup .alert-layer .message {text-align: center; font-size: 12px;}
-.common-layer-popup .alert-layer .btn-section {padding:10px; border-top: 1px solid green; text-align: center;}
-.common-layer-popup .alert-layer .btn-section button {font-size: 12px; line-height: 12px; background: #fff; font-weight: 400;}
+.alert-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
+.alert-layer .message-section {padding: 20px;}
+.alert-layer .message {text-align: center; font-size: 12px; }
+.alert-layer .btn-section {padding:10px;}
+.alert-layer .btn-section button {display: block; margin: 0 auto; width: 40px; height: 30px; font-size: 12px; background: #fff; font-weight: 400;}
+
+.confirm-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
+.confirm-layer .message-section {padding: 20px; border-bottom: 1px solid #00A964;}
+.confirm-layer .message {text-align: center; font-size: 12px;}
+.confirm-layer .btn-section {overflow: hidden; height: 50px;}
+.confirm-layer .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
+.confirm-layer .btn-section.btn-2 .ok {border-bottom-left-radius: 10px; font-weight: 700;}
+.confirm-layer .btn-section.btn-2 .cancel {border-bottom-right-radius: 10px; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
+
+.selectbox-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
+.selectbox-layer .list-section {overflow-y: scroll; padding: 0 20px; height: 300px; border-bottom: 1px solid #00A964;}
+.selectbox-layer .list li {padding: 20px 0; font-size: 14px; line-height: 14px; border-bottom: 1px solid #00A964;}
+.selectbox-layer .list li:last-child {border-bottom: 0}
+.selectbox-layer .list li.selected {font-weight: 800; color: #00A964;}
+.selectbox-layer .btn-section {overflow: hidden; height: 50px;}
+.selectbox-layer .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
+.selectbox-layer .btn-section.btn-2 .ok {border-bottom-left-radius: 10px; font-weight: 700;}
+.selectbox-layer .btn-section.btn-2 .cancel {border-bottom-right-radius: 10px; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
+
+.water-interval-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
+.water-interval-layer .list-section {overflow-y: scroll; padding: 0 20px; height: 300px; border-bottom: 1px solid #00A964;}
+.water-interval-layer .list li {padding: 20px 0; font-size: 14px; line-height: 14px; border-bottom: 1px solid #00A964;}
+.water-interval-layer .list li:last-child {border-bottom: 0}
+.water-interval-layer .list li.selected {font-weight: 800; color: #00A964;}
+.water-interval-layer .btn-section {overflow: hidden; height: 50px;}
+.water-interval-layer .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
+.water-interval-layer .btn-section.btn-2 .ok {border-bottom-left-radius: 10px; font-weight: 700;}
+.water-interval-layer .btn-section.btn-2 .cancel {border-bottom-right-radius: 10px; background: url(../images/layer_popup_bg.jpg) no-repeat left;}

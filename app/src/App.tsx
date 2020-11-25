@@ -11,6 +11,7 @@ import {UserContextProvider} from '~/Context/User';
 import Navigator from '~/Screens/Navigator';
 
 const App = () => {
+  
   // 스플래시 이미지 종료
   SplashScreen.hide();
 
