@@ -12,7 +12,6 @@ const TouchableOpacity = Styled.TouchableOpacity`
 const Text = Styled.Text`
     color: #00A964;
     fontSize: 14px;
-    fontFamily: 'NanumGothic-Bold';
 `;
 
 const HeaderRight = (props) => {

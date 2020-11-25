@@ -22,7 +22,7 @@ import HeaderRight from '~/Components/HeaderRight';
 // 스타일 설정
 const ContentContainer = Styled.View`flex: 1;`
 const Image = Styled.Image`width: 30px; height: 30px;`
-const BottomTabText = Styled.Text`marginTop: 4px; fontFamily:NanumGothic-Bold; fontSize:12px;`
+const BottomTabText = Styled.Text`marginTop: 4px; fontSize:12px;`
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -99,7 +99,7 @@ const headerTitleOption = (title, component) => {
                 elevation: 0.5,
             },
             headerTitleStyle: {
-                fontFamily: 'NanumGothic-Bold',
+                //fontFamily: 'NanumGothic-Bold',
                 fontSize: 16,
                 color: '#00A964',
                 textAlignVertical: 'center',
