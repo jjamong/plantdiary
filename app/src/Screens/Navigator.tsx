@@ -1,4 +1,11 @@
 import React, {useEffect, useContext} from 'react';
+import {
+    Dimensions,
+} from 'react-native';
+
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { getBottomSpace } from 'react-native-iphone-x-helper'
+
 import Styled from 'styled-components/native';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -20,8 +27,9 @@ import LoginScreen from '~/Screens/Login/Login';
 import HeaderRight from '~/Components/HeaderRight';
 
 // 스타일 설정
-const ContentContainer = Styled.View`flex: 1;`
+const ContentContainer = Styled.View``
 const Image = Styled.Image`width: 30px; height: 30px;`
+// const BottomTabText = Styled.Text`marginTop: 4px; fontFamily:NanumGothic-Bold; fontSize:12px;`
 const BottomTabText = Styled.Text`marginTop: 4px; fontSize:12px;`
 
 const Stack = createStackNavigator();
@@ -95,7 +103,7 @@ const headerTitleOption = (title, component) => {
             headerBackImage: () => <Image source={require('~/Assets/Images/back_icon.png')} />,
             headerBackTitleVisible: false,
             headerStyle: {
-                height: 46,
+                height: 50,
                 elevation: 0.5,
             },
             headerTitleStyle: {
@@ -245,8 +253,12 @@ const Calendar = () => {
  * Navigator 네비게이터
  */
 const Navigator = () => {
+
+    let ScreenWidth = Dimensions.get('window').width;    //screen 너비
+    let screenHeight = Dimensions.get('window').height - getStatusBarHeight()- getBottomSpace();
+
     return (
-        <ContentContainer>
+        <ContentContainer style={{width: ScreenWidth, height: screenHeight}}>
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen

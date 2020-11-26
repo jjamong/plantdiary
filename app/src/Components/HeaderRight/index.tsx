@@ -9,6 +9,11 @@ import {ConfigContext} from '~/Context/Config';
 const TouchableOpacity = Styled.TouchableOpacity`
     marginRight: 20px;
 `;
+// const Text = Styled.Text`
+//     color: #00A964;
+//     fontSize: 14px;
+//     fontFamily: 'NanumGothic-Bold';
+// `;
 const Text = Styled.Text`
     color: #00A964;
     fontSize: 14px;
