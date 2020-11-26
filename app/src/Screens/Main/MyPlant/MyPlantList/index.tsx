@@ -1,4 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
+import {
+    StatusBar,
+} from 'react-native';
 import Styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview'
@@ -13,6 +16,9 @@ import BottomBannerScreen from '~/Components/BottomBanner';
 import Loading from '~/Components/Loading';
 
 // 스타일 설정
+const SafeAreaView = Styled.SafeAreaView`
+    height: 100%;
+`
 const BannerContainer = Styled.View`flex: 0.1;`
 const ModalView = Styled.View`
     height: 170px;
@@ -133,41 +139,44 @@ const MyPlantList = () => {
 
     return (
         <>
-            <WebView
-                source={{
-                    uri: webViewUrl + '/myplant/list'
-                }}
-                onMessage={event => {
-                    webViewMessage(event.nativeEvent.data, myplantListWebview);
-                }}
-                ref={(ref) => (myplantListWebview = ref)}
-                onLoadStart={e => showSpinner()}
-                onLoadEnd={e => webViewLoad(myplantListWebview)}
-            />
-            {spinner ? <Loading /> : null}
-            {/* <Modal
-                isVisible={modalVisible}
-                onSwipeComplete={() => setModalVisible(false)}
-                onModalHide={() => {webViewLoad(myplantListWebview)}}
-            >
-                <ModalView>
-                    <WebView
-                        source={{
-                            uri: webViewUrl + '/procrastina'
-                        }}
-                        onMessage={event => {
-                            webViewMessage(event.nativeEvent.data, procrastinaWebview);
-                        }}
-                        ref={(ref) => (procrastinaWebview = ref)}
-                        onLoadStart={e => showSpinner()}
-                        onLoadEnd={e => webViewLoad(procrastinaWebview)}
-                    />
-                    {spinner ? <Loading /> : null}
-                </ModalView>
-            </Modal> */}
-            <BannerContainer>
-                <BottomBannerScreen/>
-            </BannerContainer>
+            <StatusBar barStyle="dark-content" />
+            <SafeAreaView>
+                <WebView
+                    source={{
+                        uri: webViewUrl + '/myplant/list'
+                    }}
+                    onMessage={event => {
+                        webViewMessage(event.nativeEvent.data, myplantListWebview);
+                    }}
+                    ref={(ref) => (myplantListWebview = ref)}
+                    onLoadStart={e => showSpinner()}
+                    onLoadEnd={e => webViewLoad(myplantListWebview)}
+                />
+                {spinner ? <Loading /> : null}
+                {/* <Modal
+                    isVisible={modalVisible}
+                    onSwipeComplete={() => setModalVisible(false)}
+                    onModalHide={() => {webViewLoad(myplantListWebview)}}
+                >
+                    <ModalView>
+                        <WebView
+                            source={{
+                                uri: webViewUrl + '/procrastina'
+                            }}
+                            onMessage={event => {
+                                webViewMessage(event.nativeEvent.data, procrastinaWebview);
+                            }}
+                            ref={(ref) => (procrastinaWebview = ref)}
+                            onLoadStart={e => showSpinner()}
+                            onLoadEnd={e => webViewLoad(procrastinaWebview)}
+                        />
+                        {spinner ? <Loading /> : null}
+                    </ModalView>
+                </Modal> */}
+                <BannerContainer>
+                    <BottomBannerScreen/>
+                </BannerContainer>
+            </SafeAreaView>
         </>
     );
 };

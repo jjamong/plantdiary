@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  StatusBar,
+    StatusBar,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
@@ -17,12 +17,12 @@ const App = () => {
 
   return (
     <>
-      <ConfigContextProvider>
-        <UserContextProvider> 
-          <StatusBar barStyle="default" />
-          <Navigator />
-        </UserContextProvider>
-      </ConfigContextProvider>
+        <ConfigContextProvider>
+            <UserContextProvider> 
+                <StatusBar barStyle="dark-content" />
+                <Navigator />
+            </UserContextProvider>
+        </ConfigContextProvider>
     </>
   );
 };
