@@ -30,7 +30,7 @@
 									
 									<div class="item first-grow-date-section">
 										<label for="first_grow_date">키우기 시작한 날</label>
-										<div class="input date first-grow-date"><input type="date" max="<?= date("Y-m-d") ?>" name="first_grow_date" id="first_grow_date" placeholder="키우기 시작한 날을 선택해주세요." /></div>
+										<div class="input date first-grow-date"><input type="text" name="first_grow_date" id="first_grow_date" placeholder="키우기 시작한 날을 선택해주세요." readonly /></div>
 										<div class="msg"></div>
 									</div>
 
@@ -42,14 +42,14 @@
 
 									<div class="item water-day-section">
 										<label for="water_day">다음 물 줄 날</label>
-										<div class="input date water-day"><input type="date" min="<?= date("Y-m-d", strtotime(date("Y-m-d")." +1 day")) ?>" name="water_day" id="water_day" placeholder="다음 물 줄 날을 선택해주세요." /></div>
+										<div class="input date water-day"><input type="text" name="water_day" id="water_day" placeholder="다음 물 줄 날을 선택해주세요." readonly /></div>
 										<div class="msg"></div>
 									</div>
 								</div>
 
 								<div class="diary-form-section">
 									<div class="item diary-date-section">
-										<div class="input date diary_date"><input type="date" max="<?= date("Y-m-d") ?>" name="diary_date" id="diary_date" value="<?= date("Y-m-d") ?>" /></div>
+										<div class="diary-date"><?= date("Y-m-d") ?></div>
 									</div>
 									<div class="item water-yn-section">
 										<label for="water_yn" class="label">물주기</label>
@@ -135,8 +135,11 @@
 				$(function() {
 					let app = $App;
 					let util = $Util;
+					let layer = $Layer;
 					app.init();
 					app.webViewMessage(webViewMessage);
+
+					layer.init();
 					
 					let myplantSeq;
 					let myplantImgFile;
@@ -222,6 +225,40 @@
 					util.imagePreview($('#sys_diary_img2'));
 					util.imagePreview($('#sys_diary_img3'));
 
+					// 키우기 시작한 날 선택 시
+					$('#first_grow_date').on('click', function() {
+						let date = ($('#first_grow_date').val()) ? new Date($('#first_grow_date').val()) : new Date();
+						layer.showDetePicker('datepicker_layer', 'first-grow-date', date);
+					});
+					// 키우기 시작한 날 선택 레이어 팝업 선택 시
+					$(document).on('click touchend', '.first-grow-date .layer-close', function(e) {
+						e.preventDefault();
+
+						layer.hideLayer('datepicker_layer', 'first-grow-date');
+						
+						if ($(this).hasClass('ok')) {
+							let date = layer.selectDetePicker();
+							$('#first_grow_date').val(util.formatDate(date, 'noDivision'));
+						}
+					});
+
+					// 다음 물 줄 날 선택 시
+					$('#water_day').on('click', function() {
+						let date = ($('#water_day').val()) ? new Date($('#water_day').val()) : new Date();
+						layer.showDetePicker('datepicker_layer', 'water-day', date);
+					});
+					// 키우기 시작한 날 레이어 팝업 선택 시
+					$(document).on('click touchend', '.water-day .layer-close', function(e) {
+						e.preventDefault();
+
+						layer.hideLayer('datepicker_layer', 'water-day');
+						
+						if ($(this).hasClass('ok')) {
+							let date = layer.selectDetePicker();
+							$('#water_day').val(util.formatDate(date, 'noDivision'));
+						}
+					});
+
 					// 물주기 간격일 선택 시
 					$('.water-interval-section .water-interval').on('click', function() {
 						let html = '';
@@ -235,24 +272,34 @@
 						}
 						$('.selectbox-layer .list').html(html);
 						
-						util.openLayer('selectbox_layer', 'water-interval')
-					});
-					// 물주기 간격일 레이어 팝업 선택 효과
-					$(document).on('click', '.selectbox-layer .list li', function() {
-						$('.selectbox-layer .list li').removeClass('selected');
-						$(this).addClass('selected');
+						layer.showLayer('selectbox_layer', 'water-interval')
 					});
 					// 물주기 간격일 레이어 팝업 선택 시
-					$(document).on('click', '.water-interval .layer-close', function() {
-						util.closeLayer('selectbox_layer', 'water-interval');
+					$(document).on('click touchend', '.water-interval .layer-close', function(e) {
+						e.preventDefault();
+
+						layer.hideLayer('selectbox_layer', 'water-interval');
 						
 						if ($(this).hasClass('ok')) {
-							$('.selectbox-layer .list li').each(function(index) {
-								if ($('.selectbox-layer .list li').eq(index).hasClass('selected')) {
-									$('#water_interval').val($('.selectbox-layer .list li').eq(index).text());
-									return;
-								}
-							})
+							let select = layer.selectSelectBox();
+							$('#water_interval').val(select);
+						}
+					});
+
+					// 다음 물 줄 날 선택 시
+					$('.diary-form-section .diary-date').on('click', function() {
+						let date = ($('.diary-form-section .diary-date').text()) ? new Date($('.diary-form-section .diary-date').text()) : new Date();
+						layer.showDetePicker('datepicker_layer', 'diary-date', date);
+					});
+					// 다음 물 줄 날 레이어 팝업 선택 시
+					$(document).on('click touchend', '.diary-date .layer-close', function(e) {
+						e.preventDefault();
+
+						layer.hideLayer('datepicker_layer', 'diary-date');
+						
+						if ($(this).hasClass('ok')) {
+							let date = layer.selectDetePicker();
+							$('.diary-date').text(util.formatDate(date, 'noDivision'));
 						}
 					});
 
@@ -264,7 +311,6 @@
 							formCheckUpdate();
 						}
 					});
-
 					
 					// 등록 폼 체크
 					function formCheckInsert() {
@@ -276,13 +322,15 @@
 						form.require('water_day', '다음 물 줄 날', {msgType: 'msg'});
 
 						if (form.validate()) {
-							util.openLayer('confirm_layer', 'submit-confirm', '등록 하시겠습니까?');
+							layer.showLayer('confirm_layer', 'submit-confirm', '등록 하시겠습니까?');
 						}
 					}
 
 					// 등록/수정 컨펌창 선택 시
-					$(document).on('click', '.submit-confirm .layer-close', function() {
-						util.closeLayer('confirm_layer', 'submit-confirm');
+					$(document).on('click touchend', '.submit-confirm .layer-close', function(e) {
+						e.preventDefault();
+						
+						layer.hideLayer('confirm_layer', 'submit-confirm');
 						
 						if ($(this).hasClass('ok')) {
 							insert();
@@ -349,13 +397,11 @@
 						formData.append('water_interval', $('#water_interval').val().slice(0, -1));
 						formData.append('water_day', $('#water_day').val().replace(/-/gi, ''));
 						
-						formData.append('diary_date', $('#diary_date').val().replace(/-/gi, ''));
+						formData.append('diary_date', $('.diary-date').text().replace(/-/gi, ''));
 						formData.append('water_yn', $('#water_yn').is(':checked') ? 'Y' : 'N');
 						formData.append('soil_condition_yn', $(":input[name=soil_condition_yn]:checked").val());
 						formData.append('medicine_yn', $('#medicine_yn').is(':checked') ? 'Y' : 'N');
 						formData.append('pot_replace_yn', $('#pot_replace_yn').is(':checked') ? 'Y' : 'N');
-
-						
 						formData.append('diary_content', $('#diary_content').val());
 						
 						$.ajax({

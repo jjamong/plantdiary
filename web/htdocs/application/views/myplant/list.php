@@ -28,8 +28,11 @@
 				$(function() {
 					let app = $App;
 					let util = $Util;
+					let layer = $Layer;
 					app.init();
 					app.webViewMessage(webViewMessage);
+
+					layer.init();
 
 					// APP에서 WEB으로 데이터 통신
 					function webViewMessage(key, data) {
@@ -78,68 +81,69 @@
 									user_seq: app.userData.user_seq
 								},
 								success: function(response) {
-									let plantListData = JSON.parse(response)
+									response = JSON.parse(response);
+									let key = response.key;
+									let plantListData = response.data;
+									
+									if (key == 'success') {
+										
+										// 식물 리스트 설정
+										let itemhtml = "";
+										let dataCount = plantListData.length;
 
-									// 식물 리스트 설정
-									let itemhtml = "";
-									let dataCount = plantListData.length;
+										// 내식물 데이터가 있을 경우
+										if (dataCount > 0) {
+											for (let i=0; i< dataCount; i++) {
 
-									// 내식물 데이터가 있을 경우
-									if (dataCount > 0) {
-										for (let i=0; i< dataCount; i++) {
+												let diary_date = util.formatDate(plantListData[i].diary_date, 'noDivision');
+												let myplant_img;
+												if (plantListData[i].sys_myplant_img) {
+													myplant_img = '<?=SITE_URL?>uploads/user_' + plantListData[i].user_seq + '/myplant_' + plantListData[i].myplant_seq + '/' + plantListData[i].sys_myplant_img;
+												} else {
+													myplant_img = '/resource/images/plant_default_img.jpg';
+												}
 
-											let diary_date = util.formatDate(plantListData[i].diary_date, 'noDivision');
-											let myplant_img;
-											if (plantListData[i].sys_myplant_img) {
-												myplant_img = '<?=SITE_URL?>uploads/user_' + plantListData[i].user_seq + '/myplant_' + plantListData[i].myplant_seq + '/' + plantListData[i].sys_myplant_img;
-											} else {
-												myplant_img = '/resource/images/plant_default_img.jpg';
-											}
+												let day = util.dDay(util.formatDate(plantListData[i].water_day, 'noDivision'));
 
-											let day = util.dDay(util.formatDate(plantListData[i].water_day, 'noDivision'));
+												itemhtml += '<li data-myplantseq="' + plantListData[i].myplant_seq + '">';
+												itemhtml += '	<div class="content-section">';
+												itemhtml += '		<div class="item title">';
+												itemhtml += '			<div class="tit">' + plantListData[i].myplant_name + '</div>';
+												itemhtml += '		</div>';
+												itemhtml += '		<div class="item water_day ' + util.waterDayCheck(day) + '">';
+												itemhtml += '			<div class="tit">물 주는 날</div>';
+												itemhtml += '			<div class="txt">' + util.dDayHtml(day) + ' (' + util.formatDate(plantListData[i].water_day, 'noDivision') + ')</div>';
+												itemhtml += '		</div>';
+												itemhtml += '		<div class="item water_interval">';
+												itemhtml += '			<div class="tit">물 주는 간격</div>';
+												itemhtml += '			<div class="txt">' + plantListData[i].water_interval + '일 간격</div>';
+												itemhtml += '		</div>';
+												itemhtml += '		<div class="item last_water_day">';
+												itemhtml += '			<div class="tit">마지막 물 준날</div>';
+												itemhtml += '			<div class="txt">' + diary_date + ' ' + util.dayWeek(diary_date) + '</div>';
+												itemhtml += '		</div>';
+												itemhtml += '	</div>';
+												itemhtml += '	<div class="image-section">';
+												itemhtml += '		<div class="plant-img">';
+												itemhtml += '			<div class="img"><img src="' + myplant_img + '"></div>';
+												itemhtml += '		</div>';
+												itemhtml += '		<div class="control-section">';
+												itemhtml += '			<div class="btn care">돌보기</div>';
+												itemhtml += '			<div class="btn diary">다이어리</div>';
+												itemhtml += '		</div>';
+												itemhtml += '	</div>';
+												itemhtml += '</li>';
+											};
 
-											itemhtml += '<li data-myplantseq="' + plantListData[i].myplant_seq + '">';
-											itemhtml += '	<div class="content-section">';
-											itemhtml += '		<div class="item">';
-											itemhtml += '			<div class="tit">식물 이름</div>';
-											itemhtml += '			<div class="txt title">' + plantListData[i].myplant_name + '</div>';
-											itemhtml += '		</div>';
-											itemhtml += '		<div class="item">';
-											itemhtml += '			<div class="tit">물 주는 날</div>';
-											itemhtml += '			<div class="txt water_day">' + util.dDayHtml(day) + '</div>';
-											itemhtml += '		</div>';
-											itemhtml += '		<div class="item">';
-											itemhtml += '			<div class="tit">물 주는 간격</div>';
-											itemhtml += '			<div class="txt water_interval">' + plantListData[i].water_interval + '일 간격</div>';
-											itemhtml += '		</div>';
-											itemhtml += '		<div class="item">';
-											itemhtml += '			<div class="tit">마지막 물 준날</div>';
-											itemhtml += '			<div class="txt last_water_day">' + diary_date + ' <br>' + util.dayWeek(diary_date) + '</div>';
-											itemhtml += '		</div>';
-											itemhtml += '	</div>';
-											itemhtml += '	<div class="image-section">';
-											itemhtml += '		<div class="plant-img">';
-											itemhtml += '			<div class="img"><img src="' + myplant_img + '"></div>';
-											itemhtml += '		</div>';
-											itemhtml += '		<div class="control-section">';
-											itemhtml += '			<div class="btn water">물주기</div>';
-											itemhtml += '			<div class="btn diary">다이어리</div>';
-											itemhtml += '		</div>';
-											itemhtml += '	</div>';
+										} else {
+
+											itemhtml += '<li>';
+											itemhtml += '	<div>식물이 없습니다.</div>';
 											itemhtml += '</li>';
-										};
-
-									} else {
-
-										itemhtml += '<li>';
-										itemhtml += '	<div>식물이 없습니다.</div>';
-										itemhtml += '</li>';
+										}
+										
+										$('.myplant-list .list ul').html(itemhtml);
 									}
-									
-									$('.myplant-list .list ul').html(itemhtml);
-									
-									// alert 팝업 등록
-									$('.myplant-list .list .water').layerPop();
 								}
 							});
 
@@ -173,82 +177,274 @@
 						app.reactNativePostMessage(myplantFormMoveMessage);
 					});
 
-					// 상세 화면 이동
-					$(document).on('click', '.myplant-list .list .item', function() {
+					// 식물 리스트 선택 시
+					$(document).on('click', '.myplant-list .list li', function() {
+						
 						let message = {
 							key : 'moveMyplantDetail',
 							data : {
-								myplantSeq : $(this).parent('li').data('myplantseq')
+								myplantSeq : $(this).data('myplantseq')
 							}
 						}
 						app.reactNativePostMessage(message);
 					});
-					
-					setTimeout(function() {
-						// 레이어팝업 등록
-						$('.title-section').layerPop();
+
+					// 돌보기 선택 시
+					$(document).on('click', '.myplant-list .list .care', function() {
 						
-					}, 2000)
-
-					// 물주기 선택 시
-					let selectMyplantSeq = 0;
-					let selectMyplantState;
-					// $(document).on('click', '.myplant-list .list .water', function() {
-					// 	let msg = '';
-					// 	selectMyplantSeq = $(this).parents('li').data('myplantseq');
-
-					// 	// 물주는 날에 물을 줄 경우
-					// 	if ($(this).parents('li').find('.waterday').length > 0) {
-					// 		msg = '물을 주시겠습니까?';
-					// 		selectMyplantState = 'waterday';
-
-					// 	// 물주는 날 전에 미리 물을 줄 경우
-					// 	} else if ($(this).parents('li').find('.inadvance').length > 0) {
-					// 		msg = '미리 물을 주시겠습니까?\n이후 물주기가 변경됩니다.';
-					// 		selectMyplantState = 'inadvance';
 						
-					// 	// 물주는 날 후에 늦게 물을 줄 경우
-					// 	} else if ($(this).parents('li').find('.warning').length > 0) {
-					// 		msg = '물을 주시겠습니까?';
-					// 		selectMyplantState = 'warning';
-					// 	}
-
-					// 	// 웹 상태일 경우
-					// 	if (app.webMode) {
-					// 		if (confirm(msg)) {
-					// 			watering();
-					// 		}
-					// 	}
+						// 돌보기(다이어리) 데이터 가져오기
+						let myplantSeq = $(this).parents('li').data('myplantseq');
+						let diaryDate = util.formatDate(new Date()).replace(/-/gi, '');
+						getDiary(myplantSeq, diaryDate);
 						
-					// 	let message = {
-					// 		key : 'confirmWatering',
-					// 		data : {
-					// 			message : msg
-					// 		}
-					// 	}
-					// 	app.reactNativePostMessage(message);
-					// });
+						// 돌보기 레이어 팝업 노출
+						layer.showLayer('plant_care_layer', 'plant-care');
+						$('#plant_care_layer').attr('data-myplantseq', myplantSeq);
+					});
+					// 돌보기 레이어 팝업 확인/취소 선택 시
+					$(document).on('click', '.plant-care .layer-close', function() {
+						
+						
+						if ($(this).hasClass('ok')) {
+							layer.showLayer('confirm_layer', 'plant-care-confirm', '다이어리를 저장 하시겠습니까?');
+						} else {
+							// 돌보기 팝업 닫기
+							$('#plant_care_layer').attr('data-myplantseq', '');
+							$('#plant_care_layer').attr('data-myplantdiaryseq', '');
+							layer.hideLayer('plant_care_layer', 'plant-care');
+						}
+					});
+					// 돌보기 다이어리 날짜 선택 시
+					$(document).on('click', '.plant-care-layer .diary-date', function() {
+						
+						
+						let date = ($('.plant-care-layer .diary-date').text()) ? new Date($('.plant-care-layer .diary-date').text()) : new Date();
+						layer.showDetePicker('datepicker_layer', 'plant-care-date-picker', date);
+					});
+					// 날짜 선택기 확인/취소 선택 시
+					$(document).on('click', '.plant-care-date-picker .layer-close', function() {
+						
 
-					// 물주기
-					function watering() {
+						layer.hideLayer('datepicker_layer', 'plant-care-date-picker');
+						
+						if ($(this).hasClass('ok')) {
+							let date = layer.selectDetePicker();
+							$('.plant-care-layer .diary-date').text(util.formatDate(date, 'noDivision'));
+
+							let myplantSeq = $('.plant-care-layer').data('myplantseq');
+
+							// 돌보기(다이어리) 데이터 가져오기
+							getDiary(myplantSeq, date);
+						}
+					});
+					// 돌보기 등록/수정 컨펌창 선택 시
+					$(document).on('click', '.plant-care-confirm .layer-close', function() {
+						
+						
+						layer.hideLayer('confirm_layer', 'plant-care-confirm');
+						
+						if ($(this).hasClass('ok')) {
+							
+							let myplantSeq =  $('#plant_care_layer').data('myplantseq');
+							let myplantDiarySeq =  $('#plant_care_layer').data('myplantdiaryseq');
+
+							// 다이어리 등록 시
+							if (myplantDiarySeq == '') {
+								diaryInsert(myplantSeq, myplantDiarySeq);
+
+							// 다이어리 수정 시
+							} else {
+								diaryUpdate(myplantSeq, myplantDiarySeq);
+							}
+
+							// 돌보기 팝업 닫기
+							$('#plant_care_layer').attr('data-myplantseq', '');
+							$('#plant_care_layer').attr('data-myplantdiaryseq', '');
+							layer.hideLayer('plant_care_layer', 'plant-care');
+						}
+					});
+
+					// 이미지 파일 찾기 시 미리보기
+					util.imagePreview($('#sys_diary_img1'));
+					util.imagePreview($('#sys_diary_img2'));
+					util.imagePreview($('#sys_diary_img3'));
+
+					// 돌보기(다이어리) 데이터 가져오기
+					function getDiary(myplantSeq, diaryDate) {
+						
+						// 오늘 날짜 다이어트 날짜 설정
 						$.ajax({
-							url: '/api/calendar/myplantWatering',
+							url: '/api/diary/select',
 							type: 'get',
 							data: {
-								myplant_seq: selectMyplantSeq,
-								user_seq: app.userData.user_seq,
-								state: selectMyplantState
+								myplant_seq: myplantSeq,
+								diary_date: diaryDate
 							},
 							success: function(response) {
+								response = JSON.parse(response);
+								let key = response.key;
+								let data = response.data;
 								
-								// 식물 리스트 가져오기
-								getPlantList();
+								if (key == 'success') {
+									let diaryRow = data.diaryRow;
+									let diaryImages = data.diaryImages;
+
+									// 다이어리가 있을 경우
+									if (data.diaryCount > 0) {
+										$('#plant_care_layer').attr('data-myplantdiaryseq', diaryRow.myplant_diary_seq);
+
+										if (diaryRow.water_yn == 'Y') $('#water_yn').prop('checked', true);
+										if (diaryRow.medicine_yn == 'Y') $('#medicine_yn').prop('checked', true);
+										if (diaryRow.pot_replace_yn == 'Y') $('#pot_replace_yn').prop('checked', true);
+										if (diaryRow.soil_condition_yn == '1') {
+											$('#soil_condition_yn_1').prop('checked', true);
+										} else if (diaryRow.soil_condition_yn == '2') {
+											$('#soil_condition_yn_2').prop('checked', true);
+										} else if (diaryRow.soil_condition_yn == '3') {
+											$('#soil_condition_yn_3').prop('checked', true);
+										}
+										
+										let diaryImagesCount = diaryImages.length;
+										for (let i=0; i<3; i++) {
+											let diaryImg = '/resource/images/plant_default_img.jpg';
+											$('.diary-img-section label[for="sys_diary_img' + (i+1) + '"] img').attr('src', diaryImg);
+										}
+										for (let i=0; i<diaryImagesCount; i++) {
+											let diaryImg = '<?=SITE_URL?>uploads/user_' + diaryRow.user_seq + '/myplant_' + diaryRow.myplant_seq + '/diary_' + diaryRow.myplant_diary_seq + '/' + diaryImages[i].sys_diary_img;
+											$('.diary-img-section label[for="sys_diary_img' + (i+1) + '"] img').attr('src', diaryImg);
+										}
+										$('#diary_content').val(diaryRow.diary_content);
+										
+									// 다이어리가 없을 경우
+									} else {
+										$('#plant_care_layer').attr('data-myplantdiaryseq', '');
+
+										$('#water_yn').prop('checked', false);
+										$('#medicine_yn').prop('checked', false);
+										$('#pot_replace_yn').prop('checked', false);
+										$('#soil_condition_yn_2').prop('checked', true);
+
+										for (let i=0; i<3; i++) {
+											let diaryImg = '/resource/images/plant_default_img.jpg';
+											$('.diary-img-section label[for="sys_diary_img' + (i+1) + '"] img').attr('src', diaryImg);
+										}
+										$('#diary_content').val('');
+									}
+								}
 							}
 						});
 					}
 
+					// 다이어리 등록
+					function diaryInsert(myplantSeq, myplantDiarySeq) {
+						let formData;
+						formData = new FormData($('#plantCareForm')[0]);
+						formData.append('user_seq', app.userData.user_seq);
+						formData.append('myplant_seq', myplantSeq);
+						formData.append('diary_date', $('.plant-care-layer .diary-date').text().replace(/-/gi, ''));
+						formData.append('water_yn', $('#water_yn').is(':checked') ? 'Y' : 'N');
+						formData.append('soil_condition_yn', $(":input[name=soil_condition_yn]:checked").val());
+						formData.append('medicine_yn', $('#medicine_yn').is(':checked') ? 'Y' : 'N');
+						formData.append('pot_replace_yn', $('#pot_replace_yn').is(':checked') ? 'Y' : 'N');
+						formData.append('diary_content', $('#diary_content').val());
+						
+						$.ajax({
+							url: '/api/diary/insert',
+							type: 'post',
+							data: formData,
+							processData: false,
+							contentType: false,
+							success: function(response) {
+								response = JSON.parse(response);
+								let key = response.key;
+								let data = response.data;
+								
+								if (key == 'success') {
+									// 식물 리스트 가져오기
+									getPlantList();
+								}
+							}
+						});
+					};
+					
+					// 다이어리 수정
+					function diaryUpdate(myplantSeq, myplantDiarySeq) {
+						let formData;
+						formData = new FormData($('#plantCareForm')[0]);
+						formData.append('myplant_diary_seq', myplantDiarySeq);
+						formData.append('diary_date', $('.plant-care-layer .diary-date').text().replace(/-/gi, ''));
+						formData.append('water_yn', $('#water_yn').is(':checked') ? 'Y' : 'N');
+						formData.append('soil_condition_yn', $(":input[name=soil_condition_yn]:checked").val());
+						formData.append('medicine_yn', $('#medicine_yn').is(':checked') ? 'Y' : 'N');
+						formData.append('pot_replace_yn', $('#pot_replace_yn').is(':checked') ? 'Y' : 'N');
+						formData.append('diary_content', $('#diary_content').val());
+						
+						$.ajax({
+							url: '/api/diary/update',
+							type: 'post',
+							data: formData,
+							processData: false,
+							contentType: false,
+							success: function(response) {
+								response = JSON.parse(response);
+								let key = response.key;
+								let data = response.data;
+								
+								if (key == 'success') {
+									// 식물 리스트 가져오기
+									getPlantList();
+								}
+							}
+						});
+					}
+
+
+
+
+					// 등록/수정 컨펌창 선택 시
+					$(document).on('click', '.watering-confirm .layer-close', function() {
+						
+
+						layer.hideLayer('plant_care_layer', 'plant-care');
+						
+						if ($(this).hasClass('ok')) {
+
+							// 물주기
+							watering();
+						}
+					});
+
+
+
+
+
+
+
+
+
+					// 물주기
+					function watering() {
+						// $.ajax({
+						// 	url: '/api/calendar/myplantWatering',
+						// 	type: 'get',
+						// 	data: {
+						// 		myplant_seq: selectMyplantSeq,
+						// 		user_seq: app.userData.user_seq,
+						// 		state: selectMyplantState
+						// 	},
+						// 	success: function(response) {
+								
+						// 		// 식물 리스트 가져오기
+						// 		getPlantList();
+						// 	}
+						// });
+					}
+
 					// 미루기 선택 시
 					$(document).on('click', '.myplant-list .list .procrastina', function() {
+						
+						
 						selectMyplantSeq = $(this).parents('li').data('myplantseq');
 						let message = {
 							key : 'showProcrastina',
@@ -261,6 +457,8 @@
 
 					// 로그인 화면 이동
 					$(document).on('click', '.myplant-list .login', function() {
+						
+						
 						let message = {
 							key : 'moveLogin',
 							data : {}

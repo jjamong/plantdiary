@@ -12,8 +12,8 @@ import {UserContext} from '~/Context/User';
 import BottomBannerScreen from '~/Components/BottomBanner';
 import Loading from '~/Components/Loading';
 
-// 스타일
-const BannerContainer = Styled.View`flex: 0.1;`
+// 스타일 설정
+const BannerContainer = Styled.View`height:60px`
 
 /*
  * MyPlantForm 내 식물 폼 스크린

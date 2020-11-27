@@ -24,12 +24,12 @@
 							</div>
 						</div>
 						<div class="btn-section">
-							<div class="login"><a href="#none">로그인</a></div>
+							<div class="login">로그인</div>
 						</div>
 						<div class="sub-section">
-							<div class="txt"><a href="#none">아이디 찾기</a></div>
-							<div class="txt"><a href="#none">비밀번호 찾기</a></div>
-							<div class="txt join"><a href="#none">회원가입</a></div>
+							<div class="txt">아이디 찾기</div>
+							<div class="txt">비밀번호 찾기</div>
+							<div class="txt join">회원가입</div>
 						</div>
 					</div>
 					</form>
@@ -48,7 +48,6 @@
 					
 					// APP에서 WEB으로 데이터 통신
 					function webViewMessage(key, data) {
-						
 					}
 
 					// 웹뷰 준비 완료
@@ -98,11 +97,11 @@
 
 					// 회원가입 선택 시
 					$('.sub-section .join').on('click', function() {
-						let message = {
-							key : 'moveJoin',
-							data : {}
-						}
-						app.reactNativePostMessage(message);
+						// let message = {
+						// 	key : 'moveJoin',
+						// 	data : {}
+						// }
+						// app.reactNativePostMessage(message);
 					});
 				});
 				

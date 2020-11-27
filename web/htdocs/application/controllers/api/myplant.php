@@ -16,6 +16,8 @@ class myplant extends CI_Controller {
      */
 	public function list()	{
 		$user_seq = $this->input->get('user_seq', TRUE);
+		$page = $this->input->get('page', TRUE);
+		//$page = ($page) ? $page : 30;
 
 		$sql = "select 
 					*
@@ -34,25 +36,63 @@ class myplant extends CI_Controller {
 					from myplant_diary_recent_diary_date
 					) as myplant_diary 
 				on myplant.myplant_seq  = myplant_diary.myplant_seq
-				order by myplant.myplant_seq desc";
+				order by myplant.myplant_seq desc
+				limit 10";
 		$query = $this->db->query($sql);
-		// $this->db->where('del_yn', 'N');
-		// $this->db->where('user_seq', $user_seq);
-		// $this->db->order_by('myplant_seq', 'desc');
-		// $query = $this->db->get('myplant');
-		echo json_encode($query->result());
+
+        // 응답 값 설정
+		$result = array(
+			'key' => 'success',
+			'data' => $query->result()
+		);
+		echo json_encode($result);
 	}
 	
 	/**
      * @brief	select : 상세
      */
 	public function select() {
+		
+		// 내식물
+		$user_seq = $this->input->get('user_seq', TRUE);
 		$myplant_seq = $this->input->get('myplant_seq', TRUE);
 
+		$sql = "select 
+					*
+				from  
+					(select  
+						* 
+						from myplant 
+						where del_yn = 'N' 
+						and user_seq = $user_seq 
+						and myplant_seq = $myplant_seq 
+					) as myplant  
+					inner join 
+					(select 
+						myplant_diary_seq, 
+						myplant_seq, 
+						diary_date 
+					from myplant_diary_recent_diary_date
+					) as myplant_diary 
+				on myplant.myplant_seq  = myplant_diary.myplant_seq";
+		$myplant_query = $this->db->query($sql);
+
+		// 내식물 아래 최근 3개 다이어리
 		$this->db->where('del_yn', 'N');
 		$this->db->where('myplant_seq', $myplant_seq);
-		$query = $this->db->get('myplant');
-		echo json_encode($query->row());
+		$this->db->order_by('myplant_diary_seq', 'DESC');
+		$this->db->limit(3);
+        $diary_query = $this->db->get('myplant_diary');
+
+        // 응답 값 설정
+		$result = array(
+			'key' => 'success',
+			'data' => array(
+				'mplantRow' => $myplant_query->row(),
+				'diaryResult' => $diary_query->result()
+            )
+		);
+		echo json_encode($result);
 	}
 
 	/**

@@ -79,7 +79,7 @@ textarea {resize:none;}
 .input-radio {position: relative;}
 .input-radio input[type="radio"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
 .input-radio input[type="radio"] + label {display: inline-block; position: relative; padding-left: 25px; font-size: 14px; line-height: 14px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
-.input-radio input[type="radio"] + label:before {content: ''; position: absolute; left: 0; top: -4px; width: 21px; height: 21px; text-align: center; border: 1px solid #E6E6E6; border-radius: 100%; box-shadow: 0px 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05); }
+.input-radio input[type="radio"] + label:before {content: ''; position: absolute; left: 0; top: -4px; width: 21px; height: 21px; text-align: center; border: 1px solid #E6E6E6; border-radius: 100%;}
 .input-radio input[type="radio"] + label:active:before,
 .input-radio input[type="radio"]:checked + label:active:before { box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1); }
 .input-radio input[type="radio"]:checked + label:before {border-color: #00A964;}
@@ -88,6 +88,11 @@ textarea {resize:none;}
 
 /* 레이어 팝업 */
 .common-layer-popup {}
+.common-layer-popup .btn-section {overflow: hidden; height: 50px;}
+.common-layer-popup .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
+.common-layer-popup .btn-section.btn-2 .ok {border-bottom-right-radius: 10px; font-weight: 700; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
+.common-layer-popup .btn-section.btn-2 .cancel {border-bottom-left-radius: 10px;}
+
 .alert-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
 .alert-layer .message-section {padding: 20px;}
 .alert-layer .message {text-align: center; font-size: 12px; }
@@ -96,28 +101,56 @@ textarea {resize:none;}
 
 .confirm-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
 .confirm-layer .message-section {padding: 20px; border-bottom: 1px solid #00A964;}
-.confirm-layer .message {text-align: center; font-size: 12px;}
+.confirm-layer .message {text-align: center; font-size: 12px; line-height: 16px;}
 .confirm-layer .btn-section {overflow: hidden; height: 50px;}
-.confirm-layer .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
-.confirm-layer .btn-section.btn-2 .ok {border-bottom-left-radius: 10px; font-weight: 700;}
-.confirm-layer .btn-section.btn-2 .cancel {border-bottom-right-radius: 10px; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
 
+/* 셀렉트 박스 */
 .selectbox-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
-.selectbox-layer .list-section {overflow-y: scroll; padding: 0 20px; height: 300px; border-bottom: 1px solid #00A964;}
+.selectbox-layer .selectbox-section {border-bottom: 1px solid #00A964;}
+.selectbox-layer .list-section {padding:20px; overflow: hidden;}
+.selectbox-layer .list {overflow-y: scroll; height: 240px;}
 .selectbox-layer .list li {padding: 20px 0; font-size: 14px; line-height: 14px; border-bottom: 1px solid #00A964;}
 .selectbox-layer .list li:last-child {border-bottom: 0}
 .selectbox-layer .list li.selected {font-weight: 800; color: #00A964;}
-.selectbox-layer .btn-section {overflow: hidden; height: 50px;}
-.selectbox-layer .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
-.selectbox-layer .btn-section.btn-2 .ok {border-bottom-left-radius: 10px; font-weight: 700;}
-.selectbox-layer .btn-section.btn-2 .cancel {border-bottom-right-radius: 10px; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
 
-.water-interval-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
-.water-interval-layer .list-section {overflow-y: scroll; padding: 0 20px; height: 300px; border-bottom: 1px solid #00A964;}
-.water-interval-layer .list li {padding: 20px 0; font-size: 14px; line-height: 14px; border-bottom: 1px solid #00A964;}
-.water-interval-layer .list li:last-child {border-bottom: 0}
-.water-interval-layer .list li.selected {font-weight: 800; color: #00A964;}
-.water-interval-layer .btn-section {overflow: hidden; height: 50px;}
-.water-interval-layer .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
-.water-interval-layer .btn-section.btn-2 .ok {border-bottom-left-radius: 10px; font-weight: 700;}
-.water-interval-layer .btn-section.btn-2 .cancel {border-bottom-right-radius: 10px; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
+.datepicker-layer {display: none; border-radius: 10px; width:calc(100% - 30px); background: #fff;}
+.datepicker-layer .datepicker-section {overflow-y: scroll; border-bottom: 1px solid #00A964;}
+.datepicker-layer .datepicker-section .date {text-align: center; height: 50px; line-height: 50px; border-bottom: 1px solid #00A964; font-weight: 700; color: #00A964;}
+.datepicker-layer .select-section {padding: 20px; overflow: hidden;}
+.datepicker-layer .select-section .year {float: left; width: 34%; height: 150px; text-align: center; overflow-y: scroll;}
+.datepicker-layer .select-section .month {float: left; width: 33%; height: 150px; text-align: center; overflow-y: scroll;}
+.datepicker-layer .select-section .day {float: left; width: 33%; height: 150px; text-align: center; overflow-y: scroll;}
+.datepicker-layer .select-section li:first-child {}
+.datepicker-layer .select-section li {margin: 0 10px; padding: 10px 0; border-bottom: 1px solid #00A964; font-size: 14px; color:#808080}
+.datepicker-layer .select-section li:last-child {border-bottom: 0}
+.datepicker-layer .select-section li.selected {font-weight: 800; color: #00A964;}
+.datepicker-layer .btn-section {overflow: hidden; height: 50px;}
+
+.plant-care-layer {display: none; border-radius: 10px; width:calc(100% - 40px); background: #fff;}
+.plant-care-layer .plant-care-section {overflow-y: scroll; height: 480px; padding: 20px; border-bottom: 1px solid #00A964;}
+.plant-care-layer .form-section label {color: #00A964; font-size: 12px;}
+.plant-care-layer .form-section .input input {width: 100%; height: 2.5rem; border: 0; line-height: 3rem; font-size: 14px; border-bottom: 1px solid #00A964; color:#1a1a1a;}
+.plant-care-layer .form-section .date input {background: url(../images/datepicker_icon.png) no-repeat right 10px; background-size: 20px; -webkit-appearance: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+.plant-care-layer .form-section .msg {margin-top: 10px; font-size: 12px; line-height: 12px; color: #f74d4d;}
+.plant-care-layer .plant-care-form-section .diary-date-section .diary-date {width: auto; border-bottom: 0; line-height: 22px; font-size: 16px; background: url(../images/datepicker_icon.png) no-repeat 110px; background-size: 20px;}
+.plant-care-layer .plant-care-form-section .item {margin-top: 12px;}
+.plant-care-layer .plant-care-form-section .item:first-child {margin-top: 0rem}
+.plant-care-layer .plant-care-form-section .water-yn-section,
+.plant-care-layer .plant-care-form-section .medicine-yn-section,
+.plant-care-layer .plant-care-form-section .pot-replace-yn-section {overflow: hidden;}
+.plant-care-layer .plant-care-form-section .label {float: left; line-height: 40px;}
+.plant-care-layer .plant-care-form-section .toggle-water {float: right; line-height: 40px;}
+.plant-care-layer .plant-care-form-section .radio-section {float: right; padding-top: 10px; height: 37px;}
+.plant-care-layer .plant-care-form-section .input-radio {float: left;}
+.plant-care-layer .plant-care-form-section .input-radio:last-child {margin-right: 0}
+.plant-care-layer .plant-care-form-section .input-radio {margin-right: 15px;}
+.plant-care-layer .plant-care-form-section .soil-condition-yn-section {overflow: hidden;}
+.plant-care-layer .plant-care-form-section .diary-img-section {overflow: hidden;}
+.plant-care-layer .plant-care-form-section .diary-img-section .label {float: none; color: #00A964; font-size: 12px;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section {overflow: hidden;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section .image:first-child {margin-left: 0;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section .image {float: left; margin-left: 2%; width: 32%; height: 100px; border: 1px solid #00A964;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section .img {height: 100%;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section img {width: 100%; height: 100%;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section input {display: none;}
+.plant-care-layer .plant-care-form-section .diary-content-section .textarea-diary-content textarea {padding: 10px; width: 100%; height: 80px; border: 1px solid #00A964; font-size: 14px;}

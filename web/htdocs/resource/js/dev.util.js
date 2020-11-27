@@ -128,7 +128,7 @@
 			@return String d-day 텍스트
 		*/
 		dDayHtml : function (day) {
-			let html;
+			let html = '';
 			if (day == 0) {
 				html = '<span class="waterday">물 주는 날';
 			} else	if (day > 0) {
@@ -138,6 +138,21 @@
 			}
 			html += '</span>';
 			return html; 
+		},
+
+		/*
+			물 주는 날 체크
+		*/
+		waterDayCheck : function (day) {
+			let check = '';
+			if (day == 0) {
+				check = 'waterday';
+			} else	if (day > 0) {
+				check = 'remain';
+			} else if (day < 0) {
+				check = 'warning';
+			}
+			return check; 
 		},
 
 		/*
@@ -168,49 +183,6 @@
 					// }
 				}
 			});
-		},
-
-		/*
-			레이어 팝업 노출
-		*/
-		openLayer : function(layerId, layerClass, message) {
-
-			// 메시지 설정
-			if (message) $('#' + layerId + ' .message').html(message);
-			
-			let _win = $(window);
-			let _doc = $(document);
-			let _docBody = $(document.body);
-			let _winW = _win.width();
-			let _winH = _win.height();
-			let _docW = _doc.width();
-			let _docH = _doc.height();
-
-			let $el = $('#' + layerId);
-    		let _elWidth = ($el.outerWidth())/2;
-
-			let _scrollY = _win.scrollTop();
-			let centerTop = Math.max(0, ((_win.height() - $el.outerHeight()) / 2) + _scrollY);
-			$el.css({'display':'block', 'z-index' : 110, 'position':'absolute', 'left' : '50%', 'top' : centerTop, 'margin-left' : -_elWidth });
-			$el.addClass(layerClass)
-
-			// dim 설정
-			let dimHtml = '<div class=\'dim\'></div>';
-			let opacity = 'opacity : 0.5';
-			if(!$('.dim').length > 0){
-				_docBody.append(dimHtml);
-			}
-			_winW = _win.width();
-			_docH = _doc.height();
-			$('.dim').css({ 'width':_winW, 'height' : _docH, 'opacity': opacity, 'top' : 0 , 'width' : _docW, 'height' : _docH }).show();
-		},
-
-		closeLayer : function(layerId, layerClass) {
-			let $el = $('#' + layerId);
-
-			$('.dim').hide();
-			$el.removeClass(layerClass);
-			$el.hide();
 		},
 
 		/*

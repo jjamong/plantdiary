@@ -4,12 +4,22 @@
 (function($) {
 
 	$App = {
-		webMode : true,		// true 웹 상태, false 웹뷰 상태(디폴트), 
-		userData: {},			// 회원 정보
+		webMode : true,				// true 웹 상태, false 웹뷰 상태(디폴트), 
+		userData : {},				// 회원 정보
+		deviceType : undefined,		// 디바이스 타입(android, ios)
+		messageObject : undefined,	// webview message 오브젝트
 
 		// 초기화
 		init : function () {
+			// 디바이스 타입 체크 및 웹뷰 설정
+			this.deviceType = this.deviceCheck();
+			if (this.deviceType == 'android') {
+				this.messageObject = document;
+			} else {
+				this.messageObject = window;
+			}
 
+			// 웹뷰 객체 체크
 			if (this.reactNativeWebViewCheck()) {
 				this.webMode = false;
 				console.log('window.ReactNativeWebView 객체가 있습니다.[OK]')
@@ -50,7 +60,7 @@
 
 		// APP에서 WEB으로 데이터 통신
 		webViewMessage : function (callFunc) {
-			document.addEventListener('message', function(response) {
+			this.messageObject.addEventListener('message', function(response) {
 				if (response.data) {
 					response = JSON.parse(response.data);
 					let key = response.key;
@@ -71,6 +81,20 @@
 				this.reactNativePostMessage(webViewReady);
 				$('#container').css('visibility', 'visible');
 			}
+		},
+
+		// 디바이스 체크
+		deviceCheck : function() {
+			let userAgent = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+			let check;
+			if ( userAgent.indexOf('android') > -1) {
+				check = 'android';
+			} else if ( userAgent.indexOf("iphone") > -1||userAgent.indexOf("ipad") > -1||userAgent.indexOf("ipod") > -1 ) {
+				check = 'ios';
+			} else {
+				check = 'other';
+			}
+			return check;
 		},
 		
 	};
