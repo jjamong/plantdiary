@@ -36,8 +36,7 @@ class myplant extends CI_Controller {
 					from myplant_diary_recent_diary_date
 					) as myplant_diary 
 				on myplant.myplant_seq  = myplant_diary.myplant_seq
-				order by myplant.myplant_seq desc
-				limit 10";
+				order by myplant.myplant_seq desc";
 		$query = $this->db->query($sql);
 
         // 응답 값 설정
@@ -261,21 +260,53 @@ class myplant extends CI_Controller {
      * @brief delete : 삭제
      */
 	function delete() {
-
 		$user_seq = $this->input->post('user_seq', TRUE);
 		$myplant_seq = $this->input->post('myplant_seq', TRUE);
-		$sys_myplant_img = $this->input->post('sys_myplant_img', TRUE);
-		
-		$this->db->trans_start();
 
-		if($sys_myplant_img != ''){
-			$this->file_manager->deletefile('myplant', 'myplant/'.$user_seq, 'myplant_seq',  $myplant_seq, 'sys_myplant_img');
-		}
-
-		$this->db->set('del_yn', 'Y');
+		$this->db->where('del_yn', 'N');
 		$this->db->where('myplant_seq', $myplant_seq);
-		$this->db->update('myplant');
-		
-		$this->db->trans_complete();
+		$myplant_query = $this->db->get('myplant');
+        $myplant_row = $myplant_query->row();
+		$myplant_count = $myplant_query->num_rows();
+
+		if ($myplant_count > 0) {
+
+			$this->db->trans_start();
+
+			// 폴더 하위로 전부
+			$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq;
+			if ((is_dir(UPLOAD_PATH.$path) > 0)) {
+				rmdir(UPLOAD_PATH.$path);
+			}
+
+			$this->db->set('del_yn', 'Y');
+			$this->db->where('myplant_seq', $myplant_seq);
+			$this->db->update('myplant');
+
+			$this->db->set('del_yn', 'Y');
+			$this->db->where('myplant_seq', $myplant_seq);
+			$this->db->update('myplant_diary');
+			
+			$this->db->trans_complete();
+
+			// 응답 값 설정
+			$result = array(
+				'key' => '',
+				'data' => array()
+			);
+			if ($this->db->trans_status() === TRUE) {
+				$result['key'] = 'success';
+				$result['data'] = array();
+			} else {
+				$result['key'] = 'failure';
+			}
+			
+		} else {
+			$result = array(
+				'key' => 'countFailure',
+				'data' => array()
+			);
+		}
+		echo json_encode($result);
 	}
 }

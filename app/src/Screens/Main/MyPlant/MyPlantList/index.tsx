@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview'
@@ -25,8 +25,6 @@ const MyPlantList = () => {
     const {getUserInfo} = useContext(UserContext);
     const {webViewUrl, webViewSendMessage} = useContext(ConfigContext);
 
-    const [spinner, setSpinner] = useState(false);                      // 스피너 노출 여부
-  
     useEffect(() => {
         screenFocus();
     }, []);
@@ -63,8 +61,6 @@ const MyPlantList = () => {
 
         // 웹뷰 준비 완료
         if (key === 'webViewReady') {
-            // 스피너 감추기
-            hideSpinner();
         
         // 설정 스크린 이동
         } else if (key === 'moveSetting') {
@@ -84,10 +80,6 @@ const MyPlantList = () => {
         }
     };
 
-    // 스피너 노출 / 비노출
-    const showSpinner = (): void => {setSpinner(true)};
-    const hideSpinner = (): void => {setSpinner(false)};
-
     return (
         <>
             <WebView
@@ -98,10 +90,10 @@ const MyPlantList = () => {
                     webViewMessage(event.nativeEvent.data);
                 }}
                 ref={(ref) => (myplantListWebview = ref)}
-                onLoadStart={e => showSpinner()}
                 onLoadEnd={e => webViewLoad(myplantListWebview)}
+                startInLoadingState={true}
+                renderLoading={() => <Loading />}
             />
-            {spinner ? <Loading /> : null}
             <BannerContainer>
                 <BottomBannerScreen/>
             </BannerContainer>

@@ -11,7 +11,7 @@
 	</head>
 	<body>
 		<!-- Content 영역 -->
-		<div id="wrap">
+		<div id="wrap" onclick="">
 			<!-- #header -->
 			<div id="header" class="common"></div>
 			<!-- //#header -->

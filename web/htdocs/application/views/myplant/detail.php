@@ -14,11 +14,7 @@
 							<div class="detail-section">
 								<div class="title-section">
 									<h2 class="title"></h2>
-									<div class="day"></div>
-									<!-- <div class="control-section">
-										<div class="btn water">물주기</div>
-										<div class="btn procrastina">미루기</div>
-									</div> -->
+									<div class="care">돌보기</div>
 								</div>
 								<ul>
 									<li class="first-grow-date">
@@ -47,7 +43,6 @@
 								<ul></ul>
 							</div>
 							<div class="btn-section">
-								<div class="modify">수정</div>
 								<div class="delete">삭제</div>
 							</div>
 						</div>
@@ -61,11 +56,11 @@
 				$(function() {
 					let app = $App;
 					let util = $Util;
+					let layer = $Layer;
 					app.init();
 					app.webViewMessage(webViewMessage);
 
 					let myplantSeq;
-					let sysMyplantImg;
 
 					// APP에서 WEB으로 데이터 통신
 					function webViewMessage(key, data) {
@@ -93,7 +88,7 @@
 					// 웹 상태일 경우
 					if (app.webMode) {
 						// 식물 상세 가져오기
-						myplantSeq = 163;
+						myplantSeq = 25;
 						getPlantDetail();
 					}
 
@@ -124,12 +119,15 @@
 										}
 										let water_day = util.formatDate(mplantRow.water_day, 'noDivision');
 										let diary_date = util.formatDate(mplantRow.diary_date, 'noDivision');
+										let day = util.dDay(water_day);
+										let thday = util.dDay(util.formatDate(mplantRow.first_grow_date, 'noDivision')) * -1;
 										
 										$('.image-section .img').html('<img src="' + myplant_img + '">');
 										$('.content-section .title').html(mplantRow.myplant_name);
-										$('.content-section .first-grow-date .desc').html(util.formatDate(mplantRow.first_grow_date, 'noDivision'));
+										$('.content-section .first-grow-date .desc').html(util.formatDate(mplantRow.first_grow_date, 'noDivision') + ' ' + '(' + thday + '일째)');
 										$('.content-section .water-interval .desc').html(mplantRow.water_interval + '일');
-										$('.content-section .water-day .desc').html(water_day + ' ' + util.dayWeek(water_day));
+										$('.content-section .water-day').addClass(util.waterDayCheck(day));
+										$('.content-section .water-day .desc').html(water_day + ' ' + util.dayWeek(water_day) + ' (' + util.dDayHtml(day) + ')');
 										$('.content-section .last-watering-date .desc').html(diary_date + ' ' + util.dayWeek(diary_date));
 
 										// 다이어리 최근 데이터 설정
@@ -137,7 +135,6 @@
 										let diaryCount = diaryResult.length;
 										if (diaryCount > 0) {
 											for (let i=0; i< diaryCount; i++) {
-												console.log(diaryResult[i])
 
 												let water_yn = (diaryResult[i].water_yn == 'Y') ? '물 줌' : '물 안줌';
 												let soil_condition_yn;
@@ -162,6 +159,9 @@
 												diaryhtml += '			<div class="desc-title">흙상태:</div>';
 												diaryhtml += '			<div class="desc">' + soil_condition_yn + '</div>';
 												diaryhtml += '		</div>';
+												diaryhtml += '	</div>';
+												diaryhtml += '	<div class="diary-content-section">';
+												diaryhtml += '		<div class="content">' + diaryResult[i].diary_content + '</div>';
 												diaryhtml += '	</div>';
 												diaryhtml += '</li>';
 											};
@@ -255,26 +255,18 @@
 						app.reactNativePostMessage(message);
 					});
 
-					// 삭제
-					$('.control-section .delete').on('click', function() {
-						let msg = '삭제 하시겠습니까?';
-
-						// 웹 상태일 경우
-						if (app.webMode) {
-							if (confirm(msg)) {
-								del();
-							}
+					// 내식물 삭제
+					$('.btn-section .delete').on('click', function() {
+						layer.showLayer('confirm_layer', 'myplant-delete-confirm', '삭제 하시겠습니까?');
+					});
+					// 내식물 삭제 레이어 팝업 확인/취소 선택 시
+					$(document).on('click', '.myplant-delete-confirm .layer-close', function() {
+						if ($(this).hasClass('ok')) {
+							del();
 						}
 						
-						let message = {
-							key : 'confirmMyPlantDelete',
-							data : {
-								message : msg
-							}
-						}
-						app.reactNativePostMessage(message);
+						layer.hideLayer('confirm_layer', 'myplant-delete-confirm');
 					});
-
 					// 삭제
 					function del() {
 						$.ajax({
@@ -282,16 +274,19 @@
 							type: 'post',
 							data: {
 								user_seq: app.userData.user_seq,
-								sys_myplant_img: sysMyplantImg,
 								myplant_seq: myplantSeq
 							},
 							success: function(response) {
-
-								let message = {
-									key : 'moveMyplantList',
-									data : {}
+								response = JSON.parse(response);
+								let key = response.key;
+								
+								if (key == 'success') {
+									let message = {
+										key : 'moveMyplantList',
+										data : {}
+									}
+									app.reactNativePostMessage(message);
 								}
-								app.reactNativePostMessage(message);
 							}
 						});
 					}

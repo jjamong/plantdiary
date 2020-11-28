@@ -105,32 +105,34 @@
 
 												let day = util.dDay(util.formatDate(plantListData[i].water_day, 'noDivision'));
 
-												itemhtml += '<li data-myplantseq="' + plantListData[i].myplant_seq + '">';
-												itemhtml += '	<div class="content-section">';
-												itemhtml += '		<div class="item title">';
-												itemhtml += '			<div class="tit">' + plantListData[i].myplant_name + '</div>';
+												itemhtml += '<li class="li" data-myplantseq="' + plantListData[i].myplant_seq + '">';
+												itemhtml +=	'	<div class="li-section">';
+												itemhtml += '		<div class="content-section">';
+												itemhtml += '			<div class="item title">';
+												itemhtml += '				<div class="tit">' + plantListData[i].myplant_name + '</div>';
+												itemhtml += '			</div>';
+												itemhtml += '			<div class="item water-day ' + util.waterDayCheck(day) + '">';
+												itemhtml += '				<div class="tit">물 주는 날</div>';
+												itemhtml += '				<div class="txt">' + util.dDayHtml(day) + ' (' + util.formatDate(plantListData[i].water_day, 'noDivision') + ')</div>';
+												itemhtml += '			</div>';
+												itemhtml += '			<div class="item water-interval">';
+												itemhtml += '				<div class="tit">물 주는 간격</div>';
+												itemhtml += '				<div class="txt">' + plantListData[i].water_interval + '일 간격</div>';
+												itemhtml += '			</div>';
+												itemhtml += '			<div class="item last-water-day">';
+												itemhtml += '				<div class="tit">마지막 물 준날</div>';
+												itemhtml += '				<div class="txt">' + diary_date + ' ' + util.dayWeek(diary_date) + '</div>';
+												itemhtml += '			</div>';
 												itemhtml += '		</div>';
-												itemhtml += '		<div class="item water_day ' + util.waterDayCheck(day) + '">';
-												itemhtml += '			<div class="tit">물 주는 날</div>';
-												itemhtml += '			<div class="txt">' + util.dDayHtml(day) + ' (' + util.formatDate(plantListData[i].water_day, 'noDivision') + ')</div>';
+												itemhtml += '		<div class="image-section">';
+												itemhtml += '			<div class="plant-img">';
+												itemhtml += '				<div class="img"><img src="' + myplant_img + '"></div>';
+												itemhtml += '			</div>';
 												itemhtml += '		</div>';
-												itemhtml += '		<div class="item water_interval">';
-												itemhtml += '			<div class="tit">물 주는 간격</div>';
-												itemhtml += '			<div class="txt">' + plantListData[i].water_interval + '일 간격</div>';
-												itemhtml += '		</div>';
-												itemhtml += '		<div class="item last_water_day">';
-												itemhtml += '			<div class="tit">마지막 물 준날</div>';
-												itemhtml += '			<div class="txt">' + diary_date + ' ' + util.dayWeek(diary_date) + '</div>';
-												itemhtml += '		</div>';
-												itemhtml += '	</div>';
-												itemhtml += '	<div class="image-section">';
-												itemhtml += '		<div class="plant-img">';
-												itemhtml += '			<div class="img"><img src="' + myplant_img + '"></div>';
-												itemhtml += '		</div>';
-												itemhtml += '		<div class="control-section">';
-												itemhtml += '			<div class="btn care">돌보기</div>';
-												itemhtml += '			<div class="btn diary">다이어리</div>';
-												itemhtml += '		</div>';
+												itemhtml +=	' 	</div>';
+												itemhtml += '	<div class="control-section">';
+												itemhtml += '		<div class="btn care">돌보기</div>';
+												itemhtml += '		<div class="btn diary">다이어리</div>';
 												itemhtml += '	</div>';
 												itemhtml += '</li>';
 											};
@@ -178,12 +180,11 @@
 					});
 
 					// 식물 리스트 선택 시
-					$(document).on('click', '.myplant-list .list li', function() {
-						
+					$(document).on('click', '.myplant-list .list .li-section', function() {
 						let message = {
 							key : 'moveMyplantDetail',
 							data : {
-								myplantSeq : $(this).data('myplantseq')
+								myplantSeq : $(this).parent('li').data('myplantseq')
 							}
 						}
 						app.reactNativePostMessage(message);
@@ -191,7 +192,6 @@
 
 					// 돌보기 선택 시
 					$(document).on('click', '.myplant-list .list .care', function() {
-						
 						
 						// 돌보기(다이어리) 데이터 가져오기
 						let myplantSeq = $(this).parents('li').data('myplantseq');
@@ -205,7 +205,6 @@
 					// 돌보기 레이어 팝업 확인/취소 선택 시
 					$(document).on('click', '.plant-care .layer-close', function() {
 						
-						
 						if ($(this).hasClass('ok')) {
 							layer.showLayer('confirm_layer', 'plant-care-confirm', '다이어리를 저장 하시겠습니까?');
 						} else {
@@ -218,13 +217,11 @@
 					// 돌보기 다이어리 날짜 선택 시
 					$(document).on('click', '.plant-care-layer .diary-date', function() {
 						
-						
 						let date = ($('.plant-care-layer .diary-date').text()) ? new Date($('.plant-care-layer .diary-date').text()) : new Date();
 						layer.showDetePicker('datepicker_layer', 'plant-care-date-picker', date);
 					});
 					// 날짜 선택기 확인/취소 선택 시
 					$(document).on('click', '.plant-care-date-picker .layer-close', function() {
-						
 
 						layer.hideLayer('datepicker_layer', 'plant-care-date-picker');
 						
@@ -240,7 +237,6 @@
 					});
 					// 돌보기 등록/수정 컨펌창 선택 시
 					$(document).on('click', '.plant-care-confirm .layer-close', function() {
-						
 						
 						layer.hideLayer('confirm_layer', 'plant-care-confirm');
 						

@@ -30,8 +30,6 @@ const MyPlantDetail = () => {
         webViewSendMessage,
     } = useContext(ConfigContext);
     
-    const [spinner, setSpinner] = useState(false);                      // 스피너 노출 여부
-    
     useEffect(() => {
         firstLoadCheck = true;
         screenFocus();
@@ -71,8 +69,6 @@ const MyPlantDetail = () => {
 
         // 웹뷰 준비 완료
         if (key === 'webViewReady') {
-            // 스피너 감추기
-            hideSpinner();
             
         // 수정 선택 시
         } else if (key === 'moveMyplantForm') {
@@ -93,10 +89,6 @@ const MyPlantDetail = () => {
         webViewSendMessage(myplantDetailWebview, message);
     }
 
-    // 스피너 노출 / 비노출
-    const showSpinner = (): void => {setSpinner(true)};
-    const hideSpinner = (): void => {setSpinner(false)};
-
     return (
         <>
             <WebView
@@ -107,10 +99,10 @@ const MyPlantDetail = () => {
                     webViewMessage(event.nativeEvent.data);
                 }}
                 ref={(ref) => (myplantDetailWebview = ref)}
-                onLoadStart={e => showSpinner()}
                 onLoadEnd={e => webViewLoad(myplantDetailWebview)}
+                startInLoadingState={true}
+                renderLoading={() => <Loading />}
             />
-            {spinner ? <Loading /> : null}
             <BannerContainer>
                 <BottomBannerScreen/>
             </BannerContainer>
