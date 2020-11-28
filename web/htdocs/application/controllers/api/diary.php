@@ -60,7 +60,6 @@ class diary extends CI_Controller {
 		$medicine_yn = $this->input->post('medicine_yn', TRUE);
 		$pot_replace_yn = $this->input->post('pot_replace_yn', TRUE);
         $diary_content = $this->input->post('diary_content', TRUE);
-        
         $sys_diary_img_1 = $_FILES['sys_diary_img-1']['name'];
         $sys_diary_img_2 = $_FILES['sys_diary_img-2']['name'];
         $sys_diary_img_3 = $_FILES['sys_diary_img-3']['name'];
@@ -161,7 +160,10 @@ class diary extends CI_Controller {
      * @brief   update : 수정
      */
 	function update() {
+
 		// 다이어리 정보 설정
+        $user_seq = $this->input->post('user_seq', TRUE);
+        $myplant_seq = $this->input->post('myplant_seq', TRUE);
         $myplant_diary_seq = $this->input->post('myplant_diary_seq', TRUE);
         
 		$diary_date = $this->input->post('diary_date', TRUE);
@@ -185,6 +187,28 @@ class diary extends CI_Controller {
 			'upd_date' => date('Ymd'),
 			'upd_time' => date('His')
         );
+        
+		$diary_where = array(
+			'user_seq'	=>	$user_seq,
+			'myplant_seq'	=>	$myplant_seq,
+            'water_yn' => 'Y',
+			'del_yn'	=>	'N',
+		);
+		$this->db->where($diary_where);
+		$query = $this->db->get('myplant_diary');
+        $diary_count = $query->num_rows();
+        
+        // 전체 다이러리 물주기 개수가 1개일 경우에 물주기 비활성화 변경 시 
+        if ($diary_count == 1 && $water_yn == 'N') {
+
+            // 응답 값 설정
+            $result = array(
+                'key' => 'waterCountFailure',
+                'data' => array()
+            );
+            echo json_encode($result);
+            return;
+        }
 
         // DB 처리
         $this->db->trans_start();

@@ -12,9 +12,7 @@ import {UserContextProvider} from '~/Context/User';
 import Navigator from '~/Screens/Navigator';
 
 // 스타일 설정
-const SafeAreaView = Styled.SafeAreaView`
-    height: 100%;
-`
+const SafeAreaView = Styled.SafeAreaView`height: 100%;`
 
 const App = () => {
   

@@ -9,7 +9,7 @@ interface Props {
  * ConfigContext 컨텍스트
  */
 const defaultContext: configContext = {
-  webViewUrl : "http://192.168.35.142", //(개발)
+    webViewUrl : "http://192.168.35.142", //(개발)
 };
 const ConfigContext = createContext(defaultContext);
 
@@ -22,10 +22,12 @@ const ConfigContextProvider = ({children}: Props) => {
     const webViewUrl = "http://192.168.35.142";
 
     const [headerButton, setHeaderButton] = useState(String);   // 헤더 버튼 선택
+
     const [modalVisible, setModalVisible] = useState(false);    // 모달 노출 여부
     const [selectMyplantSeq, setSelectMyplantSeq] = useState();
   
     useEffect(() => {
+
     }, []);
 
     // 웹뷰로 정보 전달

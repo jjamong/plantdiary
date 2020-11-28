@@ -10,9 +10,13 @@
 		// 초기화
 		init : function () {
 
+			// 얼랏 레이어 팝업 확인 선택 시
+			$(document).on('click', '#alert_layer .ok', function() {
+				$Layer.hideLayer('alert_layer', '');
+			});
+
 			// 날짜 선택 레이어 팝업 선택 효과
-			$(document).on('click touchend', '.datepicker-layer li', function(e) {
-				e.preventDefault();
+			$(document).on('click', '.datepicker-layer li', function() {
 
 				let year = $('.datepicker-layer .txt-year').text();
 				let month = $('.datepicker-layer .txt-month').text();
@@ -105,12 +109,11 @@
 				});
 
 				let date = new Date(year + '-' + month + '-' + day);
-				$('.datepicker-layer .txt-weekday').text($Util.dayWeek(date));
+				$('.datepicker-layer .txt-weekday').text($Util.dateFormat('dayWeek', date));
 			});
 			
 			// 물주기 간격일 레이어 팝업 선택 효과
-			$(document).on('click touchend', '.selectbox-layer .list li', function(e) {
-				e.preventDefault();
+			$(document).on('click', '.selectbox-layer .list li', function() {
 
 				$('.selectbox-layer .list li').removeClass('selected');
 				$(this).addClass('selected');
@@ -206,7 +209,7 @@
 			$('.datepicker-layer .txt-year').text(year);
 			$('.datepicker-layer .txt-month').text(month);
 			$('.datepicker-layer .txt-day').text(day);
-			$('.datepicker-layer .txt-weekday').text($Util.dayWeek(date));
+			$('.datepicker-layer .txt-weekday').text($Util.dateFormat('dayWeek', date));
 			
 			let j = 0;
 			for (let i=yearStart; i<=yearEnd; i++) {

@@ -9,6 +9,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MyPlantListScreen from '~/Screens/Main/MyPlant/MyPlantList';
 import MyPlantDetailScreen from '~/Screens/Main/MyPlant/MyPlantDetail';
 import MyPlantFormScreen from '~/Screens/Main/MyPlant/MyPlantForm';
+import DiaryListScreen from '~/Screens/Main/MyPlant/DiaryList';
+
 import CommunityScreen from '~/Screens/Main/Community';
 
 // import SettingScreen from '~/Screens/Setting';
@@ -152,12 +154,6 @@ const MainNavigator = () => {
 
 // 내식물
 const MyPlant = () => {
-    const router = useRoute();
-    let screen = null;
-
-    if (Object.keys(router).state) {
-        screen = router.state.routes[router.state.index].name;
-    }
 
     return (
         <Stack.Navigator>
@@ -170,33 +166,40 @@ const MyPlant = () => {
             <Stack.Screen
                 name="MyPlantDetail"
                 component={MyPlantDetailScreen}
-                options={headerTitleOption('식물 상세')}
+                options={headerTitleOption('식물 상세',
+                    <HeaderRight 
+                        title={'수정'}
+                        screen={'MyPlantDetail'}
+                    />
+                )}
             />
 
             <Stack.Screen
                 name="MyPlantInsertForm"
                 component={MyPlantFormScreen}
-                options={
-                    headerTitleOption('식물 등록', 
-                        <HeaderRight 
-                            title={'완료'}
-                            screen={screen}
-                        />
-                    )
-                }
+                options={headerTitleOption('식물 등록', 
+                    <HeaderRight 
+                        title={'등록'}
+                        screen={'MyPlantInsertForm'}
+                    />
+                )}
             />
 
             <Stack.Screen
                 name="MyPlantUpdateForm"
                 component={MyPlantFormScreen}
-                options={
-                    headerTitleOption('식물 수정', 
-                        <HeaderRight 
-                            title={'완료'}
-                            screen={screen}
-                        />
-                    )
-                }
+                options={headerTitleOption('식물 수정', 
+                    <HeaderRight 
+                        title={'수정'}
+                        screen={'MyPlantUpdateForm'}
+                    />
+                )}
+            />
+
+            <Stack.Screen
+                name="DiaryList"
+                component={DiaryListScreen}
+                options={headerTitleOption('다이러리')}
             />
     </Stack.Navigator>
   );
@@ -207,9 +210,9 @@ const Calendar = () => {
     const router = useRoute();
     let screen;
 
-    if (router.state) {
-        screen = router.state.routes[router.state.index].name;
-    }
+    // if (router.state) {
+    //     screen = router.state.routes[router.state.index].name;
+    // }
 
     return (
         <Stack.Navigator>

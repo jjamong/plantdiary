@@ -6,24 +6,13 @@ import Styled from 'styled-components/native';
 import {ConfigContext} from '~/Context/Config';
 
 // 스타일 설정
-const TouchableOpacity = Styled.TouchableOpacity`
-    marginRight: 20px;
-`;
-// const Text = Styled.Text`
-//     color: #00A964;
-//     fontSize: 14px;
-//     fontFamily: 'NanumGothic-Bold';
-// `;
-const Text = Styled.Text`
-    color: #00A964;
-    fontSize: 14px;
-`;
+const TouchableOpacity = Styled.TouchableOpacity`marginRight: 20px;`;
+const Text = Styled.Text`color: #00A964; fontSize: 14px;`;
 
 const HeaderRight = (props) => {
-    const {setHeaderButton} = useContext<configContext>(ConfigContext);
+    const {setHeaderButton} = useContext(ConfigContext);
   
     useEffect(() => {
-        console.log(props.screen)
     }, []);
 
     const onPressAction = () => {
@@ -31,7 +20,7 @@ const HeaderRight = (props) => {
         setHeaderButton(props.screen);
         setTimeout(function() {
             setHeaderButton('');
-        })
+        });
     }
 
     return (

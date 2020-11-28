@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import Styled from 'styled-components/native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview'
 
 // 컨텍스트
@@ -15,48 +15,42 @@ import Loading from '~/Components/Loading';
 const BannerContainer = Styled.View`height:60px`
 
 /*
- * MyPlantForm 내 식물 폼 스크린
+ * MyPlant 내식물 스크린
  */
 let firstLoadCheck = true;  // 처음 로드됬는지 체크
 
-const MyPlantForm = () => {
+const DiaryList = () => {
     const navigation = useNavigation();
-    const router = useRoute();
-    
+
     const {getUserInfo} = useContext(UserContext);
-    const {webViewUrl, headerButton, webViewSendMessage} = useContext(ConfigContext);
-    
+    const {webViewUrl, webViewSendMessage} = useContext(ConfigContext);
+
     useEffect(() => {
-        myplantFormWebview.reload();
-        firstLoadCheck = true;
         screenFocus();
     }, []);
-
+  
     // 화면 포커스 시 실행되는 함수
     const screenFocus = (): void => {
         navigation.addListener('focus', () => {
             if (firstLoadCheck) return;
-            // WebView 호출 완료 후 실행 함수
-            webViewLoad();
+            //webViewLoad();
+            diaryListWebview.reload();
         });
     };
 
     // WebView 호출 완료 후 실행 함수
-    const webViewLoad = async (): Promise<void> => {
+    const webViewLoad = async (webview): Promise<void> => {
+        firstLoadCheck = false;
 
         let userData = await getUserInfo();
-        let myplantSeq;
-        if (router.params) myplantSeq = router.params.myplantSeq;
-
         let message = {
             key : 'webViewLoad',
             data : {
-                myplantSeq : myplantSeq,
                 userData : userData
             }
         }
-        webViewSendMessage(myplantFormWebview, message);
-        firstLoadCheck = false;
+        
+        webViewSendMessage(webview, message);
     };
 
     // WebView 메시지
@@ -67,40 +61,36 @@ const MyPlantForm = () => {
 
         // 웹뷰 준비 완료
         if (key === 'webViewReady') {
-            
-        // 저장 완료 후 리스트 스크린 이동
-        } else if (key === 'insertSuccess') {
-            navigation.navigate('MyPlantList')
+        
+        // 설정 스크린 이동
+        } else if (key === 'moveSetting') {
+            navigation.navigate('Setting');
+
+        // 내식물 등록 페이지 이동
+        } else if (key === 'myplantForm') {
+            navigation.navigate('MyPlantInsertForm');
+
+        // 내식물 상세 페이지 이동
+        } else if (key === 'moveMyplantDetail') {
+            navigation.navigate('MyPlantDetail', {myplantSeq: data.myplantSeq});
+
+        // 로그인 스크린 이동
+        } else if (key === 'moveLogin') {
+            navigation.navigate('Login', {loginNextScreen: 'MyPlantList'});
         }
     };
-
-    // 헤더 등록 버튼 선택 시
-    if (headerButton == 'MyPlantInsertForm') {
-        let message = {
-            key : 'insert',
-                data : {}
-        }
-        webViewSendMessage(myplantFormWebview, message);
-    // 헤더 수정 버튼 선택 시
-    } else if (headerButton == 'MyPlantUpdateForm') {
-        let message = {
-            key : 'update',
-                data : {}
-        }
-        webViewSendMessage(myplantFormWebview, message);
-    }
 
     return (
         <>
             <WebView
                 source={{
-                    uri: webViewUrl + '/myplant/form'
+                    uri: webViewUrl + '/diary/list'
                 }}
                 onMessage={event => {
                     webViewMessage(event.nativeEvent.data);
                 }}
-                ref={(ref) => (myplantFormWebview = ref)}
-                onLoadEnd={e => webViewLoad(myplantFormWebview)}
+                ref={(ref) => (diaryListWebview = ref)}
+                onLoadEnd={e => webViewLoad(diaryListWebview)}
                 startInLoadingState={true}
                 renderLoading={() => <Loading />}
             />
@@ -111,4 +101,4 @@ const MyPlantForm = () => {
     );
 };
 
-export default MyPlantForm;
+export default DiaryList;

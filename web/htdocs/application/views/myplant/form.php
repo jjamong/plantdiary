@@ -16,8 +16,8 @@
 								<div class="plant-form-section">
 									<div class="item myplant-img-section">
 										<label class="image-view" for="sys_myplant_img">
-											<div class="img default"><img src="<?=SITE_URL?>resource/images/plant_default_img.jpg" /></div>
-											<div class="camera"><img src="<?=SITE_URL?>resource/images/camera_icon.png" /></div>
+											<div class="img default"><img src="/resource/images/plant_default_img.jpg" /></div>
+											<div class="camera"><img src="/resource/images/camera_icon.png" /></div>
 										</label>
 										<div class="input sys_myplant_img"><input type="file" name="sys_myplant_img" id="sys_myplant_img" /></div>
 									</div>
@@ -54,7 +54,7 @@
 									<div class="item water-yn-section">
 										<label for="water_yn" class="label">물주기</label>
 										<div class="toggle toggle-water">
-											<input type="checkbox" name="water_yn" id="water_yn" class="toggle-checkbox" value='Y'>
+											<input type="checkbox" name="water_yn" id="water_yn" class="toggle-checkbox" value='Y' checked onclick="return false;">
 											<label class="toggle-btn" for="water_yn"><span class="toggle-feature"></span></label>
 										</div>
 									</div>
@@ -94,21 +94,21 @@
 										<div class="image-section">
 											<div class="image">
 												<label for="sys_diary_img1">
-													<div class="img"><img src="<?=SITE_URL?>resource/images/plant_default_img.jpg" /></div>
+													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
 												</label>
 												<div class="input sys_diary_img1"><input type="file" name="sys_diary_img-1" id="sys_diary_img1" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
 											<div class="image">
 												<label for="sys_diary_img2">
-													<div class="img"><img src="<?=SITE_URL?>resource/images/plant_default_img.jpg" /></div>
+													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
 												</label>
 												<div class="input sys_diary_img2"><input type="file" name="sys_diary_img-2" id="sys_diary_img2" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
 											<div class="image">
 												<label for="sys_diary_img3">
-													<div class="img"><img src="<?=SITE_URL?>resource/images/plant_default_img.jpg" /></div>
+													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
 												</label>									
 												<div class="input sys_diary_img3"><input type="file" name="sys_diary_img-3" id="sys_diary_img3" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
@@ -176,7 +176,7 @@
 
 					// 웹 상태일 경우
 					if (app.webMode) {
-						//myplantSeq = 92;
+						myplantSeq = 167;
 
 						// 등록일 경우
 						if (!myplantSeq) {
@@ -197,20 +197,30 @@
 								url: '/api/myplant/select',
 								type: 'get',
 								data: {
+									user_seq: app.userData.user_seq,
 									myplant_seq: myplantSeq
 								},
 								success: function(response) {
-									let plantData = JSON.parse(response);
-									sysMyplantImg = plantData.sys_myplant_img
+									response = JSON.parse(response);
+									let key = response.key;
+									let myplantRow = response.data.myplantRow;
 									
-									$('#myplant_name').val(plantData.myplant_name);
-									$('.myplant-img-section .image-view').html('<img src="<?=SITE_URL?>uploads/myplant/' + app.userData.user_seq + '/' + sysMyplantImg + '">');
-									
-									//$('#sys_myplant_img').val(sysMyplantImg)
-									
-									$('#adop_date').val(util.formatDate(plantData.adop_date, 'noDivision'));
-									$('#last_watering_date').val(util.formatDate(plantData.last_watering_date, 'noDivision'));
-									$('#water_interval').val(plantData.water_interval);
+									if (key == 'success') {
+										$('.diary-form-section').css('display', 'none');
+										console.log(response)
+
+										let myplant_img;
+										if (myplantRow.sys_myplant_img) {
+											myplant_img = '/uploads/user_' + myplantRow.user_seq + '/myplant_' + myplantRow.myplant_seq + '/' + myplantRow.sys_myplant_img;
+										} else {
+											myplant_img = '/resource/images/plant_default_img.jpg';
+										}
+										$('.image-view .img img').attr('src', myplant_img);
+										$('#myplant_name').val(myplantRow.myplant_name);
+										$('#first_grow_date').val(util.dateFormat('noDivision', myplantRow.first_grow_date));
+										$('#water_interval').val(myplantRow.water_interval + '일');
+										$('#water_day').val(util.dateFormat('noDivision', myplantRow.water_day));
+									}
 								}
 							});
 						}
@@ -231,31 +241,21 @@
 						layer.showDetePicker('datepicker_layer', 'first-grow-date', date);
 					});
 					// 키우기 시작한 날 선택 레이어 팝업 선택 시
-					$(document).on('click touchend', '.first-grow-date .layer-close', function(e) {
-						e.preventDefault();
+					$(document).on('click', '.first-grow-date .layer-close', function() {
 
-						layer.hideLayer('datepicker_layer', 'first-grow-date');
-						
 						if ($(this).hasClass('ok')) {
 							let date = layer.selectDetePicker();
-							$('#first_grow_date').val(util.formatDate(date, 'noDivision'));
-						}
-					});
+							let dateDiff = util.dateCalculate('today', util.dateFormat('noDivision', date));
 
-					// 다음 물 줄 날 선택 시
-					$('#water_day').on('click', function() {
-						let date = ($('#water_day').val()) ? new Date($('#water_day').val()) : new Date();
-						layer.showDetePicker('datepicker_layer', 'water-day', date);
-					});
-					// 키우기 시작한 날 레이어 팝업 선택 시
-					$(document).on('click touchend', '.water-day .layer-close', function(e) {
-						e.preventDefault();
-
-						layer.hideLayer('datepicker_layer', 'water-day');
-						
-						if ($(this).hasClass('ok')) {
-							let date = layer.selectDetePicker();
-							$('#water_day').val(util.formatDate(date, 'noDivision'));
+							// 오늘 날짜보다 큰 날짜일 경우
+							if (dateDiff > 0) {
+								layer.showLayer('alert_layer', '', '오늘 날짜 보다 클 수 없습니다.');
+							} else {
+								$('#first_grow_date').val(util.dateFormat('noDivision', date));
+								layer.hideLayer('datepicker_layer', 'first-grow-date');
+							}
+						} else {
+							layer.hideLayer('datepicker_layer', 'first-grow-date');
 						}
 					});
 
@@ -275,8 +275,7 @@
 						layer.showLayer('selectbox_layer', 'water-interval')
 					});
 					// 물주기 간격일 레이어 팝업 선택 시
-					$(document).on('click touchend', '.water-interval .layer-close', function(e) {
-						e.preventDefault();
+					$(document).on('click', '.water-interval .layer-close', function() {
 
 						layer.hideLayer('selectbox_layer', 'water-interval');
 						
@@ -287,19 +286,50 @@
 					});
 
 					// 다음 물 줄 날 선택 시
+					$('#water_day').on('click', function() {
+						let date = ($('#water_day').val()) ? new Date($('#water_day').val()) : new Date();
+						layer.showDetePicker('datepicker_layer', 'water-day', date);
+					});
+					// 다음 물 줄 날 레이어 팝업 선택 시
+					$(document).on('click', '.water-day .layer-close', function() {
+						
+						if ($(this).hasClass('ok')) {
+							let date = layer.selectDetePicker();
+							let dateDiff = util.dateCalculate('today', util.dateFormat('noDivision', date));
+
+							// 오늘 날짜보다 작은 날짜일 경우
+							if (dateDiff < 0) {
+								layer.showLayer('alert_layer', '', '오늘 날짜 보다 작을 수 없습니다.');
+							} else {
+								$('#water_day').val(util.dateFormat('noDivision', date));
+								layer.hideLayer('datepicker_layer', 'water-day');
+							}
+						} else {
+							layer.hideLayer('datepicker_layer', 'water-day');
+						}
+					});
+
+					// 다이어리 날짜 선택 시
 					$('.diary-form-section .diary-date').on('click', function() {
 						let date = ($('.diary-form-section .diary-date').text()) ? new Date($('.diary-form-section .diary-date').text()) : new Date();
 						layer.showDetePicker('datepicker_layer', 'diary-date', date);
 					});
-					// 다음 물 줄 날 레이어 팝업 선택 시
-					$(document).on('click touchend', '.diary-date .layer-close', function(e) {
-						e.preventDefault();
-
-						layer.hideLayer('datepicker_layer', 'diary-date');
+					// 다이어리 날짜 레이어 팝업 선택 시
+					$(document).on('click', '.diary-date .layer-close', function() {
 						
 						if ($(this).hasClass('ok')) {
 							let date = layer.selectDetePicker();
-							$('.diary-date').text(util.formatDate(date, 'noDivision'));
+							let dateDiff = util.dateCalculate('today', util.dateFormat('noDivision', date));
+
+							// 오늘 날짜보다 큰 날짜일 경우
+							if (dateDiff > 0) {
+								layer.showLayer('alert_layer', '', '오늘 날짜 보다 클 수 없습니다.');
+							} else {
+								$('.diary-form-section .diary-date').text(util.dateFormat('noDivision', date));
+								layer.hideLayer('datepicker_layer', 'diary-date');
+							}
+						} else {
+							layer.hideLayer('datepicker_layer', 'diary-date');
 						}
 					});
 
@@ -322,71 +352,19 @@
 						form.require('water_day', '다음 물 줄 날', {msgType: 'msg'});
 
 						if (form.validate()) {
-							layer.showLayer('confirm_layer', 'submit-confirm', '등록 하시겠습니까?');
+							layer.showLayer('confirm_layer', 'insert-confirm', '등록 하시겠습니까?');
 						}
 					}
 
-					// 등록/수정 컨펌창 선택 시
-					$(document).on('click touchend', '.submit-confirm .layer-close', function(e) {
-						e.preventDefault();
-						
-						layer.hideLayer('confirm_layer', 'submit-confirm');
+					// 등록 컨펌창 선택 시
+					$(document).on('click', '.insert-confirm .layer-close', function() {
 						
 						if ($(this).hasClass('ok')) {
 							insert();
 						}
+						layer.hideLayer('confirm_layer', 'insert-confirm');
 					});
-
-					// 수정 폼 체크
-					function formCheckUpdate() {
-
-						let form;
-
-						// 파일찾기 체크
-						let fileCheck = false;
-						if (sysMyplantImg != '') {
-							if (myplantImgFile == undefined) {
-								//console.log('패스')
-							} else if (myplantImgFile) {
-								if (myplantImgFile.length == 0) {
-									//console.log('패스')
-								} else {
-									fileCheck = true;
-								}
-							} else {
-								fileCheck = true;
-							}
-						} else {
-							fileCheck = true;
-						}
-
-						form = new $Form('myplantForm');
-						form.require('myplant_name', '이름', {msgType: 'msg'});
-						if (fileCheck) form.require('sys_myplant_img', '이미지', {msgType: 'msg'});
-						form.require('adop_date', '입양일', {msgType: 'msg'});
-						form.require('last_watering_date', '마지막 물준날', {msgType: 'msg'});
-						form.require('water_interval', '물주기 설정', {msgType: 'msg'});
-
-						if (form.validate()) {
-							
-							let msg = '수정 하시겠습니까?';
-							// 웹 상태일 경우
-							if (app.webMode) {
-								if (confirm(msg)) {
-									update();
-								}
-							}
-
-							let message = {
-								key : 'confirmMyPlantUpdate',
-								data : {
-									message : msg
-								}
-							}
-							app.reactNativePostMessage(message);
-						}
-					}
-
+					
 					// 등록
 					function insert() {
 						let formData;
@@ -428,6 +406,76 @@
 						});
 					};
 
+					// 수정 폼 체크
+					function formCheckUpdate() {
+
+						let form;
+						form = new $Form('myplantForm');
+						form.require('myplant_name', '이름', {msgType: 'msg'});
+						form.require('first_grow_date', '키우기 시작한 날', {msgType: 'msg'});
+						form.require('water_interval', '물주기 간격일', {msgType: 'msg'});
+						form.require('water_day', '다음 물 줄 날', {msgType: 'msg'});
+
+						if (form.validate()) {
+							layer.showLayer('confirm_layer', 'update-confirm', '수정 하시겠습니까?');
+						}
+
+						// let form;
+
+						// // 파일찾기 체크
+						// let fileCheck = false;
+						// if (sysMyplantImg != '') {
+						// 	if (myplantImgFile == undefined) {
+						// 		//console.log('패스')
+						// 	} else if (myplantImgFile) {
+						// 		if (myplantImgFile.length == 0) {
+						// 			//console.log('패스')
+						// 		} else {
+						// 			fileCheck = true;
+						// 		}
+						// 	} else {
+						// 		fileCheck = true;
+						// 	}
+						// } else {
+						// 	fileCheck = true;
+						// }
+
+						// form = new $Form('myplantForm');
+						// form.require('myplant_name', '이름', {msgType: 'msg'});
+						// if (fileCheck) form.require('sys_myplant_img', '이미지', {msgType: 'msg'});
+						// form.require('adop_date', '입양일', {msgType: 'msg'});
+						// form.require('last_watering_date', '마지막 물준날', {msgType: 'msg'});
+						// form.require('water_interval', '물주기 설정', {msgType: 'msg'});
+
+						// if (form.validate()) {
+							
+						// 	let msg = '수정 하시겠습니까?';
+						// 	// 웹 상태일 경우
+						// 	if (app.webMode) {
+						// 		if (confirm(msg)) {
+						// 			update();
+						// 		}
+						// 	}
+
+						// 	let message = {
+						// 		key : 'confirmMyPlantUpdate',
+						// 		data : {
+						// 			message : msg
+						// 		}
+						// 	}
+						// 	app.reactNativePostMessage(message);
+						// }
+					}
+					
+					// 수정 컨펌창 선택 시
+					$(document).on('click', '.update-confirm .layer-close', function() {
+						
+						if ($(this).hasClass('ok')) {
+							update();
+						}
+						layer.hideLayer('confirm_layer', 'update-confirm');
+					});
+
 					// 수정
 					function update() {
 						let formData;
@@ -435,10 +483,9 @@
 						formData.append('user_seq', app.userData.user_seq);
 						formData.append('myplant_seq', myplantSeq);
 						formData.append('myplant_name', $('#myplant_name').val());
-						formData.append('sys_myplant_img', $('#sys_myplant_img')[0].files[0]);
-						formData.append('adop_date', $('#adop_date').val().replace(/-/gi, ''));
-						formData.append('last_watering_date', $('#last_watering_date').val().replace(/-/gi, ''));
-						formData.append('water_interval', $('#water_interval').val());
+						formData.append('first_grow_date', $('#first_grow_date').val().replace(/-/gi, ''));
+						formData.append('water_interval', $('#water_interval').val().slice(0, -1));
+						formData.append('water_day', $('#water_day').val().replace(/-/gi, ''));
 
 						$.ajax({
 							url: '/api/myplant/update',
@@ -447,11 +494,17 @@
 							processData: false, // 필수
 							contentType: false, // 필수
 							success: function(response) {
-								let message = {
-									key : 'myPlantFormSuccess',
-									data : {}
+								response = JSON.parse(response);
+								let key = response.key;
+								let data = response.data;
+								
+								if (key == 'success') {
+									let message = {
+										key : 'myPlantFormSuccess',
+										data : {}
+									}
+									app.reactNativePostMessage(message);
 								}
-								app.reactNativePostMessage(message);
 							}
 						});
 					}

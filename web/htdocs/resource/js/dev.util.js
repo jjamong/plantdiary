@@ -67,16 +67,21 @@
 
 		/*
 			날짜 포맷 변경
-			@param date 날자
 			@param type 값없음(기본) : Date형태 -> YYYY-MM-DD
 						noDivision : YYYYMMDD -> YYYY-MM-DD
-			@return String 날짜(YYYY-MM-DD)
+						dayWeek : YYYYMMDD -> 요일(월~일요일)
+			@param date 날자
+			@return String YYYY-MM-DD/요일(월~일요일)
 		*/
-		formatDate : function (date, type) {
+		dateFormat : function (type, date) {
 			let result;
 
 			if (type == 'noDivision') {
 				result = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6, 8);
+			} else if (type == 'dayWeek') {
+				let week = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일');
+				let today = new Date(date).getDay();
+				result = week[today];
 			} else {
 				let d = new Date(date),
 				month = '' + (d.getMonth() + 1),
@@ -95,39 +100,32 @@
 		},
 
 		/*
-			요일 변경
-			@param date 날자
-			@return String 요일(월~일요일)
+			날짜 계산
+			@param type 'today' 오늘날짜 - date(입력날짜)
+			@param date 입력 날짜
+			@param date2 입력 날짜
+			@return String 날짜 차이
 		*/
-		dayWeek : function (date) {
-			let result;
-
-			let week = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일');
-			let today = new Date(date).getDay();
-			result = week[today];
-
-			return result;
-		},
-
-		/*
-			D-Day 계산
-			@param date 목표날짜
-			@return String d-day
-		*/
-		dDay : function (date) {
-			let toDay = new Date();
+		dateCalculate : function (type, date, date2) {
+			let toDay = new Date(this.dateFormat('', new Date()));
 			let toDate = new Date(date);
-			let gap = toDay.getTime() - toDate.getTime();
-			let result = Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
+			let gap;
+
+			if (type == 'today') {
+				gap = toDate.getTime() - toDay.getTime();
+			} else {
+				gap = toDate.getTime() - toDay.getTime();
+			}
+			let result = gap / 1000 / 60 / 60 / 24;
 			return result;
 		},
 
 		/*
-			D-Day 텍스트 표기
+			물 줄 날 텍스트 표기
 			@param day d-day
 			@return String d-day 텍스트
 		*/
-		dDayHtml : function (day) {
+		waterDayHtml : function (day) {
 			let html = '';
 			if (day == 0) {
 				html = '<span class="waterday">물 주는 날';

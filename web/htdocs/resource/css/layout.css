@@ -140,6 +140,7 @@
 .myplant-list .list .control-section .btn {float: left; margin-left: 5px; width: 60px; text-align: center; line-height: 25px; font-size: 12px;}
 .myplant-list .list .control-section .care {border-radius: 15px; background: #00A964; color:#fff; border: 1px solid #00A964;}
 .myplant-list .list .control-section .diary {border-radius: 15px; border: 1px solid #00A964; color:#00A964;}
+.myplant-list .list .nodata {line-height: calc(100vh - 200px); text-align: center;}
 .myplant-list .btn-section {display: none; position: fixed; right: 0.5rem; bottom: 0.5rem;}
 .myplant-list .btn-section .plus {width: 48px; height: 48px;}
 .myplant-list .login {margin-top: 10rem; text-align: center;}

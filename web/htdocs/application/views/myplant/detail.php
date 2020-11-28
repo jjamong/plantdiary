@@ -88,7 +88,7 @@
 					// 웹 상태일 경우
 					if (app.webMode) {
 						// 식물 상세 가져오기
-						myplantSeq = 25;
+						myplantSeq = 167;
 						getPlantDetail();
 					}
 
@@ -105,30 +105,30 @@
 								success: function(response) {
 									response = JSON.parse(response);
 									let key = response.key;
-									let mplantRow = response.data.mplantRow;
+									let myplantRow = response.data.myplantRow;
 									let diaryResult = response.data.diaryResult;
 									
 									if (key == 'success') {
 										
 										// 내식물 설정
 										let myplant_img;
-										if (mplantRow.sys_myplant_img) {
-											myplant_img = '<?=SITE_URL?>uploads/user_' + mplantRow.user_seq + '/myplant_' + mplantRow.myplant_seq + '/' + mplantRow.sys_myplant_img;
+										if (myplantRow.sys_myplant_img) {
+											myplant_img = '/uploads/user_' + myplantRow.user_seq + '/myplant_' + myplantRow.myplant_seq + '/' + myplantRow.sys_myplant_img;
 										} else {
 											myplant_img = '/resource/images/plant_default_img.jpg';
 										}
-										let water_day = util.formatDate(mplantRow.water_day, 'noDivision');
-										let diary_date = util.formatDate(mplantRow.diary_date, 'noDivision');
-										let day = util.dDay(water_day);
-										let thday = util.dDay(util.formatDate(mplantRow.first_grow_date, 'noDivision')) * -1;
+										let water_day = util.dateFormat('noDivision', myplantRow.water_day);
+										let diary_date = util.dateFormat('noDivision', myplantRow.diary_date);
+										let day = util.dateCalculate('today', water_day);
+										let thday = (util.dateCalculate('today', util.dateFormat('noDivision', myplantRow.first_grow_date)) * -1) + 1;
 										
 										$('.image-section .img').html('<img src="' + myplant_img + '">');
-										$('.content-section .title').html(mplantRow.myplant_name);
-										$('.content-section .first-grow-date .desc').html(util.formatDate(mplantRow.first_grow_date, 'noDivision') + ' ' + '(' + thday + '일째)');
-										$('.content-section .water-interval .desc').html(mplantRow.water_interval + '일');
+										$('.content-section .title').html(myplantRow.myplant_name);
+										$('.content-section .first-grow-date .desc').html(util.dateFormat('noDivision', myplantRow.first_grow_date) + ' ' + '(' + thday + '일째)');
+										$('.content-section .water-interval .desc').html(myplantRow.water_interval + '일');
 										$('.content-section .water-day').addClass(util.waterDayCheck(day));
-										$('.content-section .water-day .desc').html(water_day + ' ' + util.dayWeek(water_day) + ' (' + util.dDayHtml(day) + ')');
-										$('.content-section .last-watering-date .desc').html(diary_date + ' ' + util.dayWeek(diary_date));
+										$('.content-section .water-day .desc').html(water_day + ' ' + util.dateFormat('dayWeek', water_day) + ' (' + util.waterDayHtml(day) + ')');
+										$('.content-section .last-watering-date .desc').html(diary_date + ' ' + util.dateFormat('dayWeek', diary_date));
 
 										// 다이어리 최근 데이터 설정
 										let diaryhtml = "";
@@ -148,7 +148,7 @@
 
 												diaryhtml += '<li data-myplantdiaryseq="' + diaryResult[i].myplant_diary_seq + '">';
 												diaryhtml += '	<div class="diary-date-section">';
-												diaryhtml += '		<div class="diary-date">' + util.formatDate(diaryResult[i].diary_date, 'noDivision') + '</div>';
+												diaryhtml += '		<div class="diary-date">' + util.dateFormat('noDivision', diaryResult[i].diary_date) + '</div>';
 												diaryhtml += '	</div>';
 												diaryhtml += '	<div class="diary-detail-section">';
 												diaryhtml += '		<div class="left">';
@@ -177,80 +177,11 @@
 						}
 					}
 
-					// 물주기 선택 시
-					let selectMyplantSeq = 0;
-					let selectMyplantState;
-					$('.myplant-detail .water').on('click', function() {
-						let msg = '';
-
-						// 물주는 날에 물을 줄 경우
-						if ($(this).parents('.title-section').find('.waterday').length > 0) {
-							msg = '물을 주시겠습니까?';
-							selectMyplantState = 'waterday';
-
-						// 물주는 날 전에 미리 물을 줄 경우
-						} else if ($(this).parents('.title-section').find('.inadvance').length > 0) {
-							msg = '미리 물을 주시겠습니까?\n이후 물주기가 변경됩니다.';
-							selectMyplantState = 'inadvance';
-						
-						// 물주는 날 후에 늦게 물을 줄 경우
-						} else if ($(this).parents('.title-section').find('.warning').length > 0) {
-							msg = '물을 주시겠습니까?';
-							selectMyplantState = 'warning';
-						}
-
-						// 웹 상태일 경우
-						if (app.webMode) {
-							if (confirm(msg)) {
-								watering();
-							}
-						}
-						
+					// 다이어리 전체 보기 선택 시
+					$('.diary-section .diary-all').on('click', function() {
 						let message = {
-							key : 'confirmWatering',
-							data : {
-								message : msg
-							}
-						}
-						app.reactNativePostMessage(message);
-					});
-
-					// 물주기
-					function watering() {
-						$.ajax({
-							url: '/api/calendar/myplantWatering',
-							type: 'get',
-							data: {
-								myplant_seq: myplantSeq,
-								user_seq: app.userData.user_seq,
-								state: selectMyplantState
-							},
-							success: function(response) {
-								
-								// 식물 상세 가져오기
-								getPlantDetail();
-							}
-						});
-					}
-
-					// 미루기 선택 시
-					$('.myplant-detail .procrastina').on('click', function() {
-						let message = {
-							key : 'showProcrastina',
-							data : {
-								myplantSeq : myplantSeq
-							}
-						}
-						app.reactNativePostMessage(message);
-					});
-
-					// 수정
-					$('.control-section .modify').on('click', function() {
-						let message = {
-							key : 'moveMyplantForm',
-							data : {
-								myplantSeq : myplantSeq
-							}
+							key : 'moveDiaryList',
+							data : {}
 						}
 						app.reactNativePostMessage(message);
 					});

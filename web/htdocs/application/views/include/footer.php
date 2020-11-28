@@ -5,8 +5,8 @@
 					<div class="message-section">
 						<p class="message"></p>
 					</div>
-					<div class="btn-section">
-						<button type="button" class="btn ok layer-close">확인</button>
+					<div class="btn-section btn-1">
+						<div class="btn ok layer-close">확인</div>
 					</div>
 				</div>
 				

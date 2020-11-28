@@ -87,7 +87,7 @@ class myplant extends CI_Controller {
 		$result = array(
 			'key' => 'success',
 			'data' => array(
-				'mplantRow' => $myplant_query->row(),
+				'myplantRow' => $myplant_query->row(),
 				'diaryResult' => $diary_query->result()
             )
 		);
@@ -125,6 +125,9 @@ class myplant extends CI_Controller {
 		$medicine_yn = $this->input->post('medicine_yn', TRUE);
 		$pot_replace_yn = $this->input->post('pot_replace_yn', TRUE);
 		$diary_content = $this->input->post('diary_content', TRUE);
+        $sys_diary_img_1 = $_FILES['sys_diary_img-1']['name'];
+        $sys_diary_img_2 = $_FILES['sys_diary_img-2']['name'];
+        $sys_diary_img_3 = $_FILES['sys_diary_img-3']['name'];
 
 		$diary_set = array(
 			'diary_date' => $diary_date,
@@ -173,7 +176,10 @@ class myplant extends CI_Controller {
 		$myplant_diary_seq = $diaryRow->myplant_diary_seq;
 		
 		// 다이어리 이미지 저장
-		$arrayFile = array('sys_diary_img-1', 'sys_diary_img-2', 'sys_diary_img-3');
+		$arrayFile = array();
+		if ($sys_diary_img_1) array_push($arrayFile, 'sys_diary_img-1');
+		if ($sys_diary_img_2) array_push($arrayFile, 'sys_diary_img-2');
+		if ($sys_diary_img_3) array_push($arrayFile, 'sys_diary_img-3');
 		for($i=0; $i<sizeof($arrayFile); $i++) {
 			
 			$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq.'/diary_'.$myplant_diary_seq;
@@ -221,19 +227,20 @@ class myplant extends CI_Controller {
      */
 	function update() {
 		
+		$sys_myplant_img = $_FILES['sys_myplant_img']['name'];
 		$user_seq = $this->input->post('user_seq', TRUE);
 		$myplant_seq = $this->input->post('myplant_seq', TRUE);
+
 		$myplant_name = $this->input->post('myplant_name', TRUE);
-		$sys_myplant_img = $_FILES['sys_myplant_img']['name'];
-		$adop_date = $this->input->post('adop_date', TRUE);
-		$last_watering_date = $this->input->post('last_watering_date', TRUE);
+		$first_grow_date = $this->input->post('first_grow_date', TRUE);
 		$water_interval = $this->input->post('water_interval', TRUE);
+		$water_day = $this->input->post('water_day', TRUE);
 
 		$update_array = array(
 			'myplant_name' => $myplant_name,
-			'adop_date' => $adop_date,
-			'last_watering_date' => $last_watering_date,
+			'first_grow_date' => $first_grow_date,
 			'water_interval' => $water_interval,
+			'water_day' => $water_day,
 			'upd_date'	=>date('Ymd'),
 			'upd_time'	=>date('His')
 		);
@@ -241,19 +248,31 @@ class myplant extends CI_Controller {
 		$this->db->trans_start();
 
 		// 파일을 변경 했을 경우
+		$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq;
 		if($sys_myplant_img != '') {
-			$this->file_manager->deletefile('myplant', 'myplant/'.$user_seq, 'myplant_seq',  $myplant_seq, 'sys_myplant_img');
+			$this->file_manager->deletefile('myplant', $path, 'myplant_seq',  $myplant_seq, 'sys_myplant_img');
 		}
 
-		$this->load->library('upload', $this->file_manager->upload_config('myplant/'.$user_seq, 'gif|jpg|jpeg|png', '0')); //1024kb = 1mb , 10240kb=10mb
+		$this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0')); //1024kb = 1mb , 10240kb=10mb
 		$arrayFile = array('sys_myplant_img'); 
 		$this->file_manager->uploads($arrayFile , 'myplant');
-		
 
 		$this->db->where('myplant_seq', $myplant_seq);
 		$this->db->update('myplant', $update_array);
 		
 		$this->db->trans_complete();
+
+		// 응답 값 설정
+		$result = array(
+			'key' => '',
+			'data' => array()
+		);
+		if ($this->db->trans_status() === TRUE) {
+			$result['key'] = 'success';
+		} else {
+			$result['key'] = 'failure';
+		}
+		echo json_encode($result);
 	}
 
 	/**

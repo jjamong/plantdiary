@@ -89,20 +89,19 @@ textarea {resize:none;}
 /* 레이어 팝업 */
 .common-layer-popup {}
 .common-layer-popup .btn-section {overflow: hidden; height: 50px;}
+.common-layer-popup .btn-section.btn-1 .btn {width: 100%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
+.common-layer-popup .btn-section.btn-1 .ok {border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; font-weight: 700;}
 .common-layer-popup .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
 .common-layer-popup .btn-section.btn-2 .ok {border-bottom-right-radius: 10px; font-weight: 700; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
 .common-layer-popup .btn-section.btn-2 .cancel {border-bottom-left-radius: 10px;}
 
 .alert-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
-.alert-layer .message-section {padding: 20px;}
+.alert-layer .message-section {padding: 20px; border-bottom: 1px solid #00A964;}
 .alert-layer .message {text-align: center; font-size: 12px; }
-.alert-layer .btn-section {padding:10px;}
-.alert-layer .btn-section button {display: block; margin: 0 auto; width: 40px; height: 30px; font-size: 12px; background: #fff; font-weight: 400;}
 
 .confirm-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
 .confirm-layer .message-section {padding: 20px; border-bottom: 1px solid #00A964;}
 .confirm-layer .message {text-align: center; font-size: 12px; line-height: 16px;}
-.confirm-layer .btn-section {overflow: hidden; height: 50px;}
 
 /* 셀렉트 박스 */
 .selectbox-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
@@ -124,7 +123,6 @@ textarea {resize:none;}
 .datepicker-layer .select-section li {margin: 0 10px; padding: 10px 0; border-bottom: 1px solid #00A964; font-size: 14px;}
 .datepicker-layer .select-section li:last-child {border-bottom: 0}
 .datepicker-layer .select-section li.selected {font-weight: 800; color: #00A964;}
-.datepicker-layer .btn-section {overflow: hidden; height: 50px;}
 
 .plant-care-layer {display: none; border-radius: 10px; width:calc(100% - 40px); background: #fff;}
 .plant-care-layer .plant-care-section {overflow-y: scroll; height: 480px; padding: 20px; border-bottom: 1px solid #00A964;}
