@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import Styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview'
+import PushNotification from 'react-native-push-notification'
 
 // 컨텍스트
 import {ConfigContext} from '~/Context/Config';
@@ -27,6 +28,11 @@ const MyPlantList = () => {
 
     useEffect(() => {
         screenFocus();
+
+        PushNotification.localNotificationSchedule({
+            message: "notified",
+            date: new Date(Date.now() + 60 * 1000), // in 60 secs
+        });
     }, []);
   
     // 화면 포커스 시 실행되는 함수
