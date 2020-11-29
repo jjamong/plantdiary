@@ -105,29 +105,37 @@ class diary extends CI_Controller {
             if ($sys_diary_img_2) array_push($arrayFile, 'sys_diary_img-2');
             if ($sys_diary_img_3) array_push($arrayFile, 'sys_diary_img-3');
 
+            $path = 'user_'.$user_seq.'/myplant_'.$myplant_seq.'/diary_'.$myplant_diary_seq;
+            
             for($i=0; $i<sizeof($arrayFile); $i++) {
                 
-            	$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq.'/diary_'.$myplant_diary_seq;
-            	$type = 'gif|jpg|jpeg|png';
-            	$size = '0';
-
-            	// 폴더 없을 경우 생성
-            	if (!(is_dir(UPLOAD_PATH.$path) > 0)) {
-            		mkdir(UPLOAD_PATH.$path, 0777, true);
-            	}
-        
-            	$config = $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0');
-            	$this->load->library('upload', $config);
-            	$this->upload->initialize($config);
-                
-            	$this->file_manager->uploads(array($arrayFile[$i]), 'myplant_diary');
-            	$diary_img_set = array(
-            		'user_seq' => $user_seq,
-            		'myplant_seq' => $myplant_seq,
-            		'myplant_diary_seq' => $myplant_diary_seq,
-            	);
-            	$this->db->insert('myplant_diary_img', $diary_img_set);
+                // 파일 저장
+                $this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0'));
+                $this->file_manager->uploads(array($arrayFile[$i]), 'myplant_diary_img');
+                $diary_img_set = array(
+                    'user_seq' => $user_seq,
+                    'myplant_seq' => $myplant_seq,
+                    'myplant_diary_seq' => $myplant_diary_seq,
+                );
+                $this->db->insert('myplant_diary_img', $diary_img_set);
             }
+
+            // 내식물 물줄날 수정
+            $this->db->where('del_yn', 'N');
+            $this->db->where('myplant_seq', $myplant_seq);
+            $myplant_query = $this->db->get('myplant');
+            $myplant_row = $myplant_query->row();
+            // 물주기 Y일 경우
+            if ($water_yn == 'Y') {
+                $new_water_day = date('Ymd', strtotime('+'.$myplant_row->water_interval.' days'));
+            // 물주기 N일 경우
+            } else if ($water_yn == 'N') {
+                $new_water_day = date('Ymd', strtotime('-'.$myplant_row->water_interval.' days'));
+            }
+            $this->db->set('water_day', $new_water_day);
+            $this->db->where('del_yn', 'N');
+            $this->db->where('myplant_seq', $myplant_seq);
+            $this->db->update('myplant');
 
             $this->db->trans_complete();
 
@@ -176,6 +184,12 @@ class diary extends CI_Controller {
         $sys_diary_img_1 = $_FILES['sys_diary_img-1']['name'];
         $sys_diary_img_2 = $_FILES['sys_diary_img-2']['name'];
         $sys_diary_img_3 = $_FILES['sys_diary_img-3']['name'];
+		$sys_diary_img1_delyn = $this->input->post('sys_diary_img1_delyn', TRUE);
+		$sys_diary_img1_seq = $this->input->post('sys_diary_img1_seq', TRUE);
+		$sys_diary_img2_delyn = $this->input->post('sys_diary_img2_delyn', TRUE);
+		$sys_diary_img2_seq = $this->input->post('sys_diary_img2_seq', TRUE);
+		$sys_diary_img3_delyn = $this->input->post('sys_diary_img3_delyn', TRUE);
+		$sys_diary_img3_seq = $this->input->post('sys_diary_img3_seq', TRUE);
 
 		$diary_set = array(
 			'diary_date' => $diary_date,
@@ -200,7 +214,6 @@ class diary extends CI_Controller {
         
         // 전체 다이러리 물주기 개수가 1개일 경우에 물주기 비활성화 변경 시 
         if ($diary_count == 1 && $water_yn == 'N') {
-
             // 응답 값 설정
             $result = array(
                 'key' => 'waterCountFailure',
@@ -222,34 +235,58 @@ class diary extends CI_Controller {
         if ($sys_diary_img_1) array_push($arrayFile, 'sys_diary_img-1');
         if ($sys_diary_img_2) array_push($arrayFile, 'sys_diary_img-2');
         if ($sys_diary_img_3) array_push($arrayFile, 'sys_diary_img-3');
+
+        // 파일을 변경&삭제 했을 경우
+        $path = 'user_'.$user_seq.'/myplant_'.$myplant_seq.'/diary_'.$myplant_diary_seq;
+        $deleteDBConfig = array(
+            'type' => 'delete',
+            'table_name' => 'myplant_diary_img',
+            'file_column_name' => 'sys_diary_img',
+            'seq_column_name' => 'myplant_diary_img_seq',
+        );
+        if ($sys_diary_img1_delyn == 'Y' || $sys_diary_img_1 != '') {
+            $deleteDBConfig['seq'] = $sys_diary_img1_seq;
+            $this->file_manager->deletefile($path, $deleteDBConfig);
+        }
+
+        if ($sys_diary_img2_delyn == 'Y' || $sys_diary_img_2 != '') {
+            $deleteDBConfig['seq'] = $sys_diary_img2_seq;
+            $this->file_manager->deletefile($path, $deleteDBConfig);
+        }
+        
+        if ($sys_diary_img3_delyn == 'Y' || $sys_diary_img_3 != '') {
+            $deleteDBConfig['seq'] = $sys_diary_img3_seq;
+            $this->file_manager->deletefile($path, $deleteDBConfig);
+        }
         
         for($i=0; $i<sizeof($arrayFile); $i++) {
-            // $path = 'user_'.$user_seq.'/myplant_'.$myplant_seq.'/diary_'.$myplant_diary_seq;
-            // $type = 'gif|jpg|jpeg|png';
-            // $size = '0';
-
-            // // 폴더 없을 경우 생성
-            // if (!(is_dir(UPLOAD_PATH.$path) > 0)) {
-            // 	mkdir(UPLOAD_PATH.$path, 0777, true);
-            // }
-            // // 파일을 변경 했을 경우
-            // if($sys_diary_img_1 != '') {
-            //     $this->file_manager->deletefile('myplant_diary_img', $path, 'myplant_diary_img_seq',  $myplant_diary_img_seq, 'sys_myplant_img');
-            // }
-
-            // $config = $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0');
-            // $this->load->library('upload', $config);
-            // $this->upload->initialize($config);
-
-            
-            // $this->file_manager->uploads(array($arrayFile[$i]), 'myplant_diary');
-            // $diary_img_set = array(
-            // 	'user_seq' => $user_seq,
-            // 	'myplant_seq' => $myplant_seq,
-            // 	'myplant_diary_seq' => $myplant_diary_seq,
-            // );
-            // $this->db->insert('myplant_diary_img', $diary_img_set);
+            // 파일 저장
+            $this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0'));
+            $this->file_manager->uploads(array($arrayFile[$i]), 'myplant_diary_img');
+            $diary_img_set = array(
+            	'user_seq' => $user_seq,
+            	'myplant_seq' => $myplant_seq,
+            	'myplant_diary_seq' => $myplant_diary_seq,
+            );
+            $this->db->insert('myplant_diary_img', $diary_img_set);
         }
+        
+        // 내식물 물줄날 수정
+		$this->db->where('del_yn', 'N');
+		$this->db->where('myplant_seq', $myplant_seq);
+        $myplant_query = $this->db->get('myplant');
+        $myplant_row = $myplant_query->row();
+        // 물주기 Y일 경우
+        if ($water_yn == 'Y') {
+            $new_water_day = date('Ymd', strtotime('+'.$myplant_row->water_interval.' days'));
+        // 물주기 N일 경우
+        } else if ($water_yn == 'N') {
+            $new_water_day = date('Ymd', strtotime('-'.$myplant_row->water_interval.' days'));
+        }
+        $this->db->set('water_day', $new_water_day);
+        $this->db->where('del_yn', 'N');
+        $this->db->where('myplant_seq', $myplant_seq);
+        $this->db->update('myplant');
 
         $this->db->trans_complete();
 

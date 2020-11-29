@@ -133,7 +133,7 @@
 .myplant-list .list .content-section .item .last-water-day {line-height: 16px;}
 .myplant-list .list .image-section {float: right; margin-right: 28px;}
 .myplant-list .list .image-section .plant-img {}
-.myplant-list .list .image-section .img {margin: 0 auto; width: 70px; height: 70px; border: 1px solid; border-radius: 50%; color:#00A964}
+.myplant-list .list .image-section .img {margin: 0 auto; width: 70px; height: 70px; line-height: 100px; text-align: center; border: 1px solid; border-radius: 50%; color:#00A964}
 .myplant-list .list .image-section img {border-radius: 50%;}
 .myplant-list .list .control-section {position: absolute; right: 0; bottom: 20px;}
 .myplant-list .list .control-section .btn:first-child {margin-left: 0;}
@@ -183,11 +183,13 @@
 .myplant-form .header-title-section .text {margin-right: 12px; display: inline; color: #00A964}
 .myplant-form .contens-section .contents {background: #E6E6E6;}
 .myplant-form .form-section {}
-.myplant-form .form-section .myplant-img-section {}
+.myplant-form .form-section .myplant-img-section {position: relative; margin:0 auto; width: 100px;}
 .myplant-form .form-section .myplant-img-section .image-view {position: relative; display: block; border-radius: 40%; margin: 0 auto; width: 100px; height: 100px; border: 1px solid #00A964;}
 .myplant-form .form-section .myplant-img-section .image-view .default img {border-radius: 40%; width: 100%; height: 100%;}
 .myplant-form .form-section .myplant-img-section .camera {display: block; position: absolute; bottom: 0; right: 0; width: 30px; height: 30px; line-height: 40px; text-align: center; border: 1px solid #808080; border-radius: 50%; background: #fff;}
 .myplant-form .form-section .myplant-img-section .camera img {width: 20px; height: 20px;}
+.myplant-form .form-section .myplant-img-section .cancel {position: absolute; top: 0; right: 0; width: 25px; height: 25px; line-height: 30px; text-align: center; border: 1px solid #808080; background: #fff;}
+.myplant-form .form-section .myplant-img-section .cancel img {width: 15px; height: 15px;}
 .myplant-form .form-section .sys_myplant_img input {display: none;}
 .myplant-form .form-section .water-interval-section select {appearance: none; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; width: 100%; height: 2rem; margin-top: 0.5rem; border-bottom: 1px solid #00A964; background: #fff; font-size: 1.1rem; color: #666;}
 .myplant-form .form-section label {color: #00A964; font-size: 12px;}
@@ -216,10 +218,12 @@
 .myplant-form .diary-form-section .diary-img-section .label {float: none; color: #00A964; font-size: 12px;}
 .myplant-form .diary-form-section .diary-img-section .image-section {overflow: hidden;}
 .myplant-form .diary-form-section .diary-img-section .image-section .image:first-child {margin-left: 0;}
-.myplant-form .diary-form-section .diary-img-section .image-section .image {float: left; margin-left: 2%; width: 32%; height: 100px; border: 1px solid #00A964;}
+.myplant-form .diary-form-section .diary-img-section .image-section .image {position: relative; float: left; margin-left: 2%; width: 32%; height: 100px; border: 1px solid #00A964;}
 .myplant-form .diary-form-section .diary-img-section .image-section .img {height: 100%;}
 .myplant-form .diary-form-section .diary-img-section .image-section img {width: 100%; height: 100%;}
 .myplant-form .diary-form-section .diary-img-section .image-section input {display: none;}
+.myplant-form .diary-form-section .diary-img-section .image-section .cancel {position: absolute; top: -1px; right: -1px; width: 25px; height: 25px; line-height: 30px; text-align: center; border: 1px solid #808080; background: #fff;}
+.myplant-form .diary-form-section .diary-img-section .image-section .cancel img {width: 15px; height: 15px;}
 .myplant-form .diary-form-section .diary-content-section .textarea-diary-content textarea {padding: 10px; width: 100%; height: 80px; border: 1px solid #00A964; font-size: 14px;}
 
 

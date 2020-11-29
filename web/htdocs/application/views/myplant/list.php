@@ -105,7 +105,7 @@
 
 												let day = util.dateCalculate('today', util.dateFormat('noDivision', plantListData[i].water_day));
 
-												itemhtml += '<li class="li" data-myplantseq="' + plantListData[i].myplant_seq + '">';
+												itemhtml += '<li class="li" data-myplant_seq="' + plantListData[i].myplant_seq + '">';
 												itemhtml +=	'	<div class="li-section">';
 												itemhtml += '		<div class="content-section">';
 												itemhtml += '			<div class="item title">';
@@ -184,7 +184,7 @@
 						let message = {
 							key : 'moveMyplantDetail',
 							data : {
-								myplantSeq : $(this).parent('li').data('myplantseq')
+								myplantSeq : $(this).parent('li').data('myplant_seq')
 							}
 						}
 						app.reactNativePostMessage(message);
@@ -194,13 +194,13 @@
 					$(document).on('click', '.myplant-list .list .care', function() {
 						
 						// 돌보기(다이어리) 데이터 가져오기
-						let myplantSeq = $(this).parents('li').data('myplantseq');
+						let myplantSeq = $(this).parents('li').data('myplant_seq');
 						let diaryDate = util.dateFormat('', new Date()).replace(/-/gi, '');
 						getDiary(myplantSeq, diaryDate);
 						
 						// 돌보기 레이어 팝업 노출
 						layer.showLayer('plant_care_layer', 'plant-care');
-						$('#plant_care_layer').data('myplantseq', myplantSeq);
+						$('#plant_care_layer').data('myplant_seq', myplantSeq);
 					});
 					// 돌보기 레이어 팝업 확인/취소 선택 시
 					$(document).on('click', '.plant-care .layer-close', function() {
@@ -209,8 +209,8 @@
 							layer.showLayer('confirm_layer', 'plant-care-confirm', '다이어리를 저장 하시겠습니까?');
 						} else {
 							// 돌보기 팝업 닫기
-							$('#plant_care_layer').data('myplantseq', '');
-							$('#plant_care_layer').data('myplantdiaryseq', '');
+							$('#plant_care_layer').data('myplant_seq', '');
+							$('#plant_care_layer').data('myplant_diary_seq', '');
 							layer.hideLayer('plant_care_layer', 'plant-care');
 						}
 					});
@@ -235,7 +235,7 @@
 							} else {
 								$('.plant-care-layer .diary-date').text(util.dateFormat('noDivision', date));
 
-								let myplantSeq = $('.plant-care-layer').data('myplantseq');
+								let myplantSeq = $('.plant-care-layer').data('myplant_seq');
 
 								// 돌보기(다이어리) 데이터 가져오기
 								getDiary(myplantSeq, date);
@@ -249,8 +249,8 @@
 						
 						if ($(this).hasClass('ok')) {
 							
-							let myplantSeq =  $('#plant_care_layer').data('myplantseq');
-							let myplantDiarySeq =  $('#plant_care_layer').data('myplantdiaryseq');
+							let myplantSeq =  $('#plant_care_layer').data('myplant_seq');
+							let myplantDiarySeq =  $('#plant_care_layer').data('myplant_diary_seq');
 							// 다이어리 등록 시
 							if (myplantDiarySeq == '') {
 								diaryInsert(myplantSeq, myplantDiarySeq);
@@ -266,6 +266,29 @@
 					util.imagePreview($('#sys_diary_img1'));
 					util.imagePreview($('#sys_diary_img2'));
 					util.imagePreview($('#sys_diary_img3'));
+					let sysDiaryImg1;
+					let sysDiaryImg1DelYN = 'N';
+					let sysDiaryImg2;
+					let sysDiaryImg2DelYN = 'N';
+					let sysDiaryImg3;
+					let sysDiaryImg3DelYN = 'N';
+
+					// 이미지 삭제 버튼 선택 시
+					$('.image-section .image1 .cancel').on('click', function() {
+						$('.image-section .image1 .img img').attr('src', '/resource/images/plant_default_img.jpg');
+						$('#sys_diary_img1').val('');
+						sysDiaryImg1DelYN = 'Y';
+					});
+					$('.image-section .image2 .cancel').on('click', function() {
+						$('.image-section .image2 .img img').attr('src', '/resource/images/plant_default_img.jpg');
+						$('#sys_diary_img2').val('');
+						sysDiaryImg2DelYN = 'Y';
+					});
+					$('.image-section .image3 .cancel').on('click', function() {
+						$('.image-section .image3 .img img').attr('src', '/resource/images/plant_default_img.jpg');
+						$('#sys_diary_img3').val('');
+						sysDiaryImg3DelYN = 'Y';
+					});
 
 					// 돌보기(다이어리) 데이터 가져오기
 					function getDiary(myplantSeq, diaryDate) {
@@ -289,7 +312,7 @@
 
 									// 다이어리가 있을 경우
 									if (data.diaryCount > 0) {
-										$('#plant_care_layer').data('myplantdiaryseq', diaryRow.myplant_diary_seq);
+										$('#plant_care_layer').data('myplant_diary_seq', diaryRow.myplant_diary_seq);
 
 										$('#plant_care_layer .diary-date').text(util.dateFormat('noDivision', diaryRow.diary_date))
 										if (diaryRow.water_yn == 'Y') {
@@ -321,17 +344,34 @@
 										let diaryImagesCount = diaryImages.length;
 										for (let i=0; i<3; i++) {
 											let diaryImg = '/resource/images/plant_default_img.jpg';
+											$('#sys_diary_img' + (i+1)).val('');
 											$('.diary-img-section label[for="sys_diary_img' + (i+1) + '"] img').attr('src', diaryImg);
 										}
 										for (let i=0; i<diaryImagesCount; i++) {
 											let diaryImg = '/uploads/user_' + diaryRow.user_seq + '/myplant_' + diaryRow.myplant_seq + '/diary_' + diaryRow.myplant_diary_seq + '/' + diaryImages[i].sys_diary_img;
+										
+											$('.diary-img-section .image' + (i+1)).data('myplant_diary_img_seq', diaryImages[i].myplant_diary_img_seq);
 											$('.diary-img-section label[for="sys_diary_img' + (i+1) + '"] img').attr('src', diaryImg);
+											
+											if (i==0) { 
+												sysDiaryImg1 = diaryImg;
+												sysDiaryImg1DelYN = 'N';
+											}
+											if (i==1) { 
+												sysDiaryImg2 = diaryImg;
+												sysDiaryImg2DelYN = 'N';
+											}
+											if (i==2) { 
+												sysDiaryImg3 = diaryImg;
+												sysDiaryImg3DelYN = 'N';
+											}
 										}
+
 										$('#diary_content').val(diaryRow.diary_content);
 										
 									// 다이어리가 없을 경우
 									} else {
-										$('#plant_care_layer').data('myplantdiaryseq', '');
+										$('#plant_care_layer').data('myplant_diary_seq', '');
 
 										$('#water_yn').prop('checked', false);
 										$('#medicine_yn').prop('checked', false);
@@ -339,6 +379,7 @@
 										$('#soil_condition_yn_2').prop('checked', true);
 
 										for (let i=0; i<3; i++) {
+											$('#sys_diary_img' + (i+1)).val('');
 											let diaryImg = '/resource/images/plant_default_img.jpg';
 											$('.diary-img-section label[for="sys_diary_img' + (i+1) + '"] img').attr('src', diaryImg);
 										}
@@ -378,8 +419,8 @@
 									getPlantList();
 									
 									// 돌보기 팝업 닫기
-									$('#plant_care_layer').data('myplantseq', '');
-									$('#plant_care_layer').data('myplantdiaryseq', '');
+									$('#plant_care_layer').data('myplant_seq', '');
+									$('#plant_care_layer').data('myplant_diary_seq', '');
 									layer.hideLayer('plant_care_layer', 'plant-care');
 								}
 							}
@@ -399,6 +440,13 @@
 						formData.append('medicine_yn', $('#medicine_yn').is(':checked') ? 'Y' : 'N');
 						formData.append('pot_replace_yn', $('#pot_replace_yn').is(':checked') ? 'Y' : 'N');
 						formData.append('diary_content', $('#diary_content').val());
+
+						formData.append('sys_diary_img1_delyn', sysDiaryImg1DelYN);
+						formData.append('sys_diary_img1_seq', $('.diary-img-section .image1').data('myplant_diary_img_seq'));
+						formData.append('sys_diary_img2_delyn', sysDiaryImg2DelYN);
+						formData.append('sys_diary_img2_seq', $('.diary-img-section .image2').data('myplant_diary_img_seq'));
+						formData.append('sys_diary_img3_delyn', sysDiaryImg3DelYN);
+						formData.append('sys_diary_img3_seq', $('.diary-img-section .image3').data('myplant_diary_img_seq'));
 						
 						$.ajax({
 							url: '/api/diary/update',
@@ -416,8 +464,8 @@
 									getPlantList();
 
 									// 돌보기 팝업 닫기
-									$('#plant_care_layer').data('myplantseq', '');
-									$('#plant_care_layer').data('myplantdiaryseq', '');
+									$('#plant_care_layer').data('myplant_seq', '');
+									$('#plant_care_layer').data('myplant_diary_seq', '');
 									layer.hideLayer('plant_care_layer', 'plant-care');
 
 								} else if (key == 'waterCountFailure') {
@@ -428,64 +476,8 @@
 						});
 					}
 
-
-
-					// 등록/수정 컨펌창 선택 시
-					$(document).on('click', '.watering-confirm .layer-close', function() {
-						
-
-						layer.hideLayer('plant_care_layer', 'plant-care');
-						
-						if ($(this).hasClass('ok')) {
-
-							// 물주기
-							watering();
-						}
-					});
-
-
-
-
-
-
-
-
-
-					// 물주기
-					function watering() {
-						// $.ajax({
-						// 	url: '/api/calendar/myplantWatering',
-						// 	type: 'get',
-						// 	data: {
-						// 		myplant_seq: selectMyplantSeq,
-						// 		user_seq: app.userData.user_seq,
-						// 		state: selectMyplantState
-						// 	},
-						// 	success: function(response) {
-								
-						// 		// 식물 리스트 가져오기
-						// 		getPlantList();
-						// 	}
-						// });
-					}
-
-					// 미루기 선택 시
-					$(document).on('click', '.myplant-list .list .procrastina', function() {
-						
-						
-						selectMyplantSeq = $(this).parents('li').data('myplantseq');
-						let message = {
-							key : 'showProcrastina',
-							data : {
-								myplantSeq : selectMyplantSeq
-							}
-						}
-						app.reactNativePostMessage(message);
-					});
-
 					// 로그인 화면 이동
 					$(document).on('click', '.myplant-list .login', function() {
-						
 						
 						let message = {
 							key : 'moveLogin',

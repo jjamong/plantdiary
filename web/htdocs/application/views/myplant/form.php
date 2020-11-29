@@ -19,6 +19,7 @@
 											<div class="img default"><img src="/resource/images/plant_default_img.jpg" /></div>
 											<div class="camera"><img src="/resource/images/camera_icon.png" /></div>
 										</label>
+										<div class="cancel"><img src="/resource/images/cancel_icon.png" /></div>
 										<div class="input sys_myplant_img"><input type="file" name="sys_myplant_img" id="sys_myplant_img" /></div>
 									</div>
 
@@ -92,24 +93,27 @@
 									<div class="item diary-img-section">
 										<div class="label">이미지</div>
 										<div class="image-section">
-											<div class="image">
+											<div class="image image1" data-myplant_diary_img_seq="">
 												<label for="sys_diary_img1">
 													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
 												</label>
+												<div class="cancel"><img src="/resource/images/cancel_icon.png"></div>
 												<div class="input sys_diary_img1"><input type="file" name="sys_diary_img-1" id="sys_diary_img1" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
-											<div class="image">
+											<div class="image image2" data-myplant_diary_img_seq="">
 												<label for="sys_diary_img2">
 													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
 												</label>
+												<div class="cancel"><img src="/resource/images/cancel_icon.png"></div>
 												<div class="input sys_diary_img2"><input type="file" name="sys_diary_img-2" id="sys_diary_img2" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
-											<div class="image">
+											<div class="image image3" data-myplant_diary_img_seq="">
 												<label for="sys_diary_img3">
 													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
-												</label>									
+												</label>					
+												<div class="cancel"><img src="/resource/images/cancel_icon.png"></div>				
 												<div class="input sys_diary_img3"><input type="file" name="sys_diary_img-3" id="sys_diary_img3" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
@@ -142,7 +146,6 @@
 					layer.init();
 					
 					let myplantSeq;
-					let myplantImgFile;
 
 					// APP에서 WEB으로 데이터 통신
 					function webViewMessage(key, data) {
@@ -154,6 +157,7 @@
 
 							// 등록일 경우
 							if (!myplantSeq) {
+
 								// 웹뷰 준비 완료
 								app.webViewReady();
 								
@@ -176,7 +180,7 @@
 
 					// 웹 상태일 경우
 					if (app.webMode) {
-						myplantSeq = 167;
+						myplantSeq = 169;
 
 						// 등록일 경우
 						if (!myplantSeq) {
@@ -207,11 +211,11 @@
 									
 									if (key == 'success') {
 										$('.diary-form-section').css('display', 'none');
-										console.log(response)
 
 										let myplant_img;
 										if (myplantRow.sys_myplant_img) {
 											myplant_img = '/uploads/user_' + myplantRow.user_seq + '/myplant_' + myplantRow.myplant_seq + '/' + myplantRow.sys_myplant_img;
+											sysMyplantImgDelCheck = false;
 										} else {
 											myplant_img = '/resource/images/plant_default_img.jpg';
 										}
@@ -220,13 +224,13 @@
 										$('#first_grow_date').val(util.dateFormat('noDivision', myplantRow.first_grow_date));
 										$('#water_interval').val(myplantRow.water_interval + '일');
 										$('#water_day').val(util.dateFormat('noDivision', myplantRow.water_day));
+										
+										// 웹뷰 준비 완료
+										app.webViewReady();
 									}
 								}
 							});
 						}
-						
-						// 웹뷰 준비 완료
-						app.webViewReady();
 					}
 
 					// 이미지 파일 찾기 시 미리보기
@@ -234,6 +238,36 @@
 					util.imagePreview($('#sys_diary_img1'));
 					util.imagePreview($('#sys_diary_img2'));
 					util.imagePreview($('#sys_diary_img3'));
+					let sysMyplantImg;
+					let sysMyplantImgDelYN = 'N';
+					let sysDiaryImg1;
+					let sysDiaryImg1DelYN = 'N';
+					let sysDiaryImg2;
+					let sysDiaryImg2DelYN = 'N';
+					let sysDiaryImg3;
+					let sysDiaryImg3DelYN = 'N';
+					
+					// 이미지 삭제 버튼 선택 시
+					$('.myplant-img-section .cancel').on('click', function() {
+						$('.myplant-img-section .img img').attr('src', '/resource/images/plant_default_img.jpg');
+						$('#sys_myplant_img').val('');
+						sysMyplantImgDelYN = 'Y';
+					});
+					$('.diary-form-section .image-section .image1 .cancel').on('click', function() {
+						$('.image-section .image1 .img img').attr('src', '/resource/images/plant_default_img.jpg');
+						$('#sys_diary_img1').val('');
+						sysDiaryImg1DelYN = 'Y';
+					});
+					$('.diary-form-section .image-section .image2 .cancel').on('click', function() {
+						$('.image-section .image2 .img img').attr('src', '/resource/images/plant_default_img.jpg');
+						$('#sys_diary_img2').val('');
+						sysDiaryImg2DelYN = 'Y';
+					});
+					$('.diary-form-section .image-section .image3 .cancel').on('click', function() {
+						$('.image-section .image3 .img img').attr('src', '/resource/images/plant_default_img.jpg');
+						$('#sys_diary_img3').val('');
+						sysDiaryImg3DelYN = 'Y';
+					});
 
 					// 키우기 시작한 날 선택 시
 					$('#first_grow_date').on('click', function() {
@@ -419,52 +453,6 @@
 						if (form.validate()) {
 							layer.showLayer('confirm_layer', 'update-confirm', '수정 하시겠습니까?');
 						}
-
-						// let form;
-
-						// // 파일찾기 체크
-						// let fileCheck = false;
-						// if (sysMyplantImg != '') {
-						// 	if (myplantImgFile == undefined) {
-						// 		//console.log('패스')
-						// 	} else if (myplantImgFile) {
-						// 		if (myplantImgFile.length == 0) {
-						// 			//console.log('패스')
-						// 		} else {
-						// 			fileCheck = true;
-						// 		}
-						// 	} else {
-						// 		fileCheck = true;
-						// 	}
-						// } else {
-						// 	fileCheck = true;
-						// }
-
-						// form = new $Form('myplantForm');
-						// form.require('myplant_name', '이름', {msgType: 'msg'});
-						// if (fileCheck) form.require('sys_myplant_img', '이미지', {msgType: 'msg'});
-						// form.require('adop_date', '입양일', {msgType: 'msg'});
-						// form.require('last_watering_date', '마지막 물준날', {msgType: 'msg'});
-						// form.require('water_interval', '물주기 설정', {msgType: 'msg'});
-
-						// if (form.validate()) {
-							
-						// 	let msg = '수정 하시겠습니까?';
-						// 	// 웹 상태일 경우
-						// 	if (app.webMode) {
-						// 		if (confirm(msg)) {
-						// 			update();
-						// 		}
-						// 	}
-
-						// 	let message = {
-						// 		key : 'confirmMyPlantUpdate',
-						// 		data : {
-						// 			message : msg
-						// 		}
-						// 	}
-						// 	app.reactNativePostMessage(message);
-						// }
 					}
 					
 					// 수정 컨펌창 선택 시
@@ -486,7 +474,9 @@
 						formData.append('first_grow_date', $('#first_grow_date').val().replace(/-/gi, ''));
 						formData.append('water_interval', $('#water_interval').val().slice(0, -1));
 						formData.append('water_day', $('#water_day').val().replace(/-/gi, ''));
-
+						
+						formData.append('sys_myplant_img_delyn', sysMyplantImgDelYN);
+						
 						$.ajax({
 							url: '/api/myplant/update',
 							type: 'post',

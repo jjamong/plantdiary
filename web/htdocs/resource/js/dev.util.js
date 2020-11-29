@@ -158,27 +158,13 @@
 		*/
 		imagePreview : function ($element, cancelImage) {
 			$element.on('change', function(e) {
-				myplantImgFile = e.target.files;
-				if (myplantImgFile.length > 0) {
+				let file = e.target.files;
+				if (file.length > 0) {
 					let reader = new FileReader();
 					reader.onload = function(e) {
-						$element.parent().parent().find('label .img').html('<img src="' + e.target.result + '" />');
+						$element.parent().parent().find('label .img img').attr('src', e.target.result);
 					};
 					reader.readAsDataURL(e.target.files[0]);
-				} else {
-					// 등록일 경우
-					if (!cancelImage) {
-						$element.parent().parent().find('label .img').html('<img src="/resource/images/plant_default_img.jpg" />');
-					} else {
-
-					}
-					// // 등록일 경우
-					// if (!myplantSeq) {
-					// 	$('.myplant-img-section .image-view .default').html('<img src="/resource/images/plant_default_img.jpg" />');
-					// // 수정일 경우
-					// } else {
-					// 	$('.myplant-img-section .image-view .default').html('<img src="/uploads/myplant/' + app.userData.user_seq + '/' + sysMyplantImg + '" />');
-					// }
 				}
 			});
 		},

@@ -79,7 +79,7 @@ class myplant extends CI_Controller {
 		// 내식물 아래 최근 3개 다이어리
 		$this->db->where('del_yn', 'N');
 		$this->db->where('myplant_seq', $myplant_seq);
-		$this->db->order_by('myplant_diary_seq', 'DESC');
+		$this->db->order_by('diary_date', 'DESC');
 		$this->db->limit(3);
         $diary_query = $this->db->get('myplant_diary');
 
@@ -183,9 +183,6 @@ class myplant extends CI_Controller {
 		for($i=0; $i<sizeof($arrayFile); $i++) {
 			
 			$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq.'/diary_'.$myplant_diary_seq;
-			$type = 'gif|jpg|jpeg|png';
-			$size = '0';
-
 			// 폴더 없을 경우 생성
 			if (!(is_dir(UPLOAD_PATH.$path) > 0)) {
 				mkdir(UPLOAD_PATH.$path, 0777, true);
@@ -227,7 +224,6 @@ class myplant extends CI_Controller {
      */
 	function update() {
 		
-		$sys_myplant_img = $_FILES['sys_myplant_img']['name'];
 		$user_seq = $this->input->post('user_seq', TRUE);
 		$myplant_seq = $this->input->post('myplant_seq', TRUE);
 
@@ -235,7 +231,11 @@ class myplant extends CI_Controller {
 		$first_grow_date = $this->input->post('first_grow_date', TRUE);
 		$water_interval = $this->input->post('water_interval', TRUE);
 		$water_day = $this->input->post('water_day', TRUE);
+		
+        $sys_myplant_img = $_FILES['sys_myplant_img']['name'];
+		$sys_myplant_img_delyn = $this->input->post('sys_myplant_img_delyn', TRUE);
 
+		
 		$update_array = array(
 			'myplant_name' => $myplant_name,
 			'first_grow_date' => $first_grow_date,
@@ -244,14 +244,20 @@ class myplant extends CI_Controller {
 			'upd_date'	=>date('Ymd'),
 			'upd_time'	=>date('His')
 		);
-
 		$this->db->trans_start();
 
-		// 파일을 변경 했을 경우
+		// 파일을 변경&삭제 했을 경우
 		$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq;
-		if($sys_myplant_img != '') {
-			$this->file_manager->deletefile('myplant', $path, 'myplant_seq',  $myplant_seq, 'sys_myplant_img');
-		}
+        $deleteDBConfig = array(
+            'type' => 'update',
+            'table_name' => 'myplant',
+            'file_column_name' => 'sys_myplant_img',
+            'seq_column_name' => 'myplant_seq',
+		);
+        if ($sys_myplant_img_delyn == 'Y' || $sys_myplant_img != '') {
+            $deleteDBConfig['seq'] = $myplant_seq;
+            $this->file_manager->deletefile($path, $deleteDBConfig);
+        }
 
 		$this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0')); //1024kb = 1mb , 10240kb=10mb
 		$arrayFile = array('sys_myplant_img'); 
@@ -272,6 +278,7 @@ class myplant extends CI_Controller {
 		} else {
 			$result['key'] = 'failure';
 		}
+		
 		echo json_encode($result);
 	}
 

@@ -14,7 +14,6 @@
 							<div class="detail-section">
 								<div class="title-section">
 									<h2 class="title"></h2>
-									<div class="care">돌보기</div>
 								</div>
 								<ul>
 									<li class="first-grow-date">
@@ -88,7 +87,7 @@
 					// 웹 상태일 경우
 					if (app.webMode) {
 						// 식물 상세 가져오기
-						myplantSeq = 167;
+						myplantSeq = 169;
 						getPlantDetail();
 					}
 

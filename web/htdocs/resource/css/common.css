@@ -147,8 +147,11 @@ textarea {resize:none;}
 .plant-care-layer .plant-care-form-section .diary-img-section .label {float: none; color: #00A964; font-size: 12px;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section {overflow: hidden;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section .image:first-child {margin-left: 0;}
-.plant-care-layer .plant-care-form-section .diary-img-section .image-section .image {float: left; margin-left: 2%; width: 32%; height: 100px; border: 1px solid #00A964;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section .image {position: relative; float: left; margin-left: 2%; width: 32%; height: 100px; border: 1px solid #00A964;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section .img {height: 100%;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section img {width: 100%; height: 100%;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section input {display: none;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section .cancel {position: absolute; top: -1px; right: -1px; width: 25px; height: 25px; line-height: 30px; text-align: center; border: 1px solid #808080; background: #fff;}
+.plant-care-layer .plant-care-form-section .diary-img-section .image-section .cancel img {width: 15px; height: 15px;}
+
 .plant-care-layer .plant-care-form-section .diary-content-section .textarea-diary-content textarea {padding: 10px; width: 100%; height: 80px; border: 1px solid #00A964; font-size: 14px;}

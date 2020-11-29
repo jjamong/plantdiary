@@ -105,24 +105,27 @@
 									<div class="item diary-img-section">
 										<div class="label">이미지</div>
 										<div class="image-section">
-											<div class="image">
+											<div class="image image1" data-myplant_diary_img_seq="">
 												<label for="sys_diary_img1">
-													<div class="img"><img src="<?=SITE_URL?>resource/images/plant_default_img.jpg" /></div>
+													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
 												</label>
+												<div class="cancel"><img src="/resource/images/cancel_icon.png"></div>
 												<div class="input sys_diary_img1"><input type="file" name="sys_diary_img-1" id="sys_diary_img1" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
-											<div class="image">
+											<div class="image image2" data-myplant_diary_img_seq="">
 												<label for="sys_diary_img2">
-													<div class="img"><img src="<?=SITE_URL?>resource/images/plant_default_img.jpg" /></div>
+													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
 												</label>
+												<div class="cancel"><img src="/resource/images/cancel_icon.png"></div>
 												<div class="input sys_diary_img2"><input type="file" name="sys_diary_img-2" id="sys_diary_img2" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
-											<div class="image">
+											<div class="image image3" data-myplant_diary_img_seq="">
 												<label for="sys_diary_img3">
-													<div class="img"><img src="<?=SITE_URL?>resource/images/plant_default_img.jpg" /></div>
-												</label>									
+													<div class="img"><img src="/resource/images/plant_default_img.jpg" /></div>
+												</label>
+												<div class="cancel"><img src="/resource/images/cancel_icon.png"></div>						
 												<div class="input sys_diary_img3"><input type="file" name="sys_diary_img-3" id="sys_diary_img3" placeholder="대표 이미지를 입력해주세요." /></div>
 												<div class="msg"></div>
 											</div>
@@ -164,11 +167,11 @@
 		</div>
 		<!-- // Content 영역 -->
 
-		<script src="<?=SITE_URL?>resource/js/dev.app.js"></script>
-		<script src="<?=SITE_URL?>resource/js/dev.util.js"></script>
-		<script src="<?=SITE_URL?>resource/js/dev.validate.js"></script>
-		<script src="<?=SITE_URL?>resource/js/dev.form.js"></script>
-		<script src="<?=SITE_URL?>resource/js/dev.layer.js"></script>
-		<script src="<?=SITE_URL?>resource/js/common.js"></script>
+		<script src="/resource/js/dev.app.js"></script>
+		<script src="/resource/js/dev.util.js"></script>
+		<script src="/resource/js/dev.validate.js"></script>
+		<script src="/resource/js/dev.form.js"></script>
+		<script src="/resource/js/dev.layer.js"></script>
+		<script src="/resource/js/common.js"></script>
 	</body>
 </html>

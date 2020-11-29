@@ -83,28 +83,36 @@ class File_manager extends CI_Model {
     }
 
     /**
-     * @Method Name     : deletefile
-     * @Description    : 파일 삭제
+     * @Method Name : deletefile
+     * @Description : 파일 삭제
      */
 
-    function deletefile($table_name, $path, $seq_name='',  $seq, $file) {
-		
-        // 파일삭제
-        $this->db->select($file); 
-        $this->db->where($seq_name, $seq);	
-        $query = $this->db->get($table_name);
-        $row = $query->row_array();
-        $filename = $row[$file];
+    function deletefile($path, $deleteDBConfig) {
         
-        $delete_filename = UPLOAD_PATH.$path."/".$filename;
-
-        if (is_file($delete_filename) ) {
-            unlink($delete_filename);
-
-            $data[str_replace('sys_', '', $file)] = '';
-            $data[$file] = '';
-            $this->db->where($seq_name, $seq);
-            $this->db->update($table_name, $data);
+        $this->db->select($deleteDBConfig['file_column_name']); 
+        $this->db->where($deleteDBConfig['seq_column_name'], $deleteDBConfig['seq']);	
+        $query = $this->db->get($deleteDBConfig['table_name']);
+        $count = $query->num_rows();
+        
+        if ($count > 0) {
+            $row = $query->row_array();
+            $filename = $row[$deleteDBConfig['file_column_name']];
+            
+            $delete_filename = UPLOAD_PATH.$path."/".$filename;
+    
+            if (is_file($delete_filename) ) {
+                unlink($delete_filename);
+    
+                if ($deleteDBConfig['type'] == 'delete') {
+                    $this->db->where($deleteDBConfig['seq_column_name'], $deleteDBConfig['seq']);
+                    $this->db->delete($deleteDBConfig['table_name']);
+                } else {
+                    $set[str_replace('sys_', '', $deleteDBConfig['file_column_name'])] = '';
+                    $set[$deleteDBConfig['file_column_name']] = '';
+                    $this->db->where($deleteDBConfig['seq_column_name'], $deleteDBConfig['seq']);
+                    $this->db->update($deleteDBConfig['table_name'], $set);
+                }
+            }
         }
    }
 
