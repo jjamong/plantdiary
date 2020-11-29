@@ -47,6 +47,7 @@ const bottomTabBarOptions = () => {
             },
             activeTintColor: '#00A964',
             inactiveTintColor: '#000',
+            keyboardHidesTabBar : true,
         }
     )  
 };
