@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import Styled from 'styled-components/native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {WebView} from 'react-native-webview'
 
 // 컨텍스트
@@ -19,8 +19,9 @@ const BannerContainer = Styled.View`height:60px`
  */
 let firstLoadCheck = true;  // 처음 로드됬는지 체크
 
-const DiaryList = () => {
+const MyPlantDiaryList = () => {
     const navigation = useNavigation();
+    const router = useRoute();
 
     const {getUserInfo} = useContext(UserContext);
     const {webViewUrl, webViewSendMessage} = useContext(ConfigContext);
@@ -34,7 +35,7 @@ const DiaryList = () => {
         navigation.addListener('focus', () => {
             if (firstLoadCheck) return;
             //webViewLoad();
-            diaryListWebview.reload();
+            myplantDiaryListWebview.reload();
         });
     };
 
@@ -43,9 +44,11 @@ const DiaryList = () => {
         firstLoadCheck = false;
 
         let userData = await getUserInfo();
+        let myplantSeq = router.params.myplantSeq;
         let message = {
             key : 'webViewLoad',
             data : {
+                myplantSeq : myplantSeq,
                 userData : userData
             }
         }
@@ -62,21 +65,10 @@ const DiaryList = () => {
         // 웹뷰 준비 완료
         if (key === 'webViewReady') {
         
-        // 설정 스크린 이동
-        } else if (key === 'moveSetting') {
-            navigation.navigate('Setting');
+        // 다이어리 상세 페이지 이동
+        } else if (key === 'moveMyplantDiaryDetail') {
+            navigation.navigate('MyPlantDiaryDetail', {myplantDiarySeq: data.myplantDiarySeq});
 
-        // 내식물 등록 페이지 이동
-        } else if (key === 'myplantForm') {
-            navigation.navigate('MyPlantInsertForm');
-
-        // 내식물 상세 페이지 이동
-        } else if (key === 'moveMyplantDetail') {
-            navigation.navigate('MyPlantDetail', {myplantSeq: data.myplantSeq});
-
-        // 로그인 스크린 이동
-        } else if (key === 'moveLogin') {
-            navigation.navigate('Login', {loginNextScreen: 'MyPlantList'});
         }
     };
 
@@ -89,8 +81,8 @@ const DiaryList = () => {
                 onMessage={event => {
                     webViewMessage(event.nativeEvent.data);
                 }}
-                ref={(ref) => (diaryListWebview = ref)}
-                onLoadEnd={e => webViewLoad(diaryListWebview)}
+                ref={(ref) => (myplantDiaryListWebview = ref)}
+                onLoadEnd={e => webViewLoad(myplantDiaryListWebview)}
                 startInLoadingState={true}
                 renderLoading={() => <Loading />}
             />
@@ -101,4 +93,4 @@ const DiaryList = () => {
     );
 };
 
-export default DiaryList;
+export default MyPlantDiaryList;

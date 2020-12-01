@@ -302,7 +302,7 @@ class myplant extends CI_Controller {
 			// 폴더 하위로 전부
 			$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq;
 			if ((is_dir(UPLOAD_PATH.$path) > 0)) {
-				rmdir(UPLOAD_PATH.$path);
+				$this->file_manager->rmdirAll(UPLOAD_PATH.$path);
 			}
 
 			$this->db->set('del_yn', 'Y');

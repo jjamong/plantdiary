@@ -71,6 +71,9 @@ const MyPlantForm = () => {
         // 저장 완료 후 리스트 스크린 이동
         } else if (key === 'insertSuccess') {
             navigation.navigate('MyPlantList')
+        // 수정 완료 후 리스트 스크린 이동
+        } else if (key === 'updateSuccess') {
+            navigation.navigate('MyPlantList')
         }
     };
 

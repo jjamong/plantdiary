@@ -9,12 +9,66 @@ class diary extends CI_Controller {
     public function __construct() {
         parent::__construct();
         //$this->output->enable_profiler(TRUE);
+    }
+    
+    /**
+     * @brief	index : 리스트
+     */
+	public function list()	{
+		$user_seq = $this->input->get('user_seq', TRUE);
+		$myplant_seq = $this->input->get('myplant_seq', TRUE);
+		$page = $this->input->get('page', TRUE);
+		//$page = ($page) ? $page : 30;
+
+		// 내식물 아래 최근 3개 다이어리
+		$this->db->where('del_yn', 'N');
+		$this->db->where('user_seq', $user_seq);
+		$this->db->where('myplant_seq', $myplant_seq);
+		$this->db->order_by('diary_date', 'DESC');
+        $diary_query = $this->db->get('myplant_diary');
+
+        // 응답 값 설정
+		$result = array(
+			'key' => 'success',
+			'data' => array(
+                'diaryResult' => $diary_query->result()
+            )
+		);
+		echo json_encode($result);
 	}
-	
-	/**
+    
+    /**
      * @brief	select : 상세
      */
 	public function select() {
+		$user_seq = $this->input->get('user_seq', TRUE);
+		$myplant_diary_seq = $this->input->get('myplant_diary_seq', TRUE);
+
+		$this->db->where('del_yn', 'N');
+		$this->db->where('user_seq', $user_seq);
+		$this->db->where('myplant_diary_seq', $myplant_diary_seq);
+        $diary_query = $this->db->get('myplant_diary');
+        $diary_row = $diary_query->row();
+
+        $this->db->where('myplant_diary_seq', $myplant_diary_seq);
+        $diary_img_query = $this->db->get('myplant_diary_img');
+        $diary_img_result = $diary_img_query->result();
+        
+        // 응답 값 설정
+		$result = array(
+			'key' => 'success',
+			'data' => array(
+                'diaryRow' => $diary_row,
+                'diaryImageResult' => $diary_img_result
+            )
+		);
+		echo json_encode($result);
+    }
+
+	/**
+     * @brief	careSelect : (돌보기) 상세
+     */
+	public function careSelect() {
 		$myplant_seq = $this->input->get('myplant_seq', TRUE);
 		$diary_date = $this->input->get('diary_date', TRUE);
 
@@ -301,6 +355,53 @@ class diary extends CI_Controller {
             $result['key'] = 'failure';
         }
 
+		echo json_encode($result);
+    }
+    
+    /**
+     * @brief delete : 삭제
+     */
+	function delete() {
+		$user_seq = $this->input->post('user_seq', TRUE);
+		$myplant_diary_seq = $this->input->post('myplant_diary_seq', TRUE);
+
+		$this->db->where('del_yn', 'N');
+		$this->db->where('myplant_diary_seq', $myplant_diary_seq);
+		$diary_query = $this->db->get('myplant_diary');
+        $diary_row = $diary_query->row();
+		$diary_count = $diary_query->num_rows();
+
+        $this->db->trans_start();
+
+        // 다이어리 삭제
+        $this->db->set('del_yn', 'Y');
+        $this->db->where('myplant_diary_seq', $myplant_diary_seq);
+        $this->db->update('myplant_diary');
+
+        // 폴더 하위로 전부
+        $path = 'user_'.$user_seq.'/myplant_'.$diary_row->myplant_seq.'/diary_'.$myplant_diary_seq;
+
+        if ((is_dir(UPLOAD_PATH.$path) > 0)) {
+            $this->file_manager->rmdirAll(UPLOAD_PATH.$path);
+
+            $this->db->where('myplant_diary_seq', $myplant_diary_seq);
+            $this->db->delete('myplant_diary_img');
+        }
+        
+        $this->db->trans_complete();
+
+        // 응답 값 설정
+        $result = array(
+            'key' => '',
+            'data' => array()
+        );
+        if ($this->db->trans_status() === TRUE) {
+            $result['key'] = 'success';
+            $result['data'] = array();
+        } else {
+            $result['key'] = 'failure';
+        }
+        
 		echo json_encode($result);
 	}
 }

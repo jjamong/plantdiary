@@ -23,5 +23,12 @@ class diary extends CI_Controller {
      */
 	public function list()	{
 		$this->load->view('diary/list');
+     }
+     
+	/**
+     * @brief   detail : 상세
+     */
+	public function detail() {
+		$this->load->view('diary/detail');
 	}
 }

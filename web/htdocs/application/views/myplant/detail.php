@@ -87,7 +87,7 @@
 					// 웹 상태일 경우
 					if (app.webMode) {
 						// 식물 상세 가져오기
-						myplantSeq = 169;
+						myplantSeq = 168;
 						getPlantDetail();
 					}
 
@@ -145,7 +145,7 @@
 													soil_condition_yn = '과습';
 												}
 
-												diaryhtml += '<li data-myplantdiaryseq="' + diaryResult[i].myplant_diary_seq + '">';
+												diaryhtml += '<li data-myplant_diary_seq="' + diaryResult[i].myplant_diary_seq + '">';
 												diaryhtml += '	<div class="diary-date-section">';
 												diaryhtml += '		<div class="diary-date">' + util.dateFormat('noDivision', diaryResult[i].diary_date) + '</div>';
 												diaryhtml += '	</div>';
@@ -179,8 +179,21 @@
 					// 다이어리 전체 보기 선택 시
 					$('.diary-section .diary-all').on('click', function() {
 						let message = {
-							key : 'moveDiaryList',
-							data : {}
+							key : 'moveMyplantDiaryList',
+							data : {
+								myplantSeq : myplantSeq
+							}
+						}
+						app.reactNativePostMessage(message);
+					});
+
+					// 다이어리 리스트 선택 시
+					$(document).on('click', '.diary-section li', function() {
+						let message = {
+							key : 'moveMyplantDiaryDetail',
+							data : {
+								myplantDiarySeq : $(this).data('myplant_diary_seq')
+							}
 						}
 						app.reactNativePostMessage(message);
 					});

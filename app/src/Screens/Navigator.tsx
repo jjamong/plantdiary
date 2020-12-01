@@ -9,7 +9,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MyPlantListScreen from '~/Screens/Main/MyPlant/MyPlantList';
 import MyPlantDetailScreen from '~/Screens/Main/MyPlant/MyPlantDetail';
 import MyPlantFormScreen from '~/Screens/Main/MyPlant/MyPlantForm';
-import DiaryListScreen from '~/Screens/Main/MyPlant/DiaryList';
+import MyPlantDiaryListScreen from '~/Screens/Main/MyPlant/MyPlantDiaryList';
+import MyPlantDiaryDetailScreen from '~/Screens/Main/MyPlant/MyPlantDiaryDetail';
 
 import CommunityScreen from '~/Screens/Main/Community';
 
@@ -198,10 +199,17 @@ const MyPlant = () => {
             />
 
             <Stack.Screen
-                name="DiaryList"
-                component={DiaryListScreen}
+                name="MyPlantDiaryList"
+                component={MyPlantDiaryListScreen}
                 options={headerTitleOption('다이러리')}
             />
+
+            <Stack.Screen
+                name="MyPlantDiaryDetail"
+                component={MyPlantDiaryDetailScreen}
+                options={headerTitleOption('다이러리 상세')}
+            />
+
     </Stack.Navigator>
   );
 };

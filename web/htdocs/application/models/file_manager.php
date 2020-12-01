@@ -86,7 +86,6 @@ class File_manager extends CI_Model {
      * @Method Name : deletefile
      * @Description : 파일 삭제
      */
-
     function deletefile($path, $deleteDBConfig) {
         
         $this->db->select($deleteDBConfig['file_column_name']); 
@@ -114,7 +113,26 @@ class File_manager extends CI_Model {
                 }
             }
         }
-   }
+    }
+
+    /**
+     * @Method Name : rmdirAll
+     * @Description : 폴더 삭제
+     */
+    function rmdirAll($dir) {
+        $dirs = dir($dir);
+        while(false !== ($entry = $dirs->read())) {
+            if(($entry != '.') && ($entry != '..')) {
+                if(is_dir($dir.'/'.$entry)) {
+                    $this->rmdirAll($dir.'/'.$entry);
+                } else {
+                    @unlink($dir.'/'.$entry);
+                }
+            }
+        }
+        $dirs->close();
+        @rmdir($dir);
+    }
 
     /**
      * @Method Name     : download

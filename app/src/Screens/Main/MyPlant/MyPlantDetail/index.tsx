@@ -67,8 +67,12 @@ const MyPlantDetail = () => {
         if (key === 'webViewReady') {
 
         // 다이어리 리스트 스크린 이동
-        } else if (key === 'moveDiaryList') {
-            navigation.navigate('DiaryList');
+        } else if (key === 'moveMyplantDiaryList') {
+            navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
+
+        // 다이어리 상세 스크린 이동
+        } else if (key === 'moveMyplantDiaryDetail') {
+            navigation.navigate('MyPlantDiaryDetail', {myplantDiarySeq: data.myplantDiarySeq});
 
         // 삭제 완료 후 스크린 이동
         } else if (key === 'moveMyplantList') {

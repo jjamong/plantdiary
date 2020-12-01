@@ -190,6 +190,17 @@
 						app.reactNativePostMessage(message);
 					});
 
+					// 다이어리 선택 시
+					$(document).on('click', '.myplant-list .list .diary', function() {
+						let message = {
+							key : 'moveMyplantDiaryList',
+							data : {
+								myplantSeq : $(this).parents('li').data('myplant_seq')
+							}
+						}
+						app.reactNativePostMessage(message);
+					});
+
 					// 돌보기 선택 시
 					$(document).on('click', '.myplant-list .list .care', function() {
 						
@@ -295,7 +306,7 @@
 						
 						// 오늘 날짜 다이어트 날짜 설정
 						$.ajax({
-							url: '/api/diary/select',
+							url: '/api/diary/careSelect',
 							type: 'get',
 							data: {
 								myplant_seq: myplantSeq,

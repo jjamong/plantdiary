@@ -490,7 +490,7 @@
 								
 								if (key == 'success') {
 									let message = {
-										key : 'myPlantFormSuccess',
+										key : 'updateSuccess',
 										data : {}
 									}
 									app.reactNativePostMessage(message);

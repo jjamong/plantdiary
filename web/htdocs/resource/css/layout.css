@@ -226,6 +226,51 @@
 .myplant-form .diary-form-section .diary-img-section .image-section .cancel img {width: 15px; height: 15px;}
 .myplant-form .diary-form-section .diary-content-section .textarea-diary-content textarea {padding: 10px; width: 100%; height: 80px; border: 1px solid #00A964; font-size: 14px;}
 
+/* 다이어리 - 리스트 */
+.diary-list .contens-section {padding: 20px; background: #fff; border-top-left-radius: 16px; border-top-right-radius: 16px;}
+.diary-list .contens-section .diary-title-section {overflow: hidden; padding-bottom: 20px;}
+.diary-list .contens-section .diary-title {float:left; font-size: 16px; line-height: 16px; font-weight: 700;}
+.diary-list .contens-section .diary-all {float:right; font-size: 12px; line-height: 16px;}
+.diary-list .contens-section li:first-child {border-top:0;}
+.diary-list .contens-section li {overflow: hidden; padding: 20px 0; border-top: 1px solid #E6E6E6;}
+.diary-list .contens-section .diary-date {font-size: 14px; font-weight: 700;}
+.diary-list .contens-section .diary-detail-section {overflow: hidden; margin-top: 10px;}
+.diary-list .contens-section .left {overflow: hidden; float:left; width:50%; font-size: 12px;}
+.diary-list .contens-section .right {overflow: hidden; float:left; width:50%; font-size: 12px;}
+.diary-list .contens-section .desc-title {float:left; font-size: 12px;}
+.diary-list .contens-section .desc {float:left; margin-left: 10px; font-size: 12px;}
+.diary-list .contens-section .diary-content-section {margin-top: 10px}
+.diary-list .contens-section .content {font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+.diary-list .btn-section {display: none; position: fixed; right: 0.5rem; bottom: 0.5rem;}
+.diary-list .btn-section .plus {width: 48px; height: 48px;}
+
+/* 다이어리 - 상세 */
+.diary-detail .contens-section {}
+.diary-detail .header-title-section {height: 20px; line-height: 20px;  text-align: right;}
+.diary-detail .header-title-section .text {margin-right: 10px; display: inline; color: #00A964}
+.diary-detail .image-section {position: relative; overflow: hidden;}
+.diary-detail .image-section .img {float:left;}
+.diary-detail .image-section .img img {width: 100%;}
+.diary-detail .image-section .slick-dots {position: absolute; overflow: hidden; bottom: 25px; left: 50%; margin-left: -20px;}
+.diary-detail .image-section .slick-dots li {float: left; margin-left: 5px; width: 10px; height: 10px; border: 1px solid #00A964; border-radius: 50%; }
+.diary-detail .image-section .slick-dots li:first-child {margin-left:0;}
+.diary-detail .image-section .slick-dots li.slick-active {background: #00A964}
+.diary-detail .image-section .slick-dots li button {display: none;}
+.diary-detail .content-section {position: relative; top: -16px; border-top-left-radius: 16px; border-top-right-radius: 16px; background: #E6E6E6;}
+.diary-detail .detail-section {background: #fff; padding: 20px; border-top-left-radius: 16px; border-top-right-radius: 16px;}
+.diary-detail .detail-section .title-section {overflow: hidden; padding-bottom: 20px; border-bottom: 1px solid #E6E6E6;}
+.diary-detail .detail-section .title-section .title {float:left; line-height: 25px; word-break: break-all; font-weight: 700; font-size: 16px;}
+.diary-detail .detail-section .title-section .care {float:right; width: 60px; text-align: center; line-height: 25px; font-size: 12px; border-radius: 15px; background: #00A964; color: #fff; border: 1px solid #00A964;}
+.diary-detail .detail-section li {overflow: hidden; margin-top: 20px;} 
+.diary-detail .detail-section ul .desc-title {float: left; font-size: 12px;}
+.diary-detail .detail-section ul .desc {float: left; margin-left: 20px; font-size: 12px;}
+.diary-detail .detail-section .diary-content {margin-top: 20px}
+.diary-detail .detail-section .diary-content .desc-title {font-size: 12px;}
+.diary-detail .detail-section .diary-content .desc {margin-top: 10px; font-size: 12px;}
+.diary-detail .btn-section {margin-top: 20px; padding: 16px 20px 0; background: #fff;}
+.diary-detail .btn-section .delete {margin: 0 auto; width: 70px; height: 25px; line-height: 25px; font-size: 14px; color: #808080; font-weight: 700; border-radius: 15px; border: 1px solid; text-align: center;}
+
+
 
 /* 설정 */
 .container.setting {}
