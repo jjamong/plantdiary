@@ -433,6 +433,19 @@
 									$('#plant_care_layer').data('myplant_seq', '');
 									$('#plant_care_layer').data('myplant_diary_seq', '');
 									layer.hideLayer('plant_care_layer', 'plant-care');
+
+									// 알림 설정
+									let message = {
+										key : 'setNotification',
+										data : {
+											notificationData : {
+												myplantSeq : data.notificationData.myplantSeq,
+												myplantName : data.notificationData.myplantName,
+												waterDay : util.dateFormat('noDivision', data.notificationData.waterDay),
+											}
+										}
+									}
+									app.reactNativePostMessage(message);
 								}
 							}
 						});
@@ -478,6 +491,19 @@
 									$('#plant_care_layer').data('myplant_seq', '');
 									$('#plant_care_layer').data('myplant_diary_seq', '');
 									layer.hideLayer('plant_care_layer', 'plant-care');
+
+									// 알림 설정
+									let message = {
+										key : 'setNotification',
+										data : {
+											notificationData : {
+												myplantSeq : data.notificationData.myplantSeq,
+												myplantName : data.notificationData.myplantName,
+												waterDay : util.dateFormat('noDivision', data.notificationData.waterDay),
+											}
+										}
+									}
+									app.reactNativePostMessage(message);
 
 								} else if (key == 'waterCountFailure') {
 									// 돌보기 레이어 팝업 노출 

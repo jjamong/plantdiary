@@ -111,9 +111,15 @@
 												diaryhtml += '	</div>';
 												diaryhtml += '</li>';
 											};
+											
+										} else {
 
-											$('.diary-list ul').html(diaryhtml);
+											diaryhtml += '<li>';
+											diaryhtml += '	<div class="nodata">식물이 없습니다.</div>';
+											diaryhtml += '</li>';
 										}
+
+										$('.diary-list ul').html(diaryhtml);
 
 										/*
 										// 식물 리스트 설정

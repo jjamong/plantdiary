@@ -187,11 +187,14 @@
 							success: function(response) {
 								response = JSON.parse(response);
 								let key = response.key;
+								let data = response.data;
 								
 								if (key == 'success') {
 									let message = {
 										key : 'moveMyplantDiaryList',
-										data : {}
+										data : {
+											myplantSeq : data.myplantSeq
+										}
 									}
 									app.reactNativePostMessage(message);
 								}

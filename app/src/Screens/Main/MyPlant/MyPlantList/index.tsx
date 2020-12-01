@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from 'react';
 import Styled from 'styled-components/native';
 import {useNavigation} from '@react-navigation/native';
 import {WebView} from 'react-native-webview'
-//import PushNotification from 'react-native-push-notification'
 
 // 컨텍스트
 import {ConfigContext} from '~/Context/Config';
@@ -24,15 +23,10 @@ const MyPlantList = () => {
     const navigation = useNavigation();
 
     const {getUserInfo} = useContext(UserContext);
-    const {webViewUrl, webViewSendMessage} = useContext(ConfigContext);
+    const {webViewUrl, webViewSendMessage, setPlantNotification} = useContext(ConfigContext);
 
     useEffect(() => {
         screenFocus();
-
-        // PushNotification.localNotificationSchedule({
-        //     message: "notified",
-        //     date: new Date(Date.now() + 60 * 1000), // in 60 secs
-        // });
     }, []);
   
     // 화면 포커스 시 실행되는 함수
@@ -83,6 +77,10 @@ const MyPlantList = () => {
         // 다이어리 리스트 스크린 이동
         } else if (key === 'moveMyplantDiaryList') {
             navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
+
+        // 알림 설정
+        } else if (key === 'setNotification') {
+            setPlantNotification(data.notificationData);
 
         // 로그인 스크린 이동
         } else if (key === 'moveLogin') {

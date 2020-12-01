@@ -179,17 +179,22 @@ class diary extends CI_Controller {
             $this->db->where('myplant_seq', $myplant_seq);
             $myplant_query = $this->db->get('myplant');
             $myplant_row = $myplant_query->row();
+
             // 물주기 Y일 경우
+            $notificationData = array();
             if ($water_yn == 'Y') {
                 $new_water_day = date('Ymd', strtotime('+'.$myplant_row->water_interval.' days'));
-            // 물주기 N일 경우
-            } else if ($water_yn == 'N') {
-                $new_water_day = date('Ymd', strtotime('-'.$myplant_row->water_interval.' days'));
+                $this->db->set('water_day', $new_water_day);
+                $this->db->where('del_yn', 'N');
+                $this->db->where('myplant_seq', $myplant_seq);
+                $this->db->update('myplant');
+                
+                $notificationData = array(
+                    'myplantSeq' => $myplant_seq,
+                    'myplantName' => $myplant_row->myplant_name,
+                    'waterDay' => $new_water_day,
+                );
             }
-            $this->db->set('water_day', $new_water_day);
-            $this->db->where('del_yn', 'N');
-            $this->db->where('myplant_seq', $myplant_seq);
-            $this->db->update('myplant');
 
             $this->db->trans_complete();
 
@@ -200,6 +205,9 @@ class diary extends CI_Controller {
             );
             if ($this->db->trans_status() === TRUE) {
                 $result['key'] = 'success';
+                $result['data'] = array(
+                    'notificationData' => $notificationData
+                );
             } else {
                 $result['key'] = 'failure';
             }
@@ -264,10 +272,11 @@ class diary extends CI_Controller {
 		);
 		$this->db->where($diary_where);
 		$query = $this->db->get('myplant_diary');
+        $diary_row = $query->row();
         $diary_count = $query->num_rows();
         
-        // 전체 다이러리 물주기 개수가 1개일 경우에 물주기 비활성화 변경 시 
-        if ($diary_count == 1 && $water_yn == 'N') {
+        // 전체 다이러리 물주기 개수가 1개일 경우에 그 다이어리의 물주기를 비활성화 변경 시 
+        if ($diary_count == 1 && $water_yn == 'N' && $diary_row->myplant_seq == $myplant_seq) {
             // 응답 값 설정
             $result = array(
                 'key' => 'waterCountFailure',
@@ -335,7 +344,7 @@ class diary extends CI_Controller {
             $new_water_day = date('Ymd', strtotime('+'.$myplant_row->water_interval.' days'));
         // 물주기 N일 경우
         } else if ($water_yn == 'N') {
-            $new_water_day = date('Ymd', strtotime('-'.$myplant_row->water_interval.' days'));
+            $new_water_day = date('Ymd', strtotime($myplant_row->water_day.' -'.$myplant_row->water_interval.' days'));
         }
         $this->db->set('water_day', $new_water_day);
         $this->db->where('del_yn', 'N');
@@ -351,6 +360,13 @@ class diary extends CI_Controller {
         );
         if ($this->db->trans_status() === TRUE) {
             $result['key'] = 'success';
+            $result['data'] = array(
+				'notificationData' => array(
+					'myplantSeq' => $myplant_seq,
+					'myplantName' => $myplant_row->myplant_name,
+					'waterDay' => $new_water_day,
+				)
+			);
         } else {
             $result['key'] = 'failure';
         }
@@ -397,7 +413,9 @@ class diary extends CI_Controller {
         );
         if ($this->db->trans_status() === TRUE) {
             $result['key'] = 'success';
-            $result['data'] = array();
+            $result['data'] = array(
+                'myplantSeq' => $diary_row->myplant_seq
+            );
         } else {
             $result['key'] = 'failure';
         }

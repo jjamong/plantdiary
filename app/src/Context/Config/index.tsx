@@ -1,5 +1,6 @@
 import React, {createContext, useState, useEffect} from 'react';
 import {Alert} from 'react-native';
+import PushNotification from 'react-native-push-notification'
 
 interface Props {
   children: JSX.Element | Array<JSX.Element>;
@@ -50,6 +51,45 @@ const ConfigContextProvider = ({children}: Props) => {
         );
     };
 
+    // 알림 설정
+    const setPlantNotification = (data) => {
+        if (data.myplantSeq != undefined) {
+
+            let id = data.myplantSeq;
+            let message = data.myplantName + ' 에게 물을 주세요';
+            
+            let hours = 0;
+            let minutes = 0;
+            let date = new Date(data.waterDay);
+            date.setHours(hours);
+            date.setMinutes(minutes);
+    
+            PushNotification.localNotificationSchedule({
+                id: id,
+                message: message,
+                date: date,
+            });
+    
+            getLocalNotifications();
+        } else {
+            console.error('알림 데이터가 없습니다.')
+        }
+    }
+
+    // 로걸 알림 삭제
+    const cancelLocalNotifications = (id) => {
+        PushNotification.cancelLocalNotifications({id: id});
+    }
+
+    // 로걸 알림 설정된 데이터 가져오기
+    const getLocalNotifications = () => {
+        PushNotification.getScheduledLocalNotifications((data) => {
+            for (let i=0; i<data.length; i++) {
+                console.log(data[i])
+            }
+        });
+    }
+
     return (
         <ConfigContext.Provider
             value={{
@@ -57,6 +97,9 @@ const ConfigContextProvider = ({children}: Props) => {
                 headerButton, setHeaderButton,
                 modalVisible, setModalVisible,
                 selectMyplantSeq, setSelectMyplantSeq,
+                setPlantNotification,
+                cancelLocalNotifications,
+                getLocalNotifications,
                 webViewSendMessage,
                 confirmAlert,
             }}>

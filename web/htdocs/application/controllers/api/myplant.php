@@ -211,7 +211,11 @@ class myplant extends CI_Controller {
 		if ($this->db->trans_status() === TRUE) {
 			$result['key'] = 'success';
 			$result['data'] = array(
-				'myplantSeq' => $myplant_seq
+				'notificationData' => array(
+					'myplantSeq' => $myplant_seq,
+					'myplantName' => $myplant_name,
+					'waterDay' => $water_day,
+				)
 			);
 		} else {
 			$result['key'] = 'failure';
@@ -275,6 +279,13 @@ class myplant extends CI_Controller {
 		);
 		if ($this->db->trans_status() === TRUE) {
 			$result['key'] = 'success';
+			$result['data'] = array(
+				'notificationData' => array(
+					'myplantSeq' => $myplant_seq,
+					'myplantName' => $myplant_name,
+					'waterDay' => $water_day,
+				)
+			);
 		} else {
 			$result['key'] = 'failure';
 		}

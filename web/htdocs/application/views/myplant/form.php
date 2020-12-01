@@ -429,9 +429,13 @@
 								
 								if (key == 'success') {
 									let message = {
-										key : 'insertSuccess',
+										key : 'updateSuccess',
 										data : {
-											myplantSeq : data.myplantSeq
+											notificationData : {
+												myplantSeq : data.notificationData.myplantSeq,
+												myplantName : data.notificationData.myplantName,
+												waterDay : util.dateFormat('noDivision', data.notificationData.waterDay),
+											}
 										}
 									}
 									app.reactNativePostMessage(message);
@@ -491,7 +495,13 @@
 								if (key == 'success') {
 									let message = {
 										key : 'updateSuccess',
-										data : {}
+										data : {
+											notificationData : {
+												myplantSeq : data.notificationData.myplantSeq,
+												myplantName : data.notificationData.myplantName,
+												waterDay : util.dateFormat('noDivision', data.notificationData.waterDay),
+											}
+										}
 									}
 									app.reactNativePostMessage(message);
 								}

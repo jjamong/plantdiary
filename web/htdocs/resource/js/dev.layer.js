@@ -265,6 +265,7 @@
 			let month = $('.datepicker-layer .txt-month').text();
 			month = (month < 10) ? '0' + month : month;
 			let day = $('.datepicker-layer .txt-day').text();
+			day = (day < 10) ? '0' + day : day;
 			let date = year + month + day;
 			return date;
 		},

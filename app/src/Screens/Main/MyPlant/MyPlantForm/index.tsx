@@ -24,7 +24,9 @@ const MyPlantForm = () => {
     const router = useRoute();
     
     const {getUserInfo} = useContext(UserContext);
-    const {webViewUrl, headerButton, webViewSendMessage} = useContext(ConfigContext);
+    const {webViewUrl, headerButton, webViewSendMessage,
+        setPlantNotification
+    } = useContext(ConfigContext);
     
     useEffect(() => {
         myplantFormWebview.reload();
@@ -70,9 +72,12 @@ const MyPlantForm = () => {
             
         // 저장 완료 후 리스트 스크린 이동
         } else if (key === 'insertSuccess') {
+            setPlantNotification(data.notificationData);
             navigation.navigate('MyPlantList')
+
         // 수정 완료 후 리스트 스크린 이동
         } else if (key === 'updateSuccess') {
+            setPlantNotification(data.notificationData);
             navigation.navigate('MyPlantList')
         }
     };
