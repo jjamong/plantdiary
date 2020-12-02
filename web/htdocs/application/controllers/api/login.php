@@ -104,55 +104,46 @@ class login extends CI_Controller {
 		);
 		$this->db->where($where);
 		$this->db->where('user_password','password("'.$user_password.'")', FALSE);
-		$query = $this->db->get('user');
-		$loginCheck = $query->num_rows();
+		$user_query = $this->db->get('user');
+		$user_row = $user_query->row();
+		$login_count = $user_query->num_rows();
 
 		// 아이디 비밀번호가 맞아 로그인 되었을 경우
-		if ($loginCheck > 0 ) {
-			$result = array(
-				'key' => 'loginSuccess',
-				'data' => array(
-					'result' => $query->row()
+		if ($login_count > 0 ) {
+
+            $this->db->where('del_yn', 'N');
+			$this->db->where('user_seq', $user_row->user_seq);
+            $myplant_query = $this->db->get('myplant');
+			$myplant_result = $myplant_query->result();
+			
+            $notificationData = array();
+			foreach ($myplant_result as $val) {
+				$array = array(
+					'myplantSeq' => $val->myplant_seq,
+					'myplantName' => $val->myplant_name,
+					'waterDay' => substr($val->water_day, 0, 4).'-'.substr($val->water_day, 4, 2).'-'.substr($val->water_day, 6, 2),
+				);
+				array_push($notificationData, $array);
+			}
+			
+            // 응답 값 설정
+            $result = array(
+                'key' => 'loginSuccess',
+                'data' => array(
+					'userRow' => $user_row,
+                    'notificationData' => $notificationData
 				)
-			);
-			echo json_encode($result);
+            );
 			
 		// 아이디 비밀번호가 맞지않아 로그인 안되었을 경우
 		} else {
-			$result = array(
-				'key' => 'loginFail',
-				'data' => array()
-			);
-			echo json_encode($result);
+            // 응답 값 설정
+            $result = array(
+                'key' => 'loginFailure',
+                'data' => array()
+            );
 		}
-	}
 
-	/**
-     * @brief   user : 플랜트 회원 약관(필수)
-     */
-    public function user() {
-		$this->load->view('login/user.html');
-	}
-
-	/**
-     * @brief   personal : 개인정보 수집/이용(필수)
-     */
-    public function personal() {
-		$this->load->view('login/personal.html');
-	}
-
-	/**
-     * @brief   service : 플랜트 서비스 약관(필수)
-     */
-    public function service() {
-		$this->load->view('login/service.html');
-	}
-
-	
-	/**
-     * @brief   transaction : 전자금융 거래 이용 약관(필수)
-     */
-    public function transaction() {
-		$this->load->view('login/transaction.html');
+		echo json_encode($result);
 	}
 }

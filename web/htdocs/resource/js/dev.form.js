@@ -670,8 +670,10 @@
 					return false;
 				}
 			}
+			
 			if (params.option.msgType) {
 				$(input).parent().parent().find('.msg').html('');
+				$(form[option.compare]).parent().parent().find('.msg').html('');
 			}
 			return true;
 		}, 

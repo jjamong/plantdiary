@@ -387,6 +387,27 @@ class diary extends CI_Controller {
         $diary_row = $diary_query->row();
 		$diary_count = $diary_query->num_rows();
 
+        
+        $diary_check_where = array(
+			'user_seq'	=>	$user_seq,
+			'myplant_seq'	=>	$diary_row->myplant_seq,
+            'water_yn' => 'Y',
+			'del_yn'	=>	'N',
+		);
+		$this->db->where($diary_check_where);
+		$diary_check_query = $this->db->get('myplant_diary');
+        $diary_check_count = $diary_check_query->num_rows();
+        // 전체 다이러리 물주기 개수가 1개일 경우
+        if ($diary_check_count == 1) {
+            // 응답 값 설정
+            $result = array(
+                'key' => 'diaryCountFailure',
+                'data' => array()
+            );
+            echo json_encode($result);
+            return;
+        }
+
         $this->db->trans_start();
 
         // 다이어리 삭제

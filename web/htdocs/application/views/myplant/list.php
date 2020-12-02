@@ -31,7 +31,6 @@
 					let layer = $Layer;
 					app.init();
 					app.webViewMessage(webViewMessage);
-
 					layer.init();
 
 					// APP에서 WEB으로 데이터 통신
@@ -172,11 +171,11 @@
 
 					// 추가 버튼 선택 시
 					$('.myplant-list .btn-section').on('click', function() {
-						let myplantFormMoveMessage = {
-							key : 'myplantForm',
+						let message = {
+							key : 'moveMyplantForm',
 							data : {}
 						}
-						app.reactNativePostMessage(myplantFormMoveMessage);
+						app.reactNativePostMessage(message);
 					});
 
 					// 식물 리스트 선택 시
@@ -515,7 +514,6 @@
 
 					// 로그인 화면 이동
 					$(document).on('click', '.myplant-list .login', function() {
-						
 						let message = {
 							key : 'moveLogin',
 							data : {}

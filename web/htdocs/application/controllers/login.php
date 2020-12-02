@@ -31,5 +31,34 @@ class login extends CI_Controller {
      */
     public function join() {
 		$this->load->view('login/join');
-	}
+  }
+  
+	/**
+   * @brief   user : 플랜트 회원 약관(필수)
+   */
+  public function user() {
+    $this->load->view('login/user.html');
+  }
+
+  /**
+     * @brief   personal : 개인정보 수집/이용(필수)
+     */
+    public function personal() {
+    $this->load->view('login/personal.html');
+  }
+
+  /**
+     * @brief   service : 플랜트 서비스 약관(필수)
+     */
+    public function service() {
+    $this->load->view('login/service.html');
+  }
+
+  
+  /**
+     * @brief   transaction : 전자금융 거래 이용 약관(필수)
+     */
+    public function transaction() {
+    $this->load->view('login/transaction.html');
+  }
 }

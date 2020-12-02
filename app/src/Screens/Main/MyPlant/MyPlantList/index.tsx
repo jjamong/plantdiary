@@ -67,7 +67,7 @@ const MyPlantList = () => {
             navigation.navigate('Setting');
 
         // 내식물 등록 페이지 이동
-        } else if (key === 'myplantForm') {
+        } else if (key === 'moveMyplantForm') {
             navigation.navigate('MyPlantInsertForm');
 
         // 내식물 상세 페이지 이동

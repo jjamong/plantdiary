@@ -95,10 +95,12 @@ textarea {resize:none;}
 .common-layer-popup .btn-section.btn-2 .ok {border-bottom-right-radius: 10px; font-weight: 700; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
 .common-layer-popup .btn-section.btn-2 .cancel {border-bottom-left-radius: 10px;}
 
+/* 얼랏 */
 .alert-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
 .alert-layer .message-section {padding: 20px; border-bottom: 1px solid #00A964;}
 .alert-layer .message {text-align: center; font-size: 12px; }
 
+/* 컨펌 */
 .confirm-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
 .confirm-layer .message-section {padding: 20px; border-bottom: 1px solid #00A964;}
 .confirm-layer .message {text-align: center; font-size: 12px; line-height: 16px;}
@@ -153,5 +155,10 @@ textarea {resize:none;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section input {display: none;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section .cancel {position: absolute; top: -1px; right: -1px; width: 25px; height: 25px; line-height: 30px; text-align: center; border: 1px solid #808080; background: #fff;}
 .plant-care-layer .plant-care-form-section .diary-img-section .image-section .cancel img {width: 15px; height: 15px;}
-
 .plant-care-layer .plant-care-form-section .diary-content-section .textarea-diary-content textarea {padding: 10px; width: 100%; height: 80px; border: 1px solid #00A964; font-size: 14px;}
+
+.join-layer {display: none; border-radius: 10px; width:calc(100% - 40px); background: #fff;}
+.join-layer .title-section {margin-top: 20px;}
+.join-layer .title-section .title {font-size: 14px; font-weight: 700; text-align: center;}
+.join-layer .content-section {overflow: scroll; padding: 10px; height: calc(100vh - 200px); margin-top: 10px; border: 1px solid #E6E6E6;}
+.join-layer .content-section .term {font-size: 12px; line-height: 14px;}

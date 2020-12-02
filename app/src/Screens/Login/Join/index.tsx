@@ -15,14 +15,13 @@ import Loading from '~/Components/Loading';
 const BannerContainer = Styled.View`height:60px`
 
 /*
- * Calendar 캘린더 스크린
+ * Join 회원가입 스크린
  */
-const Login = () => {
+const Join = () => {
     const navigation = useNavigation();
-    const router = useRoute();
 
     const {setUserInfo} = useContext(UserContext);
-    const {webViewUrl, setPlantNotification, cancelAllLocalNotifications} = useContext(ConfigContext);
+    const {webViewUrl, webViewSendMessage, confirmAlert} = useContext(ConfigContext);
 
     useEffect(() => {
     }, []);
@@ -40,25 +39,10 @@ const Login = () => {
         // 웹뷰 준비 완료
         if (key === 'webViewReady') {
 
-        // 로그인 성공
-        } else if (key === 'loginSuccess') {
-            let userRow = data.userRow;
-            let notificationData = data.notificationData;
-            setUserInfo(userRow);
-
-            // 알림 전체 삭제
-            cancelAllLocalNotifications();
-
-            // 알림 등록
-            notificationData.forEach(notiData => {
-                setPlantNotification(notiData);
-            });
-
-            navigation.navigate(router.params.loginNextScreen);
-
-        // 회원가입 스크린 이동
-        } else if (key === 'moveJoin') {
-            navigation.navigate('Join');
+        // 회원가입 성공
+        } else if (key === 'joinSuccess') {
+            console.log()
+            navigation.navigate('Login')
         }
     };
 
@@ -66,13 +50,13 @@ const Login = () => {
         <>
             <WebView
                 source={{
-                    uri: webViewUrl + '/login'
+                    uri: webViewUrl + '/login/join'
                 }}
                 onMessage={event => {
                     webViewMessage(event.nativeEvent.data);
                 }}
-                ref={(ref) => (loginWebview = ref)}
-                onLoadEnd={e => webViewLoad(loginWebview)}
+                ref={(ref) => (joinWebview = ref)}
+                onLoadEnd={e => webViewLoad(joinWebview)}
                 startInLoadingState={true}
                 renderLoading={() => <Loading />}
             />
@@ -83,4 +67,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Join;

@@ -1,5 +1,5 @@
 import React, {createContext, useState, useEffect} from 'react';
-import {Alert} from 'react-native';
+import {Alert, Platform} from 'react-native';
 import PushNotification from 'react-native-push-notification'
 
 interface Props {
@@ -57,18 +57,23 @@ const ConfigContextProvider = ({children}: Props) => {
 
             let id = data.myplantSeq;
             let message = data.myplantName + ' 에게 물을 주세요';
-            
             let hours = 0;
             let minutes = 0;
             let date = new Date(data.waterDay);
             date.setHours(hours);
             date.setMinutes(minutes);
-    
-            PushNotification.localNotificationSchedule({
-                id: id,
-                message: message,
-                date: date,
-            });
+
+            
+            if (Platform.OS === 'ios') {
+
+            // 안드로이드의 경우
+            } else {
+                PushNotification.localNotificationSchedule({
+                    id: id,
+                    message: message,
+                    date: date,
+                });
+            }
     
             getLocalNotifications();
         } else {
@@ -76,18 +81,32 @@ const ConfigContextProvider = ({children}: Props) => {
         }
     }
 
-    // 로걸 알림 삭제
+    // 알림 삭제
     const cancelLocalNotifications = (id) => {
-        PushNotification.cancelLocalNotifications({id: id});
+        if (Platform.OS === 'ios') {
+        } else {
+            PushNotification.cancelLocalNotifications({id: id});
+        }
     }
 
-    // 로걸 알림 설정된 데이터 가져오기
+    // 알림 전체 삭제
+    const cancelAllLocalNotifications = () => {
+        if (Platform.OS === 'ios') {
+        } else {
+            PushNotification.cancelAllLocalNotifications();
+        }
+    }
+
+    // 설정된 알림 데이터 가져오기
     const getLocalNotifications = () => {
-        PushNotification.getScheduledLocalNotifications((data) => {
-            for (let i=0; i<data.length; i++) {
-                console.log(data[i])
-            }
-        });
+        if (Platform.OS === 'ios') {
+        } else {
+            PushNotification.getScheduledLocalNotifications((data) => {
+                for (let i=0; i<data.length; i++) {
+                    console.log(data[i])
+                }
+            });
+        }
     }
 
     return (
@@ -99,6 +118,7 @@ const ConfigContextProvider = ({children}: Props) => {
                 selectMyplantSeq, setSelectMyplantSeq,
                 setPlantNotification,
                 cancelLocalNotifications,
+                cancelAllLocalNotifications,
                 getLocalNotifications,
                 webViewSendMessage,
                 confirmAlert,

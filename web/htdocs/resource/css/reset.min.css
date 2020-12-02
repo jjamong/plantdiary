@@ -58,7 +58,7 @@ button::-moz-focus-inner,input::-moz-focus-inner {border:0;padding:0;}
 input,button {line-height:normal;}
 input[type="checkbox"],input[type="radio"] {box-sizing:border-box;padding:0;}
 input[type="checkbox"] {width:12px;height:12px;}
-input[type="text"],input[type="password"] {height:20px;margin:0;border:1px solid #c0c0c0;font-size:10px;line-height:14px;color:#666;}
+input[type="text"],input[type="password"] {height:20px;margin:0;border:1px solid #c0c0c0;font-size:10px;line-height:14px;color:#1a1a1a;}
 input[type="search"] {-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}
 input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration {-webkit-appearance:none;}
 textarea {overflow:auto;vertical-align:top;}

@@ -198,13 +198,13 @@
 					}
 
 					// 추가 버튼 선택 시
-					// $('.myplant-list .btn-section').on('click', function() {
-					// 	let myplantFormMoveMessage = {
-					// 		key : 'myplantForm',
-					// 		data : {}
-					// 	}
-					// 	app.reactNativePostMessage(myplantFormMoveMessage);
-					// });
+					$('.diary-list .btn-section').on('click', function() {
+						let message = {
+							key : 'moveMyplantDiaryForm',
+							data : {}
+						}
+						app.reactNativePostMessage(message);
+					});
 
 					// 다이어리 리스트 선택 시
 					$(document).on('click', '.diary-list .list li', function() {

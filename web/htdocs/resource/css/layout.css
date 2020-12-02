@@ -270,63 +270,58 @@
 .diary-detail .btn-section {margin-top: 20px; padding: 16px 20px 0; background: #fff;}
 .diary-detail .btn-section .delete {margin: 0 auto; width: 70px; height: 25px; line-height: 25px; font-size: 14px; color: #808080; font-weight: 700; border-radius: 15px; border: 1px solid; text-align: center;}
 
-
-
 /* 설정 */
-.container.setting {}
-.container.setting .logout-section {text-align: center; line-height: 50vh;}
-.container.setting .logout-section .login {display: none;}
-.container.setting .logout-section .logout {display: none;}
+.setting .contents-section {padding: 20px; background: #fff; border-top-left-radius: 16px; border-top-right-radius: 16px;}
+.setting .contents-section li:first-child {border-top:0;}
+.setting .contents-section li {overflow: hidden; padding: 20px 0; border-top: 1px solid #E6E6E6;}
+.setting .contens-section .diary-date {font-size: 14px; font-weight: 700;}
+.setting .contens-section .diary-detail-section {overflow: hidden; margin-top: 10px;}
+.setting .contens-section .left {overflow: hidden; float:left; width:50%; font-size: 12px;}
+.setting .contens-section .right {overflow: hidden; float:left; width:50%; font-size: 12px;}
+.setting .contens-section .desc-title {float:left; font-size: 12px;}
+.setting .contens-section .desc {float:left; margin-left: 10px; font-size: 12px;}
+.setting .contens-section .diary-content-section {margin-top: 10px}
+.setting .contens-section .content {font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 
 /* 로그인 */
-.container.login .text-section {padding: 5rem 0 3rem;}
-.container.login .title-section .title {color:#0CAF9C; font-size: 4rem; font-weight: 800;}
-.container.login .title-section .sub-title {font-size: 1rem;}
-.container.login .detail-section {padding: 2rem 0; text-align: center; box-shadow: 0px -2px 5px 0px #f8f8f8; background: #f8f8f8;}
-.container.login .detail-section .login-section {padding: 2rem 0 0.5rem; background: #f8f8f8;}
-.container.login .detail-section .login-section input {width: calc(100% - 4rem); height: 3rem; border: 0; border-radius: 2rem; line-height: 3rem; font-size: 1rem; text-align: center; background: #f1f1f1;}
-.container.login .detail-section .login-section .msg {margin-bottom: 0.5rem; height: 1.5rem; font-size: 0.8rem; line-height: 1.5rem; color: #f74d4d;}
+.container.login {}
+.container.login .title-section {color:#0CAF9C; margin: 50px auto; width: 300px;}
+.container.login .title-section .title {line-height: 0;}
+.container.login .detail-section {padding: 0; text-align: center; box-shadow: 0px -2px 5px 0px #f8f8f8; background: #f8f8f8;}
+.container.login .detail-section .login-section {padding: 40px 0 0; background: #f8f8f8;}
+.container.login .detail-section .login-section input {width: calc(100% - 60px); height: 46px; border: 0; border-radius: 2rem; line-height: 3rem; font-size: 14px; text-align: center; background: #f1f1f1;}
+.container.login .detail-section .login-section .msg {margin: 5px 0 10px; height: 12px; font-size: 12px; line-height: 12px; color: #f74d4d;}
 .container.login .detail-section .btn-section {background: #f8f8f8}
-.container.login .detail-section .btn-section .login {display: inline-block; padding: 0 3rem; border-radius: 2rem; line-height: 3rem; font-size: 1rem; background: #0CAF9C;}
-.container.login .detail-section .btn-section .login a {color: #fff}
-.container.login .detail-section .sub-section {display: inline-flex; overflow: hidden; margin: 2rem auto 0;}
-.container.login .detail-section .sub-section .txt {float: left; margin-left: 0.8rem; font-size: 0.9rem;}
+.container.login .detail-section .btn-section .login {display: inline-block; padding: 0 40px; border-radius: 20px; line-height: 40px; font-size: 14px; background: #0CAF9C; color: #fff}
+.container.login .detail-section .sub-section {display: inline-flex; overflow: hidden; margin: 40px auto;}
+.container.login .detail-section .sub-section .txt {float: left; margin-left: 10px; font-size: 12px;}
 .container.login .detail-section .sub-section .txt:first-child {margin-left: 0;}
-.container.login .detail-section .sub-section .txt a {color: #666}
+
 
 /* 회원가입 */
-.container.join .text-section {padding: 2rem 0;}
-.container.join .title-section .title {color:#0CAF9C; font-size: 4rem; font-weight: 800;}
-.container.join .title-section .sub-title {font-size: 1rem;}
+.container.join {}
+.container.join .title-section {color:#0CAF9C; margin: 50px auto; width: 300px;}
+.container.join .title-section .title {line-height: 0;}
 .container.join .detail-section {text-align: center; box-shadow: 0px -2px 5px 0px #f8f8f8;}
-.container.join .detail-section .join-back-section {padding: 2rem 0 1rem; background: #f8f8f8;}
-.container.join .detail-section .join-section {margin: 0 auto; width: calc(100% - 4rem);}
-.container.join .detail-section .join-section input {width: 100%; height: 3rem; border: 0; border-radius: 2rem; line-height: 3rem; font-size: 1rem; text-align: center; background: #f1f1f1;}
-.container.join .detail-section .join-section .msg {margin: 0.5rem 0; font-size: 0.8rem; color: #f74d4d;}
-.container.join .detail-section .agree-section {margin-top: 1rem; padding: 2rem 0 0; background: #f8f8f8; box-shadow: 0px -2px 5px 0px #f8f8f8; color: #666}
+.container.join .detail-section .join-back-section {padding: 40px 0 40px; background: #f8f8f8;}
+.container.join .detail-section .join-section {margin: 0 auto; width: calc(100% - 60px);}
+.container.join .detail-section .join-section input {width: 100%; height: 46px; border: 0; border-radius: 2rem; line-height: 3rem; font-size: 14px; text-align: center; background: #f1f1f1;}
+.container.join .detail-section .join-section .msg {margin: 5px 0 15px; font-size: 12px; line-height: 12px; color: #f74d4d;}
+.container.join .detail-section .agree-section {margin-top: 20px; padding: 20px 0 0; background: #f8f8f8; box-shadow: 0px -2px 5px 0px #f8f8f8; color: #666}
 .container.join .detail-section .agree-section .user,
 .container.join .detail-section .agree-section .personal,
 .container.join .detail-section .agree-section .service,
 .container.join .detail-section .agree-section .transaction,
-.container.join .detail-section .agree-section .promotion {overflow: hidden; margin: 0 auto; width: calc(100% - 4rem); font-size: 0.9rem;}
+.container.join .detail-section .agree-section .promotion {overflow: hidden; margin: 0 auto; width: calc(100% - 60px); font-size: 12px;}
 .container.join .detail-section .agree-section .item:first-child {margin-top: 0}
-.container.join .detail-section .agree-section .item {margin-top: 0.8rem}
+.container.join .detail-section .agree-section .item {margin-top: 10px}
 .container.join .detail-section .agree-section .tit {float:left;}
-.container.join .detail-section .agree-section .agree {float:left; margin-left: 0.5rem;}
-.container.join .detail-section .agree-section .agree input[type="checkbox"] {width: 1rem; height: 1rem;}
+.container.join .detail-section .agree-section .agree {float:left; margin-left: 10px;}
+.container.join .detail-section .agree-section .agree input[type="checkbox"] {width: 12px; height: 12px;}
 .container.join .detail-section .agree-section .view {float:right;}
-.container.join .detail-section .agree-section .msg {clear: both; margin: 1.5rem 0 0; font-size: 0.8rem; text-align: left; color: #f74d4d;}
-.container.join .detail-section .btn-section {padding: 2rem 0; background: #f8f8f8}
-.container.join .detail-section .btn-section .login {display: inline-block; padding: 0 3rem; border-radius: 2rem; line-height: 3rem; font-size: 1rem; background: #0CAF9C;}
-.container.join .detail-section .btn-section .login a {color: #fff}
-
-.join-layer {display: none; padding: 1rem; width:calc(100% - 6rem); height: calc(100vh - 10rem); background: #fff;}
-.join-layer .layer-close-section {text-align: right;} 
-.join-layer .title-section .title {font-size: 1.2rem; font-weight: 700; text-align: center;}
-.join-layer .content-section {overflow: scroll; padding: 0.6rem; height: calc(100vh - 15rem); margin-top: 1rem; border: 1px solid #ededed;}
-.join-layer .content-section p {font-size: 0.8rem;}
-
-
+.container.join .detail-section .agree-section .msg {clear: both; margin: 20px 0 0; font-size: 12px; text-align: left; color: #f74d4d;}
+.container.join .detail-section .btn-section {padding: 20px 0; background: #f8f8f8}
+.container.join .detail-section .btn-section .login {display: inline-block; padding: 0 20px; border-radius: 20px; line-height: 40px; font-size: 14px; background: #0CAF9C; color: #fff}
 
 @media screen and (max-width: 370px) {
 

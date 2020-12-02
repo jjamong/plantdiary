@@ -3,11 +3,9 @@
 			<!-- //#container.container -->
 			<div id="container" class="container common login">
 				<div class="contents-section">
-					<div class="title-section text-c">
-						<div class="text-section">
-							<h2 class="title">PLANT</h2>
-							<div class="sub-title">서브 타이틀</div>
-						</div>
+					<div class="title-section">
+						<h2 class="title"><img src="/resource/images/logo.jpg"></h2>
+						<div class="sub-title"></div>
 					</div>
 					<form name="loginForm" id="loginForm" method="post" action="#NONE">
 					<div class="detail-section">
@@ -74,17 +72,15 @@
 								success: function(response) {
 									response = JSON.parse(response);
 									let key = response.key;
-									let result = response.data.result;
+									let userRow = response.data.userRow;
+									let notificationData = response.data.notificationData;
 									
 									// 로그인 성공
 									if (key == 'loginSuccess') {
-										let message = {
-											key : 'loginOK',
-											data : result
-										}
-										app.reactNativePostMessage(message);
+										app.reactNativePostMessage(response);
+										
 									// 로그인 실패
-									} else if (key == 'loginFail') {
+									} else if (key == 'loginFailure') {
 										$('.pw-section .msg').html('아이디와 비밀번호를 확인해주세요.');
 									}
 								},
@@ -97,11 +93,11 @@
 
 					// 회원가입 선택 시
 					$('.sub-section .join').on('click', function() {
-						// let message = {
-						// 	key : 'moveJoin',
-						// 	data : {}
-						// }
-						// app.reactNativePostMessage(message);
+						let message = {
+							key : 'moveJoin',
+							data : {}
+						}
+						app.reactNativePostMessage(message);
 					});
 				});
 				

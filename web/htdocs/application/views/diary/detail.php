@@ -57,6 +57,7 @@
 					let layer = $Layer;
 					app.init();
 					app.webViewMessage(webViewMessage);
+					layer.init();
 
 					let myplantDiarySeq;
 
@@ -81,7 +82,7 @@
 					// 웹 상태일 경우
 					if (app.webMode) {
 						// 다이어리 상세 가져오기
-						myplantDiarySeq = 184;
+						myplantDiarySeq = 199;
 						getDiaryDetail();
 					}
 
@@ -197,6 +198,8 @@
 										}
 									}
 									app.reactNativePostMessage(message);
+								} else if (key == 'diaryCountFailure') {
+									layer.showLayer('alert_layer', '', '최소 1개의 다이어리에는 물주기가 ON 되어 있어야 합니다.');
 								}
 							}
 						});

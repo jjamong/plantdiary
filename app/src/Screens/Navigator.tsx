@@ -1,23 +1,24 @@
 import React, {useEffect, useContext} from 'react';
+import {Platform} from 'react-native'
 import Styled from 'styled-components/native';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // 스크린
+// 메인 영역
 // import CalendarScreen from '~/Screens/Main/Calendar';
 import MyPlantListScreen from '~/Screens/Main/MyPlant/MyPlantList';
 import MyPlantDetailScreen from '~/Screens/Main/MyPlant/MyPlantDetail';
 import MyPlantFormScreen from '~/Screens/Main/MyPlant/MyPlantForm';
 import MyPlantDiaryListScreen from '~/Screens/Main/MyPlant/MyPlantDiaryList';
 import MyPlantDiaryDetailScreen from '~/Screens/Main/MyPlant/MyPlantDiaryDetail';
-
+import MyPlantDiaryFormScreen from '~/Screens/Main/MyPlant/MyPlantDiaryForm';
 import CommunityScreen from '~/Screens/Main/Community';
 
-// import SettingScreen from '~/Screens/Setting';
-
+import SettingScreen from '~/Screens/Setting';
 import LoginScreen from '~/Screens/Login/Login';
-// import JoinScreen from '~/Screens/Login/Join';
+import JoinScreen from '~/Screens/Login/Join';
 
 // 컴포넌트
 import HeaderRight from '~/Components/HeaderRight';
@@ -25,8 +26,9 @@ import HeaderRight from '~/Components/HeaderRight';
 // 스타일 설정
 const ContentContainer = Styled.View`flex: 1;`
 const Image = Styled.Image`width: 30px; height: 30px;`
-// const BottomTabText = Styled.Text`marginTop: 4px; fontFamily:NanumGothic-Bold; fontSize:12px;`
-const BottomTabText = Styled.Text`marginTop: 4px; fontSize:12px;`
+const BottomTabText = (Platform.OS === 'ios') ? 
+Styled.Text`marginTop: 4px; fontSize:12px;` :
+Styled.Text`marginTop: 4px; fontFamily:NanumGothic-Bold; fontSize:12px;`
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -93,6 +95,21 @@ const bottomTabBarScreenOptions = (title, screen) => {
  * headerTitleOption 헤더 타이틀 영역 설정
  */
 const headerTitleOption = (title, component) => {
+    
+    let headerTitleStyle = (Platform.OS === 'ios') ? 
+    {
+        // fontFamily: 'NanumGothic-Bold',
+        fontSize: 16,
+        color: '#00A964',
+        textAlignVertical: 'center',
+    } :
+    {
+        fontFamily: 'NanumGothic-Bold',
+        fontSize: 16,
+        color: '#00A964',
+        textAlignVertical: 'center',
+    }
+
     return (
         {
             title: title,
@@ -103,12 +120,7 @@ const headerTitleOption = (title, component) => {
                 height: 50,
                 elevation: 0.5,
             },
-            headerTitleStyle: {
-                // fontFamily: 'NanumGothic-Bold',
-                fontSize: 16,
-                color: '#00A964',
-                textAlignVertical: 'center',
-            },
+            headerTitleStyle: headerTitleStyle,
             headerRight: () => component
         }
     )  
@@ -164,7 +176,6 @@ const MyPlant = () => {
                 component={MyPlantListScreen}
                 options={{headerShown: false}}
             />
-                  
             <Stack.Screen
                 name="MyPlantDetail"
                 component={MyPlantDetailScreen}
@@ -175,7 +186,6 @@ const MyPlant = () => {
                     />
                 )}
             />
-
             <Stack.Screen
                 name="MyPlantInsertForm"
                 component={MyPlantFormScreen}
@@ -186,7 +196,6 @@ const MyPlant = () => {
                     />
                 )}
             />
-
             <Stack.Screen
                 name="MyPlantUpdateForm"
                 component={MyPlantFormScreen}
@@ -197,17 +206,35 @@ const MyPlant = () => {
                     />
                 )}
             />
-
             <Stack.Screen
                 name="MyPlantDiaryList"
                 component={MyPlantDiaryListScreen}
                 options={headerTitleOption('다이러리')}
             />
-
             <Stack.Screen
                 name="MyPlantDiaryDetail"
                 component={MyPlantDiaryDetailScreen}
                 options={headerTitleOption('다이러리 상세')}
+            />
+            <Stack.Screen
+                name="MyPlantDiaryInsertForm"
+                component={MyPlantDiaryFormScreen}
+                options={headerTitleOption('다이러리 등록', 
+                    <HeaderRight 
+                        title={'등록'}
+                        screen={'MyPlantDiaryInsertForm'}
+                    />
+                )}
+            />
+            <Stack.Screen
+                name="MyPlantDiaryUpdateForm"
+                component={MyPlantDiaryFormScreen}
+                options={headerTitleOption('다이러리 수정', 
+                    <HeaderRight 
+                        title={'수정'}
+                        screen={'MyPlantDiaryUpdateForm'}
+                    />
+                )}
             />
 
     </Stack.Navigator>
@@ -266,22 +293,21 @@ const Navigator = () => {
                         component={MainNavigator}
                         options={{headerShown: false}}
                     />
-
                     <Stack.Screen
-                        name="Login"
-                        component={LoginScreen}
-                        options={headerTitleOption('로그인')}
-                    />
-                    {/* <Stack.Screen
                         name="Setting"
                         component={SettingScreen}
                         options={headerTitleOption('설정')}
                     />
                     <Stack.Screen
+                        name="Login"
+                        component={LoginScreen}
+                        options={headerTitleOption('로그인')}
+                    />
+                    <Stack.Screen
                         name="Join"
                         component={JoinScreen}
                         options={headerTitleOption('회원가입')}
-                    /> */}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </ContentContainer>

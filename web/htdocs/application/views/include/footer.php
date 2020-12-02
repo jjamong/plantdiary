@@ -148,16 +148,18 @@
 					</div>
 				</div>
 
-				<!-- 물주기 간격 설정 레이어 팝업(selectbox) -->
-				<!-- <div class="water-interval-layer" id="water_interval_layer">
-					<div class="list-section">
-						<ul class="list"></ul>
+				<!-- 회원가입 동의 레이어팝업 -->
+				<div class="join-layer" id="join_layer">
+					<div class="title-section">
+						<div class="title"></div>
 					</div>
-					<div class="btn-section btn-2">
+					<div class="content-section">
+						<div class="term"></div>
+					</div>
+					<div class="btn-section btn-1">
 						<div class="btn ok layer-close">확인</div>
-						<div class="btn cancel layer-close">취소</div>
 					</div>
-				</div> -->
+				</div>
 			</div>
 			<!-- // common-layer-popup -->
 
