@@ -30,5 +30,12 @@ class diary extends CI_Controller {
      */
 	public function detail() {
 		$this->load->view('diary/detail');
+     }
+     
+	/**
+     * @brief   form : 폼
+     */
+	public function form() {
+		$this->load->view('diary/form');
 	}
 }

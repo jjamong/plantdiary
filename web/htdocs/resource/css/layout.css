@@ -270,6 +270,42 @@
 .diary-detail .btn-section {margin-top: 20px; padding: 16px 20px 0; background: #fff;}
 .diary-detail .btn-section .delete {margin: 0 auto; width: 70px; height: 25px; line-height: 25px; font-size: 14px; color: #808080; font-weight: 700; border-radius: 15px; border: 1px solid; text-align: center;}
 
+/* 다이어리 - 등록/수정 폼 */
+.diary-form .contens-section {}
+.diary-form .header-title-section {height: 2rem; line-height: 2rem;  text-align: right;}
+.diary-form .header-title-section .text {margin-right: 12px; display: inline; color: #00A964}
+.diary-form .contens-section .contents {background: #E6E6E6;}
+.diary-form .plant-form-section {padding: 20px; background: #fff;}
+.diary-form .diary-form-section .diary-date-section {}
+.diary-form .diary-form-section .diary-date-section .diary-date {width: auto; border-bottom: 0; line-height: 22px; font-size: 16px; background: url(../images/datepicker_icon.png) no-repeat 110px; background-size: 20px;}
+.diary-form .plant-form-section .item {margin-top: 24px;}
+.diary-form .plant-form-section .item:first-child {margin-top: 0rem}
+.diary-form .diary-form-section {margin-top: 20px; padding: 20px; background: #fff;}
+.diary-form .diary-form-section .item {margin-top: 12px;}
+.diary-form .diary-form-section .item:first-child {margin-top: 0rem}
+.diary-form .diary-form-section .water-yn-section,
+.diary-form .diary-form-section .medicine-yn-section,
+.diary-form .diary-form-section .pot-replace-yn-section {overflow: hidden;}
+.diary-form .diary-form-section .label {float: left; line-height: 40px;}
+.diary-form .diary-form-section .toggle-water {float: right; line-height: 40px;}
+.diary-form .diary-form-section .radio-section {float: right; padding-top: 10px; height: 37px;}
+.diary-form .diary-form-section .input-radio {float: left;}
+.diary-form .diary-form-section .input-radio:last-child {margin-right: 0}
+.diary-form .diary-form-section .input-radio {margin-right: 15px;}
+.diary-form .diary-form-section .soil-condition-yn-section {overflow: hidden;}
+.diary-form .diary-form-section .diary-img-section {overflow: hidden;}
+.diary-form .diary-form-section .diary-img-section .label {float: none; color: #00A964; font-size: 12px;}
+.diary-form .diary-form-section .diary-img-section .image-section {overflow: hidden;}
+.diary-form .diary-form-section .diary-img-section .image-section .image:first-child {margin-left: 0;}
+.diary-form .diary-form-section .diary-img-section .image-section .image {position: relative; float: left; margin-left: 2%; width: 32%; height: 100px; border: 1px solid #00A964;}
+.diary-form .diary-form-section .diary-img-section .image-section .img {height: 100%;}
+.diary-form .diary-form-section .diary-img-section .image-section img {width: 100%; height: 100%;}
+.diary-form .diary-form-section .diary-img-section .image-section input {display: none;}
+.diary-form .diary-form-section .diary-img-section .image-section .cancel {position: absolute; top: -1px; right: -1px; width: 25px; height: 25px; line-height: 30px; text-align: center; border: 1px solid #808080; background: #fff;}
+.diary-form .diary-form-section .diary-img-section .image-section .cancel img {width: 15px; height: 15px;}
+.diary-form .diary-form-section .diary-content-section .textarea-diary-content textarea {padding: 10px; width: 100%; height: 80px; border: 1px solid #00A964; font-size: 14px;}
+
+
 /* 설정 */
 .setting .contents-section {padding: 20px; background: #fff; border-top-left-radius: 16px; border-top-right-radius: 16px;}
 .setting .contents-section li:first-child {border-top:0;}

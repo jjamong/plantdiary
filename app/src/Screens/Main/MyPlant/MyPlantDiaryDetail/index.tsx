@@ -66,10 +66,6 @@ const MyPlantDiaryDetail = () => {
         // 웹뷰 준비 완료
         if (key === 'webViewReady') {
 
-        // 다이어리 리스트 스크린 이동
-        } else if (key === 'moveMyplantDiaryList') {
-            navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
-
         // 삭제 완료 후 스크린 이동
         } else if (key === 'moveMyplantDiaryList') {
             navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
@@ -77,11 +73,12 @@ const MyPlantDiaryDetail = () => {
     };
 
     // 헤더 수정 버튼 선택 시
-    if (headerButton == 'MyPlantDetail') {
+    if (headerButton == 'MyPlantDiaryDetail') {
         let myplantSeq = router.params.myplantSeq;
+        let myplantDiarySeq = router.params.myplantDiarySeq;
 
         setTimeout(function() {
-            navigation.navigate('MyPlantUpdateForm', {myplantSeq: myplantSeq})
+            navigation.navigate('MyPlantDiaryUpdateForm', {myplantSeq: myplantSeq, myplantDiarySeq: myplantDiarySeq})
         })
     }
 

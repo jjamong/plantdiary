@@ -67,11 +67,11 @@ const MyPlantDiaryList = () => {
         
         // 내식물 등록 페이지 이동
         } else if (key === 'moveMyplantDiaryForm') {
-            navigation.navigate('MyPlantDiaryInsertForm');
+            navigation.navigate('MyPlantDiaryInsertForm', {myplantSeq: data.myplantSeq});
 
         // 다이어리 상세 페이지 이동
         } else if (key === 'moveMyplantDiaryDetail') {
-            navigation.navigate('MyPlantDiaryDetail', {myplantDiarySeq: data.myplantDiarySeq});
+            navigation.navigate('MyPlantDiaryDetail', {myplantSeq: data.myplantSeq, myplantDiarySeq: data.myplantDiarySeq});
         }
     };
 

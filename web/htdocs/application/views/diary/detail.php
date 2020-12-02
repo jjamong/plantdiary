@@ -103,9 +103,6 @@
 									let diaryImageResult = response.data.diaryImageResult;
 									
 									if (key == 'success') {
-										
-										console.log(diaryRow)
-										console.log(diaryImageResult)
 
 										// 다이어리 최근 데이터 설정
 										let title = util.dateFormat('noDivision', diaryRow.diary_date) + ' ' + util.dateFormat('dayWeek', util.dateFormat('noDivision', diaryRow.diary_date));

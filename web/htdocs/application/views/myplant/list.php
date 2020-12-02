@@ -505,7 +505,6 @@
 									app.reactNativePostMessage(message);
 
 								} else if (key == 'waterCountFailure') {
-									// 돌보기 레이어 팝업 노출 
 									layer.showLayer('alert_layer', '', '최소 1개의 다이어리에는 물주기가 ON 되어 있어야 합니다.');
 								}
 							}

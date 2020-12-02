@@ -104,7 +104,6 @@ class diary extends CI_Controller {
      * @brief   insert : 등록
      */
 	function insert() {
-        
 		// 다이어리 정보 설정
         $user_seq = $this->input->post('user_seq', TRUE);
         $myplant_seq = $this->input->post('myplant_seq', TRUE);
@@ -274,9 +273,9 @@ class diary extends CI_Controller {
 		$query = $this->db->get('myplant_diary');
         $diary_row = $query->row();
         $diary_count = $query->num_rows();
-        
+
         // 전체 다이러리 물주기 개수가 1개일 경우에 그 다이어리의 물주기를 비활성화 변경 시 
-        if ($diary_count == 1 && $water_yn == 'N' && $diary_row->myplant_seq == $myplant_seq) {
+        if ($diary_count == 1 && $water_yn == 'N' && $diary_row->myplant_diary_seq == $myplant_diary_seq) {
             // 응답 값 설정
             $result = array(
                 'key' => 'waterCountFailure',
@@ -442,5 +441,37 @@ class diary extends CI_Controller {
         }
         
 		echo json_encode($result);
-	}
+    }
+    
+    /**
+     * @brief duplicationCheck : 다이어리 중복체크
+     */
+	public function duplicationCheck()	{
+		$user_seq = $this->input->get('user_seq', TRUE);
+		$myplant_seq = $this->input->get('myplant_seq', TRUE);
+		$diary_date = $this->input->get('diary_date', TRUE);
+
+		$where = array(
+			'user_seq'	=>	$user_seq,
+			'myplant_seq'	=>	$myplant_seq,
+			'diary_date'	=>	$diary_date,
+			'del_yn'	=>	'N',
+		);
+		$this->db->where($where);
+		$diary_query = $this->db->get('myplant_diary');
+        $diary_count = $diary_query->num_rows();
+        
+        if ($diary_count == 0) {
+            $result = array(
+                'key' => 'success',
+                'data' => array()
+            );
+        } else {
+            $result = array(
+                'key' => 'countFailure',
+                'data' => array()
+            );
+        }
+		echo json_encode($result);
+    }
 }

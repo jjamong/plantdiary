@@ -201,7 +201,9 @@
 					$('.diary-list .btn-section').on('click', function() {
 						let message = {
 							key : 'moveMyplantDiaryForm',
-							data : {}
+							data : {
+								myplantSeq : myplantSeq
+							}
 						}
 						app.reactNativePostMessage(message);
 					});
@@ -211,6 +213,7 @@
 						let message = {
 							key : 'moveMyplantDiaryDetail',
 							data : {
+								myplantSeq : myplantSeq,
 								myplantDiarySeq : $(this).data('myplant_diary_seq')
 							}
 						}

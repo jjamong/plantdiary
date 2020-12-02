@@ -48,12 +48,17 @@ const MyPlantDiaryForm = () => {
 
         let userData = await getUserInfo();
         let myplantSeq;
-        if (router.params) myplantSeq = router.params.myplantSeq;
+        let myplantDiarySeq;
+        if (router.params) {
+            myplantSeq = router.params.myplantSeq;
+            myplantDiarySeq = router.params.myplantDiarySeq;
+        }
 
         let message = {
             key : 'webViewLoad',
             data : {
                 myplantSeq : myplantSeq,
+                myplantDiarySeq : myplantDiarySeq,
                 userData : userData
             }
         }
@@ -73,24 +78,24 @@ const MyPlantDiaryForm = () => {
         // 저장 완료 후 리스트 스크린 이동
         } else if (key === 'insertSuccess') {
             setPlantNotification(data.notificationData);
-            navigation.navigate('MyPlantList')
+            navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
 
         // 수정 완료 후 리스트 스크린 이동
         } else if (key === 'updateSuccess') {
             setPlantNotification(data.notificationData);
-            navigation.navigate('MyPlantList')
+            navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
         }
     };
 
     // 헤더 등록 버튼 선택 시
-    if (headerButton == 'MyPlantInsertForm') {
+    if (headerButton == 'MyPlantDiaryInsertForm') {
         let message = {
             key : 'insert',
                 data : {}
         }
         webViewSendMessage(myplantFormWebview, message);
     // 헤더 수정 버튼 선택 시
-    } else if (headerButton == 'MyPlantUpdateForm') {
+    } else if (headerButton == 'MyPlantDiaryUpdateForm') {
         let message = {
             key : 'update',
                 data : {}

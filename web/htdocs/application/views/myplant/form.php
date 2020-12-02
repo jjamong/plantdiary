@@ -9,7 +9,6 @@
 					</div>
 					<div class="contents">
 						<form name="myplantForm" id="myplantForm" method="post" enctype="multipart/form-data" action="/api/myplant/insert">
-							<input type="hidden" name="user_seq" value="1" />
 							
 							<div class="form-section">
 
@@ -429,7 +428,7 @@
 								
 								if (key == 'success') {
 									let message = {
-										key : 'updateSuccess',
+										key : 'insertSuccess',
 										data : {
 											notificationData : {
 												myplantSeq : data.notificationData.myplantSeq,

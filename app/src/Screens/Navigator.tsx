@@ -214,7 +214,12 @@ const MyPlant = () => {
             <Stack.Screen
                 name="MyPlantDiaryDetail"
                 component={MyPlantDiaryDetailScreen}
-                options={headerTitleOption('다이러리 상세')}
+                options={headerTitleOption('다이러리 상세', 
+                <HeaderRight 
+                    title={'수정'}
+                    screen={'MyPlantDiaryDetail'}
+                />
+            )}
             />
             <Stack.Screen
                 name="MyPlantDiaryInsertForm"

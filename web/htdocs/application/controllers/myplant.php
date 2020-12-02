@@ -33,7 +33,7 @@ class myplant extends CI_Controller {
 	}
 	
 	/**
-     * @brief   index : 인덱스
+     * @brief   form : 폼
      */
 	public function form() {
 		$this->load->view('myplant/form');
