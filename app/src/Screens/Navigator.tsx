@@ -7,7 +7,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // 스크린
 // 메인 영역
-// import CalendarScreen from '~/Screens/Main/Calendar';
+import CalendarScreen from '~/Screens/Main/Calendar';
 import MyPlantListScreen from '~/Screens/Main/MyPlant/MyPlantList';
 import MyPlantDetailScreen from '~/Screens/Main/MyPlant/MyPlantDetail';
 import MyPlantFormScreen from '~/Screens/Main/MyPlant/MyPlantForm';
@@ -132,30 +132,21 @@ const headerTitleOption = (title, component) => {
 const MainNavigator = () => {
     return (
         <BottomTab.Navigator
-            //initialRouteName={"Calendar"}
-            initialRouteName={"MyPlantList"}
+            initialRouteName={"Calendar"}
             tabBarOptions={bottomTabBarOptions()}
         >
-
             {/* 내식물 */}
             <BottomTab.Screen
                 name="MyPlantList"
                 component={MyPlant}
                 options={bottomTabBarScreenOptions('내식물', 'MyPlantList')}
             />
-
             {/* 캘린더 */}
             <BottomTab.Screen
                 name="Calendar"
-                component={CommunityScreen}
-                options={bottomTabBarScreenOptions('캘린더', 'Calendar')}
-            />
-            {/* <BottomTab.Screen
-                name="Calendar"
                 component={Calendar}
                 options={bottomTabBarScreenOptions('캘린더', 'Calendar')}
-            /> */}
-
+            />
             {/* 커뮤니티 */}
             <BottomTab.Screen
                 name="Community"
@@ -168,7 +159,6 @@ const MainNavigator = () => {
 
 // 내식물
 const MyPlant = () => {
-
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -248,39 +238,69 @@ const MyPlant = () => {
 
 // 캘린더
 const Calendar = () => {
-    const router = useRoute();
-    let screen;
-
-    // if (router.state) {
-    //     screen = router.state.routes[router.state.index].name;
-    // }
-
     return (
         <Stack.Navigator>
-            {/* <Stack.Screen
+            <Stack.Screen
                 name="Calendar"
                 component={CalendarScreen}
                 options={{headerShown: false}}
             />
-
             <Stack.Screen
                 name="MyPlantDetail"
                 component={MyPlantDetailScreen}
-                options={headerTitleOption('식물 상세')}
+                options={headerTitleOption('식물 상세',
+                    <HeaderRight 
+                        title={'수정'}
+                        screen={'MyPlantDetail'}
+                    />
+                )}
             />
-
             <Stack.Screen
                 name="MyPlantUpdateForm"
                 component={MyPlantFormScreen}
-                options={
-                    headerTitleOption('식물 수정', 
-                        <HeaderRight 
-                            title={'완료'}
-                            screen={screen}
-                        />
-                    )
-                }
-            /> */}
+                options={headerTitleOption('식물 수정', 
+                    <HeaderRight 
+                        title={'수정'}
+                        screen={'MyPlantUpdateForm'}
+                    />
+                )}
+            />
+
+            <Stack.Screen
+                name="MyPlantDiaryList"
+                component={MyPlantDiaryListScreen}
+                options={headerTitleOption('다이러리')}
+            />
+            <Stack.Screen
+                name="MyPlantDiaryDetail"
+                component={MyPlantDiaryDetailScreen}
+                options={headerTitleOption('다이러리 상세', 
+                <HeaderRight 
+                    title={'수정'}
+                    screen={'MyPlantDiaryDetail'}
+                />
+            )}
+            />
+            <Stack.Screen
+                name="MyPlantDiaryInsertForm"
+                component={MyPlantDiaryFormScreen}
+                options={headerTitleOption('다이러리 등록', 
+                    <HeaderRight 
+                        title={'등록'}
+                        screen={'MyPlantDiaryInsertForm'}
+                    />
+                )}
+            />
+            <Stack.Screen
+                name="MyPlantDiaryUpdateForm"
+                component={MyPlantDiaryFormScreen}
+                options={headerTitleOption('다이러리 수정', 
+                    <HeaderRight 
+                        title={'수정'}
+                        screen={'MyPlantDiaryUpdateForm'}
+                    />
+                )}
+            />
         </Stack.Navigator>
     );
 };

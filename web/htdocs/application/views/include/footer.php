@@ -54,6 +54,24 @@
 						<div class="btn ok layer-close">확인</div>
 					</div>
 				</div>
+
+				<!-- 데이트 피커 팝업(month datepicker) -->
+				<div class="datepicker-month-layer" id="datepicker_month_layer">
+					<div class="datepicker-section">
+						<div class="date">
+							<span class="txt-year"></span>년
+							<span class="txt-month"></span>월
+						</div>
+						<div class="select-section">
+							<ul class="year"></ul>
+							<ul class="month"></ul>
+						</div>
+					</div>
+					<div class="btn-section btn-2">
+						<div class="btn cancel layer-close">취소</div>
+						<div class="btn ok layer-close">확인</div>
+					</div>
+				</div>
 				
 				<!-- 돌보기 팝업 -->
 				<div class="plant-care-layer" id="plant_care_layer">

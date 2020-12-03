@@ -4,27 +4,30 @@
 
 /* 캘린더 */
 .container {visibility: hidden;}
+
+/* 
+.calendar.container {padding: 20px 10px;}
+.calendar .contens-section {}
+.calendar .setting {position: absolute; width: 24px; height: 24px; top: 0; right: 10px;}
+.calendar .title-section {position: relative;}
+.calendar .title-section .title {line-height: 24px; font-size: 16px; font-weight: 700; color:#00A964; text-align: center;}
+*/
+
 #calendar {min-height: 100vh;}
-#calendar .fc-header-toolbar {padding-top: 1rem;}
-#calendar .fc-toolbar-chunk h2 {display: flex; font-size: 1.25rem; line-height: 1.25rem; font-weight: 800;}
-#calendar .fc-toolbar-chunk {display: flex; line-height: 1.25rem;}
-#calendar .fc-toolbar-chunk .datepicker-select {margin-left: 0.25rem;}
-#calendar .fc-view-harness {font-size: 0.8rem; text-align: center;}
+#calendar .fc-header-toolbar {padding-top: 13px;}
+#calendar .fc-toolbar-chunk h2 {display: flex; font-size: 16px; line-height: 24px; font-weight: 700;}
+#calendar .fc-toolbar-chunk {display: flex; line-height: 24px;}
+#calendar .fc-toolbar-chunk .datepicker-select {margin-left: 10px;}
+#calendar .fc-view-harness {font-size: 12px; text-align: center;}
 #calendar .fc-view-harness .fc-col-header-cell {font-weight: 700;}
 #calendar .fc-view-harness .fc-day-sun .fc-daygrid-day-number,
-#calendar .fc-view-harness .fc-day-sun .fc-col-header-cell-cushion {color: red; font-weight: 400;}
+#calendar .fc-view-harness .fc-day-sun .fc-col-header-cell-cushion {color: #f74d4d;}
 #calendar .fc-view-harness .fc-day-today {background: none; box-shadow: 0px 1px 3px 0px rgba(0,0,0,.12);}
 #calendar .fc-view-harness .fc-day-select {background: none; box-shadow: 0px 1px 3px 0px rgba(0,0,0,.12);}
-#calendar .fc-view-harness .fc-day-today .fc-daygrid-day-number {color: #5CB2C9; font-weight: 700;}
-#calendar .fc-view-harness .fc-daygrid-day-top {line-height: 1rem; padding-top: 0.2rem;}
-
-#calendar .fc-view-harness .fc-scrollgrid-section tr {
-    border-bottom: 0.01rem solid #ddd;
-}
-#calendar .fc-view-harness .fc-scrollgrid-section tr:last-child {
-    border-bottom: 0;
-}
-
+#calendar .fc-view-harness .fc-day-today .fc-daygrid-day-number {color: #00A964; font-weight: 700;}
+#calendar .fc-view-harness .fc-daygrid-day-top {line-height: 10px; padding-top: 5px;}
+#calendar .fc-view-harness .fc-scrollgrid-section tr {border-bottom: 0.01rem solid #E6E6E6;}
+#calendar .fc-view-harness .fc-scrollgrid-section tr:last-child {border-bottom: 0;}
 #calendar .fc-view-harness .fc-daygrid-day-events {
     right: 0.5rem;
     bottom: 0.5rem;
@@ -83,24 +86,31 @@
     font-size: 1rem;
     font-weight: bold;
 }
-.calendar .plant-list .list {margin-top: 1rem;}
-.calendar .plant-list .list li {position: relative; padding: 0.8rem 0; background: #fff; border-bottom: 1px solid #ededed;}
-.calendar .plant-list .list li:last-child {border-bottom: 0;}
-.calendar .plant-list .list .item {overflow: hidden;}
-.calendar .plant-list .list li .plant-img {float: left; width: 5rem; height: 5rem;}
-.calendar .plant-list .list li .plant-img img {width: 5rem; height: 5rem; border-radius: 50%;}
-.calendar .plant-list .list li .content-section {float: right; margin-left: 1rem; text-align: left; line-height: 1.5rem; width: calc(100% - 6rem);}
-.calendar .plant-list .list li .content-section .title {font-size: 1.1rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
-.calendar .plant-list .list li .content-section .day {font-size: 1rem; font-weight: 800;}
-.calendar .plant-list .list li .content-section .day .waterday{color: #00A964;}
-.calendar .plant-list .list li .content-section .day .inadvance{color: #00A964;}
-.calendar .plant-list .list li .content-section .day .warning{color: #f74d4d;}
-.calendar .plant-list .list li .control-section {position: absolute; bottom: 0.8rem; right: 0;}
-.calendar .plant-list .list li .control-section .btn {float: left; margin-left: 0.5rem; padding: 0 0.5rem; height: 100%; line-height: 2rem; font-size: 1rem; color: #fff;}
-.calendar .plant-list .list li .control-section .water {border-radius: 1rem; background: #1A789C;}
-.calendar .plant-list .list li .control-section .procrastina {border-radius: 1rem; background: #d2d2d2;}
+.calendar .plant-list .list {}
+.calendar .plant-list .list li {overflow: hidden; position: relative; padding: 20px 0; border-bottom: 1px solid #E6E6E6;}
+.calendar .plant-list .list li:last-child {border: 0;}
+.calendar .plant-list .list .li-section {height: 100px;}
+.calendar .plant-list .list .content-section {float: left; overflow: hidden;}
+.calendar .plant-list .list .content-section .item:first-child {margin-top: 0;}
+.calendar .plant-list .list .content-section .item {overflow: hidden; margin-top: 13px; font-size: 12px; color:#808080}
+.calendar .plant-list .list .content-section .item .tit {float: left; width: 80px;}
+.calendar .plant-list .list .content-section .item .txt {float: left; margin-left: 10px; }
+.calendar .plant-list .list .content-section .item.title {color: #535353; font-size: 14px; font-weight: 700;}
+.calendar .plant-list .list .content-section .item.water-day.waterday {color:#00A964;}
+.calendar .plant-list .list .content-section .item.water-day.remain {color:#00A964;}
+.calendar .plant-list .list .content-section .item.water-day.warning {color:#FCC251;}
+.calendar .plant-list .list .content-section .item .last-water-day {line-height: 16px;}
+.calendar .plant-list .list .image-section {float: right; margin-right: 28px;}
+.calendar .plant-list .list .image-section .plant-img {}
+.calendar .plant-list .list .image-section .img {margin: 0 auto; width: 70px; height: 70px; line-height: 100px; text-align: center; border: 1px solid; border-radius: 50%; color:#00A964}
+.calendar .plant-list .list .image-section img {border-radius: 50%;}
+.calendar .plant-list .list .control-section {position: absolute; right: 0; bottom: 20px;}
+.calendar .plant-list .list .control-section .btn:first-child {margin-left: 0;}
+.calendar .plant-list .list .control-section .btn {float: left; margin-left: 5px; width: 60px; text-align: center; line-height: 25px; font-size: 12px;}
+.calendar .plant-list .list .control-section .care {border-radius: 15px; background: #00A964; color:#fff; border: 1px solid #00A964;}
+.calendar .plant-list .list .control-section .diary {border-radius: 15px; border: 1px solid #00A964; color:#00A964;}
 .calendar .plant-list .list .login,
-.calendar .plant-list .list .nodata {margin-top: 6rem; text-align: center;}
+.calendar .plant-list .list .nodata {margin-top: 100px; font-size:12px; text-align: center;}
 
 /* 물주기 변경 */
 .water-procrastina .close {text-align: right; font-size: 1.2rem; font-weight: 400; color: #1A789C;;}
@@ -361,7 +371,10 @@
 
 @media screen and (max-width: 370px) {
 
-.myplant-list .list .content-section .item {margin-top: 5px;}
-.myplant-list .list .content-section .item .txt {width: 80px;}
+    .calendar .plant-list .list .content-section .item {margin-top: 5px;}
+    .calendar .plant-list .list .content-section .item .txt {width: 80px;}
+    
+    .myplant-list .list .content-section .item {margin-top: 5px;}
+    .myplant-list .list .content-section .item .txt {width: 80px;}
 
 }

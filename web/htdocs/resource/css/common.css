@@ -121,10 +121,19 @@ textarea {resize:none;}
 .datepicker-layer .select-section .year {float: left; width: 34%; height: 150px; text-align: center; overflow-y: scroll;}
 .datepicker-layer .select-section .month {float: left; width: 33%; height: 150px; text-align: center; overflow-y: scroll;}
 .datepicker-layer .select-section .day {float: left; width: 33%; height: 150px; text-align: center; overflow-y: scroll;}
-.datepicker-layer .select-section li:first-child {}
 .datepicker-layer .select-section li {margin: 0 10px; padding: 10px 0; border-bottom: 1px solid #00A964; font-size: 14px;}
 .datepicker-layer .select-section li:last-child {border-bottom: 0}
 .datepicker-layer .select-section li.selected {font-weight: 800; color: #00A964;}
+
+.datepicker-month-layer {display: none; border-radius: 10px; width:calc(100% - 30px); background: #fff;}
+.datepicker-month-layer .datepicker-section {overflow-y: scroll; border-bottom: 1px solid #00A964;}
+.datepicker-month-layer .datepicker-section .date {text-align: center; height: 50px; line-height: 50px; border-bottom: 1px solid #00A964; font-weight: 700; color: #00A964;}
+.datepicker-month-layer .select-section {padding: 20px; overflow: hidden;}
+.datepicker-month-layer .select-section .year {float: left; width: 50%; height: 150px; text-align: center; overflow-y: scroll;}
+.datepicker-month-layer .select-section .month {float: left; width: 50%; height: 150px; text-align: center; overflow-y: scroll;}
+.datepicker-month-layer .select-section li {margin: 0 10px; padding: 10px 0; border-bottom: 1px solid #00A964; font-size: 14px;}
+.datepicker-month-layer .select-section li:last-child {border-bottom: 0}
+.datepicker-month-layer .select-section li.selected {font-weight: 800; color: #00A964;}
 
 .plant-care-layer {display: none; border-radius: 10px; width:calc(100% - 40px); background: #fff;}
 .plant-care-layer .plant-care-section {overflow-y: scroll; height: 480px; padding: 20px; border-bottom: 1px solid #00A964;}

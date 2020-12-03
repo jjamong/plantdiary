@@ -111,6 +111,40 @@
 				let date = new Date(year + '-' + month + '-' + day);
 				$('.datepicker-layer .txt-weekday').text($Util.dateFormat('dayWeek', date));
 			});
+
+			// 날짜 선택 레이어 팝업(월) 선택 효과
+			$(document).on('click', '.datepicker-month-layer li', function() {
+
+				let year = $('.datepicker-month-layer .txt-year').text();
+				let month = $('.datepicker-month-layer .txt-month').text();
+
+				// 년 선택
+				if ($(this).parent('.year').hasClass('year')) {
+					$('.datepicker-month-layer .year li').removeClass('selected');
+					$(this).addClass('selected');
+
+				// 월 선택
+				} else if ($(this).parent('.month').hasClass('month')) {
+					$('.datepicker-month-layer .month li').removeClass('selected');
+					$(this).addClass('selected');
+				}
+
+				$('.datepicker-month-layer .year li').each(function(index) {
+					if ($('.datepicker-month-layer .year li').eq(index).hasClass('selected')) {
+						year = $(this).text();
+						$('.datepicker-month-layer .txt-year').text(year);
+						return;
+					}
+				});
+
+				$('.datepicker-month-layer .month li').each(function(index) {
+					if ($('.datepicker-month-layer .month li').eq(index).hasClass('selected')) {
+						month = $(this).text();
+						$('.datepicker-month-layer .txt-month').text(month);
+						return;
+					}
+				});
+			});
 			
 			// 물주기 간격일 레이어 팝업 선택 효과
 			$(document).on('click', '.selectbox-layer .list li', function() {
@@ -267,6 +301,69 @@
 			let day = $('.datepicker-layer .txt-day').text();
 			day = (day < 10) ? '0' + day : day;
 			let date = year + month + day;
+			return date;
+		},
+
+		/*	
+			날짜 선택기(월) 설정 후 레이어 팝업 노출
+		*/
+		showDeteMonthPicker : function(layerId, layerClass, date) {
+			let yearHtml = '';
+			let yearStart = 2010;
+			let yearEnd = 2030;
+			let year = date.getFullYear();
+			let yearCount = 0;
+
+			let monthHtml = '';
+			let monthStart = 1;
+			let monthEnd = 12;
+			let month = date.getMonth() + 1;
+			let monthCount = 0;
+
+			$('.datepicker-month-layer .txt-year').text(year);
+			$('.datepicker-month-layer .txt-month').text(month);
+			
+			let j = 0;
+			for (let i=yearStart; i<=yearEnd; i++) {
+				if (year == i) {
+					yearCount = i - yearStart;
+					yearHtml += '<li data-year="' + i + '" data-index="' + j + '" class="selected">' + i + '</li>';
+				} else {
+					yearHtml += '<li data-year="' + i + '">' + i + '</li>';
+				}
+				j++;
+			}
+			$('.datepicker-month-layer .year').html(yearHtml);
+
+			j = 0;
+			for (let i=monthStart; i<=monthEnd; i++) {
+				if (month == i) {
+					monthCount = i - monthStart;
+					monthHtml += '<li data-month="' + i + '" data-index="' + j + '" class="selected">' + i + '</li>';
+				} else {
+					monthHtml += '<li data-month="' + i + '">' + i + '</li>';
+				}
+				j++;
+			}
+			$('.datepicker-month-layer .month').html(monthHtml);
+			
+			// 레이어 노출
+			this.showLayer(layerId, layerClass);
+
+			// 선택된 값 스크롤 설정
+			let liHeight = $('.datepicker-month-layer li').outerHeight();
+			$('.datepicker-month-layer .year').scrollTop((yearCount) * liHeight);
+			$('.datepicker-month-layer .month').scrollTop((monthCount) * liHeight);
+		},
+
+		/*	
+			날짜 선택기(월) 확인 시 결과 값 출력
+		*/
+		selectDeteMonthPicker : function() {
+			let year = $('.datepicker-month-layer .txt-year').text();
+			let month = $('.datepicker-month-layer .txt-month').text();
+			month = (month < 10) ? '0' + month : month;
+			let date = year + month;
 			return date;
 		},
 
