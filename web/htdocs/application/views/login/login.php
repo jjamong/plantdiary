@@ -25,7 +25,6 @@
 							<div class="login">로그인</div>
 						</div>
 						<div class="sub-section">
-							<div class="txt">아이디 찾기</div>
 							<div class="txt">비밀번호 찾기</div>
 							<div class="txt join">회원가입</div>
 						</div>

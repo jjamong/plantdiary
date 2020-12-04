@@ -78,7 +78,20 @@ const Setting = () => {
 
             // WebView 호출 완료 후 실행 함수
             webViewLoad();
+        
+        // 회원 탈퇴 시
+        } else if (key === 'withdrawalSuccess') {
+            // 알림 전체 삭제
+            cancelAllLocalNotifications();
+
+            // 회원정보 제거하기
+            delUserInfo();
+            
+            // WebView 호출 완료 후 실행 함수
+            webViewLoad();
         }
+
+        
     };
 
     return (

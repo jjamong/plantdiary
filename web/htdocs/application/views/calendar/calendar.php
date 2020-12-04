@@ -21,6 +21,25 @@
 				</div>
 			</div>
 			<!-- //#container.container -->
+			
+			<!-- 데이트 피커 팝업(month datepicker) -->
+			<div class="datepicker-month-layer common-layer" id="datepicker_month_layer">
+				<div class="datepicker-section">
+					<div class="date">
+						<span class="txt-year"></span>년
+						<span class="txt-month"></span>월
+					</div>
+					<div class="select-section">
+						<ul class="year"></ul>
+						<ul class="month"></ul>
+					</div>
+				</div>
+				<div class="btn-section btn-2">
+					<div class="btn cancel layer-close">취소</div>
+					<div class="btn ok layer-close">확인</div>
+				</div>
+			</div>
+			
 
 			<link rel="stylesheet" href="<?=SITE_URL?>resource/css/vendor/calendar.css">
 			<script src="<?=SITE_URL?>resource/js/vendor/fullcalendar.min.js"></script>
@@ -806,7 +825,6 @@
 							}
 						});
 					}
-					
 
 					// 설정 화면 이동
 					$('.calendar .setting').on('click', function() {

@@ -101,6 +101,7 @@ class login extends CI_Controller {
 		$where = array(
 			'user_id'	=>	$user_id,
 			'del_yn'	=>	'N',
+			'withdrawal_yn'	=>	'N',
 		);
 		$this->db->where($where);
 		$this->db->where('user_password','password("'.$user_password.'")', FALSE);
@@ -144,6 +145,115 @@ class login extends CI_Controller {
             );
 		}
 
+		echo json_encode($result);
+	}
+
+	/**
+     * @brief   passwordCheck : 비밀번호 확인
+     */
+    public function passwordCheck() {
+		$user_seq = $this->input->post('user_seq', TRUE);
+		$user_password = $this->input->post('user_password', TRUE);
+ 
+		$where = array(
+			'user_seq'	=>	$user_seq,
+			'withdrawal_yn'	=>	'N',
+			'del_yn'	=>	'N',
+		);
+		$this->db->where($where);
+		$this->db->where('user_password','password("'.$user_password.'")', FALSE);
+		$query = $this->db->get('user');
+		$userCount = $query->num_rows();
+
+		$result = array(
+			'key' => '',
+			'data' => array()
+		);
+		if ($userCount > 0) {
+			$result['key'] = 'success';
+		} else {
+			$result['key'] = 'failure';
+		}
+
+		echo json_encode($result);
+	}
+
+	/**
+     * @brief   passwordChange : 비밀번호 변경
+     */
+    public function passwordChange() {
+		$user_seq = $this->input->post('user_seq', TRUE);
+		$user_password = $this->input->post('user_password', TRUE);
+ 
+		$where = array(
+			'user_seq'	=>	$user_seq,
+			'withdrawal_yn'	=>	'N',
+			'del_yn'	=>	'N',
+		);
+		$this->db->where($where);
+		$user_query = $this->db->get('user');
+		$user_count = $user_query->num_rows();
+
+		if ($user_count > 0) {
+			// DB 처리
+			$this->db->trans_start();
+
+			$this->db->set('user_password', 'password("'.$user_password.'")', FALSE );
+			$this->db->where($where);
+			$this->db->update('user');
+
+			$this->db->trans_complete();
+		}
+
+		// 응답 값 설정
+		$result = array(
+			'key' => '',
+			'data' => array()
+		);
+		if ($this->db->trans_status() === TRUE) {
+			$result['key'] = 'success';
+		} else {
+			$result['key'] = 'failure';
+		}
+		echo json_encode($result);
+	}
+
+	/**
+     * @brief   withdrawal : 회원탈퇴
+     */
+    public function withdrawal() {
+		$user_seq = $this->input->post('user_seq', TRUE);
+ 
+		$where = array(
+			'user_seq'	=>	$user_seq,
+			'withdrawal_yn'	=>	'N',
+			'del_yn'	=>	'N',
+		);
+		$this->db->where($where);
+		$user_query = $this->db->get('user');
+		$user_count = $user_query->num_rows();
+
+		if ($user_count > 0) {
+			// DB 처리
+			$this->db->trans_start();
+	
+			$this->db->set('withdrawal_yn', 'Y');
+			$this->db->where($where);
+			$this->db->update('user');
+			
+			$this->db->trans_complete();
+		}
+
+		// 응답 값 설정
+		$result = array(
+			'key' => '',
+			'data' => array()
+		);
+		if ($this->db->trans_status() === TRUE) {
+			$result['key'] = 'success';
+		} else {
+			$result['key'] = 'failure';
+		}
 		echo json_encode($result);
 	}
 }

@@ -85,15 +85,14 @@ textarea {resize:none;}
 .input-radio input[type="radio"]:checked + label:before {border-color: #00A964;}
 .input-radio input[type="radio"]:checked + label:after {content: ''; position: absolute; top: 0px; left: 4px; width: 13px; height: 13px; background: #00A964; border-radius: 100%;}
 
-
 /* 레이어 팝업 */
-.common-layer-popup {}
-.common-layer-popup .btn-section {overflow: hidden; height: 50px;}
-.common-layer-popup .btn-section.btn-1 .btn {width: 100%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
-.common-layer-popup .btn-section.btn-1 .ok {border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; font-weight: 700;}
-.common-layer-popup .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
-.common-layer-popup .btn-section.btn-2 .ok {border-bottom-right-radius: 10px; font-weight: 700; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
-.common-layer-popup .btn-section.btn-2 .cancel {border-bottom-left-radius: 10px;}
+.common-layer {}
+.common-layer .btn-section {overflow: hidden; height: 50px;}
+.common-layer .btn-section.btn-1 .btn {width: 100%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
+.common-layer .btn-section.btn-1 .ok {border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; font-weight: 700;}
+.common-layer .btn-section.btn-2 .btn {float: left; width: 50%; line-height: 50px; font-size: 12px; background: #fff; font-weight: 400; text-align: center;}
+.common-layer .btn-section.btn-2 .ok {border-bottom-right-radius: 10px; font-weight: 700; background: url(../images/layer_popup_bg.jpg) no-repeat left;}
+.common-layer .btn-section.btn-2 .cancel {border-bottom-left-radius: 10px;}
 
 /* 얼랏 */
 .alert-layer {display: none; border-radius: 10px; width:calc(100% - 6rem); background: #fff;}
@@ -171,3 +170,21 @@ textarea {resize:none;}
 .join-layer .title-section .title {font-size: 14px; font-weight: 700; text-align: center;}
 .join-layer .content-section {overflow: scroll; padding: 10px; height: calc(100vh - 200px); margin-top: 10px; border: 1px solid #E6E6E6;}
 .join-layer .content-section .term {font-size: 12px; line-height: 14px;}
+
+.withdrawal-layer {display: none; border-radius: 10px; width:calc(100% - 40px); background: #fff;}
+.withdrawal-layer .title-section {margin-top: 20px;}
+.withdrawal-layer .title-section .title {font-size: 14px; font-weight: 700; text-align: center;}
+.withdrawal-layer .content-section {padding: 40px 0; border-bottom: 1px solid #00A964;}
+.withdrawal-layer .content-section .item {margin:0 auto; width: calc(100% - 40px);}
+.withdrawal-layer .content-section .msg {margin-top: 10px; font-size: 12px; line-height: 12px; color: #f74d4d;}
+.withdrawal-layer .input input {width: 100%; height: 2.5rem; border: 0; line-height: 3rem; font-size: 14px; border-bottom: 1px solid #00A964; color:#1a1a1a;}
+
+.password-change-layer {display: none; border-radius: 10px; width:calc(100% - 40px); background: #fff;}
+.password-change-layer .title-section {margin-top: 20px;}
+.password-change-layer .title-section .title {font-size: 14px; font-weight: 700; text-align: center;}
+.password-change-layer .content-section {padding: 40px 0; border-bottom: 1px solid #00A964;}
+.password-change-layer .content-section label {color: #00A964; font-size: 12px;}
+.password-change-layer .content-section .item {margin:20px auto 0; width: calc(100% - 40px);}
+.password-change-layer .content-section .item:first-child {margin-top: 0}
+.password-change-layer .content-section .msg {margin-top: 10px; font-size: 12px; line-height: 12px; color: #f74d4d;}
+.password-change-layer .input input {width: 100%; height: 2.5rem; border: 0; line-height: 3rem; font-size: 14px; border-bottom: 1px solid #00A964; color:#1a1a1a;}

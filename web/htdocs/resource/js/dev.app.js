@@ -33,7 +33,7 @@
 
 					this.userData = {
 						'user_seq': '1',
-						'user_id': 'gudrb3001@naver.com'
+						'user_id': 'gudrb3000@naver.com'
 					}
 				}
 			}

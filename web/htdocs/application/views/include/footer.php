@@ -1,7 +1,7 @@
 			<!-- common-layer-popup 영역 -->
-			<div class="common-layer-popup">
+			<div>
 				<!-- 얼랏 팝업(alert) -->
-				<div class="alert-layer" id="alert_layer">
+				<div class="alert-layer common-layer" id="alert_layer">
 					<div class="message-section">
 						<p class="message"></p>
 					</div>
@@ -11,7 +11,7 @@
 				</div>
 				
 				<!-- 컨펌 팝업(confirm) -->
-				<div class="confirm-layer" id="confirm_layer">
+				<div class="confirm-layer common-layer" id="confirm_layer">
 					<div class="message-section">
 						<p class="message"></p>
 					</div>
@@ -22,7 +22,7 @@
 				</div>
 
 				<!-- 셀렉트 박스 팝업(selectbox) -->
-				<div class="selectbox-layer" id="selectbox_layer">
+				<div class="selectbox-layer common-layer" id="selectbox_layer">
 					<div class="selectbox-section">
 						<div class="list-section">
 							<ul class="list"></ul>
@@ -35,7 +35,7 @@
 				</div>
 
 				<!-- 데이트 피커 팝업(datepicker) -->
-				<div class="datepicker-layer" id="datepicker_layer">
+				<div class="datepicker-layer common-layer" id="datepicker_layer">
 					<div class="datepicker-section">
 						<div class="date">
 							<span class="txt-year"></span>년
@@ -55,26 +55,8 @@
 					</div>
 				</div>
 
-				<!-- 데이트 피커 팝업(month datepicker) -->
-				<div class="datepicker-month-layer" id="datepicker_month_layer">
-					<div class="datepicker-section">
-						<div class="date">
-							<span class="txt-year"></span>년
-							<span class="txt-month"></span>월
-						</div>
-						<div class="select-section">
-							<ul class="year"></ul>
-							<ul class="month"></ul>
-						</div>
-					</div>
-					<div class="btn-section btn-2">
-						<div class="btn cancel layer-close">취소</div>
-						<div class="btn ok layer-close">확인</div>
-					</div>
-				</div>
-				
 				<!-- 돌보기 팝업 -->
-				<div class="plant-care-layer" id="plant_care_layer">
+				<div class="plant-care-layer common-layer" id="plant_care_layer">
 					<div class="plant-care-section">
 						<form name="plantCareForm" id="plantCareForm" method="post" enctype="multipart/form-data" action="/api/myplant/insert">
 							<div class="form-section">
@@ -167,7 +149,7 @@
 				</div>
 
 				<!-- 회원가입 동의 레이어팝업 -->
-				<div class="join-layer" id="join_layer">
+				<div class="join-layer common-layer" id="join_layer">
 					<div class="title-section">
 						<div class="title"></div>
 					</div>
