@@ -87,3 +87,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 define('SITE_URL','/');
 define('UPLOAD_PATH', $_SERVER['DOCUMENT_ROOT'].SITE_URL.'uploads/');
+
+// 메일 발송 관련
+define('FROM_MAIL', 'gudrb3000@naver.com');
+define('FROM_NAME', '식물일기');

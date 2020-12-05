@@ -10,30 +10,6 @@ class login extends CI_Controller {
         parent::__construct();
         //$this->output->enable_profiler(TRUE);
 	}
-	
-	/**
-     * @brief   duplicationCheck : 아이디 중복확인
-     */
-    public function duplicationCheck() {
-
-		$email = $this->input->post('email',TRUE);
-
-		$where = array(
-			'email'	=>	$email,
-			'del_yn'	=>	'N',
-		);
-		$this->db->where($where);
-		$query = $this->db->get('user');
-		$duplicationCheck = $query->num_rows();
-
-		$result = array(
-			'key' => 'duplicationCheck',
-			'data' => array(
-				'result' => $duplicationCheck
-			)
-		);
-		echo json_encode($result);
-	}
 
 	/**
      * @brief   join : 회원가입
@@ -45,6 +21,7 @@ class login extends CI_Controller {
 		$where = array(
 			'user_id'	=>	$user_id,
 			'del_yn'	=>	'N',
+			'withdrawal_yn'	=>	'N',
 		);
 		$this->db->where($where);
 		$query = $this->db->get('user');
@@ -254,6 +231,125 @@ class login extends CI_Controller {
 		} else {
 			$result['key'] = 'failure';
 		}
+		echo json_encode($result);
+	}
+
+	/**
+     * @brief   duplicationCheck : 아이디 중복확인
+     */
+    public function duplicationCheck() {
+
+		$user_id = $this->input->post('user_id', TRUE);
+
+		$where = array(
+			'user_id'	=>	$user_id,
+			'del_yn'	=>	'N',
+			'withdrawal_yn'	=>	'N',
+		);
+		$this->db->where($where);
+		$query = $this->db->get('user');
+		$user_count = $query->num_rows();
+		
+		// 응답 값 설정
+		$result = array(
+			'key' => '',
+			'data' => array()
+		);
+		if ($user_count > 0) {
+			$result['key'] = 'success';
+		} else {
+			$result['key'] = 'failure';
+		}
+		echo json_encode($result);
+	}
+
+	/**
+     * @brief   mailSend : 메일발송
+     */
+    public function mailSend() {
+		$user_id = $this->input->post('user_id', TRUE);
+
+		$where = array(
+			'user_id'	=>	$user_id,
+			'del_yn'	=>	'N',
+			'withdrawal_yn'	=>	'N',
+		);
+		$this->db->where($where);
+		$query = $this->db->get('user');
+		$user_row = $query->row();
+		$user_count = $query->num_rows();
+
+		if ($user_count > 0) {
+
+			// 임시 비밀번호 생성
+			$array_alpha = Array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+			$array_number= Array('1','2','3','4','5','6','7','8','9','0');
+			$new_password = '';
+			
+			for ( $i=0; $i<6; $i++) { 
+				$new_password .= $array_alpha[rand(0,26)];
+			}  
+			for ( $i=0; $i<3; $i++) { 
+				$new_password .= $array_number[rand(0,9)];
+			}         
+
+			// 응답 값 설정
+			$result = array(
+				'key' => '',
+				'data' => array()
+			);
+
+
+				// 이메일 발송  
+				$config['mailtype'] = 'html';
+				$mail_subject	= '[식물일기] 임시 비밀번호 보내드립니다';
+				$message = '';
+				$message .= '안녕하세요.';
+				$message .= '<br>';
+				$message .= '임시 비밀번호를 보내드립니다.';
+				$message .= '<br>';
+				$message .= $new_password;
+				$message .= '<br>';
+				$message .= '감사합니다.';
+				//$sendMailForm		= $this->load->view('mypage/email', $data, TRUE);
+
+				// 메일 발송
+				$this->load->library('email');
+				$this->email->initialize($config);
+				$this->email->clear();
+				$this->email->from(FROM_MAIL, FROM_NAME);
+				$this->email->to($user_id);
+				$this->email->subject($mail_subject);	
+				$this->email->message($message);
+	
+				if($this->email->send()){
+
+					// DB 처리
+					$this->db->trans_start();
+
+					$this->db->set('user_password','password("'.$new_password.'")', FALSE);
+					$this->db->where('user_id', $user_row->user_id);
+					$this->db->update('user');
+					
+					$this->db->trans_complete();
+
+					if ($this->db->trans_status() === TRUE) {
+						$result['key'] = 'success';
+					} else {
+						$result['key'] = 'dbFailure';
+					}
+					
+				} else {
+					$result['key'] = 'mailFailure';
+				}
+		} else {
+			// 응답 값 설정
+			$result = array(
+				'key' => 'userCountfailure',
+				'data' => array()
+			);
+		}
+
 		echo json_encode($result);
 	}
 }

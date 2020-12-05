@@ -94,11 +94,6 @@
 						// 회원정보 설정
 						if (key === 'userInfo') {
 							app.userInfo = data.userInfo;
-						
-						// 회원가입 컨펌 확인
-						} else if (key === 'confirmJoin') {
-							// 회원가입
-							join();
 						}
 					}
 
@@ -124,24 +119,16 @@
 						form.require('transaction_yn', '전자금융 거래 이용 약관(필수)', {msgType: 'msg'});
 
 						if (form.validate()) {
-							let msg = '가입 하시겠습니까?';
-
-							// 웹 상태일 경우
-							if (app.webMode) {
-								if (confirm(msg)) {
-									join();
-								}
-							}
-
-							let message = {
-								key : 'confirmJoin',
-								data : {
-									message : msg
-								}
-							}
-							app.reactNativePostMessage(message);
+							layer.showLayer('confirm_layer', 'join-confirm', '가입 하시겠습니까?');
 						}
 					}
+
+					$(document).on('click', '.join-confirm .layer-close', function() {
+						if ($(this).hasClass('ok')) {
+							join();
+						}
+						layer.hideLayer('confirm_layer', 'join-confirm');
+					});
 
 					// 회원가입
 					function join() {

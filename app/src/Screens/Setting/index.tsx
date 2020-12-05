@@ -90,8 +90,6 @@ const Setting = () => {
             // WebView 호출 완료 후 실행 함수
             webViewLoad();
         }
-
-        
     };
 
     return (
