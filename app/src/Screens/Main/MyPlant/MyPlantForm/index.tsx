@@ -17,8 +17,6 @@ const BannerContainer = Styled.View`height:60px`
 /*
  * MyPlantForm 내 식물 폼 스크린
  */
-let firstLoadCheck = true;  // 처음 로드됬는지 체크
-
 const MyPlantForm = () => {
     const navigation = useNavigation();
     const router = useRoute();
@@ -29,36 +27,25 @@ const MyPlantForm = () => {
     } = useContext(ConfigContext);
     
     useEffect(() => {
-        myplantFormWebview.reload();
-        firstLoadCheck = true;
-        screenFocus();
     }, []);
-
-    // 화면 포커스 시 실행되는 함수
-    const screenFocus = (): void => {
-        navigation.addListener('focus', () => {
-            if (firstLoadCheck) return;
-            // WebView 호출 완료 후 실행 함수
-            webViewLoad();
-        });
-    };
 
     // WebView 호출 완료 후 실행 함수
     const webViewLoad = async (): Promise<void> => {
 
         let userData = await getUserInfo();
         let myplantSeq;
-        if (router.params) myplantSeq = router.params.myplantSeq;
+        if (router.params) {
+            myplantSeq = router.params.myplantSeq;
+        }
 
         let message = {
             key : 'webViewLoad',
             data : {
                 myplantSeq : myplantSeq,
-                userData : userData
+                userData : userData,
             }
         }
         webViewSendMessage(myplantFormWebview, message);
-        firstLoadCheck = false;
     };
 
     // WebView 메시지
@@ -78,7 +65,7 @@ const MyPlantForm = () => {
         // 수정 완료 후 리스트 스크린 이동
         } else if (key === 'updateSuccess') {
             setPlantNotification(data.notificationData);
-            navigation.navigate('MyPlantList')
+            navigation.navigate('MyPlantDetail', {myplantSeq: data.myplantSeq})
         }
     };
 

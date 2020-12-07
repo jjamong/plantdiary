@@ -17,8 +17,6 @@ const BannerContainer = Styled.View`height:60px`
 /*
  * MyPlantDiaryDetail 다이어리 상세 스크린
  */
-let firstLoadCheck = true;  // 처음 로드됬는지 체크
-
 const MyPlantDiaryDetail = () => {
     const navigation = useNavigation();
     const router = useRoute();
@@ -27,18 +25,7 @@ const MyPlantDiaryDetail = () => {
     const {webViewUrl, headerButton, webViewSendMessage} = useContext(ConfigContext);
 
     useEffect(() => {
-        firstLoadCheck = true;
-        screenFocus();
     }, []);
-
-    // 화면 포커스 시 실행되는 함수
-    const screenFocus = (): void => {
-        navigation.addListener('focus', () => {
-            if (firstLoadCheck) return;
-            // WebView 호출 완료 후 실행 함수
-            //webViewLoad();
-        });
-    };
 
     // WebView 호출 완료 후 실행 함수
     const webViewLoad = async (webview): Promise<void> => {
@@ -54,7 +41,6 @@ const MyPlantDiaryDetail = () => {
         }
 
         webViewSendMessage(webview, message);
-        firstLoadCheck = false;
     };
 
     // WebView 메시지

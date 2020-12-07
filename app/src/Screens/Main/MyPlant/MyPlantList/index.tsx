@@ -33,8 +33,7 @@ const MyPlantList = () => {
     const screenFocus = (): void => {
         navigation.addListener('focus', () => {
             if (firstLoadCheck) return;
-            //webViewLoad();
-            myplantListWebview.reload();
+            webViewLoad(myplantListWebview);
         });
     };
 

@@ -37,8 +37,7 @@ const Calendar = () => {
     const screenFocus = (): void => {
         navigation.addListener('focus', () => {
             if (firstLoadCheck) return;
-            //webViewLoad();
-            calendarWebview.reload();
+            webViewLoad(calendarWebview);
         });
     };
 
@@ -84,8 +83,7 @@ const Calendar = () => {
 
         // 로그인 스크린 이동
         } else if (key === 'moveLogin') {
-            navigation.navigate('Login');
-            
+            navigation.navigate('Login', {loginNextScreen: 'Calendar'});
         }
     };
     

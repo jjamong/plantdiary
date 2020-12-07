@@ -7,10 +7,10 @@ import Styled from 'styled-components/native';
 import {ConfigContext} from '~/Context/Config';
 
 // 스타일 설정
-const TouchableOpacity = Styled.TouchableOpacity`marginRight: 20px;`;
+const TouchableOpacity = Styled.TouchableOpacity``;
 const Text = (Platform.OS === 'ios') ? 
-Styled.Text`color: #00A964; fontSize: 14px;`:
-Styled.Text`color: #00A964; fontSize: 14px; fontFamily:NanumGothic-Bold;`
+Styled.Text`marginRight: 20px; color: #00A964; fontSize: 14px;`:
+Styled.Text`marginRight: 20px; color: #00A964; fontSize: 14px; fontFamily:NanumGothic-Bold;`
 
 const HeaderRight = (props) => {
     const {setHeaderButton} = useContext(ConfigContext);

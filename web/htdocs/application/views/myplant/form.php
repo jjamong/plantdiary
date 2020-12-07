@@ -179,7 +179,7 @@
 
 					// 웹 상태일 경우
 					if (app.webMode) {
-						myplantSeq = 169;
+						myplantSeq = 172;
 
 						// 등록일 경우
 						if (!myplantSeq) {

@@ -17,8 +17,6 @@ const BannerContainer = Styled.View`height:60px`
 /*
  * MyPlantDetail 내 식물 상세 스크린
  */
-let firstLoadCheck = true;  // 처음 로드됬는지 체크
-
 const MyPlantDetail = () => {
     const navigation = useNavigation();
     const router = useRoute();
@@ -27,18 +25,7 @@ const MyPlantDetail = () => {
     const {webViewUrl, headerButton, webViewSendMessage} = useContext(ConfigContext);
 
     useEffect(() => {
-        firstLoadCheck = true;
-        screenFocus();
     }, []);
-
-    // 화면 포커스 시 실행되는 함수
-    const screenFocus = (): void => {
-        navigation.addListener('focus', () => {
-            if (firstLoadCheck) return;
-            // WebView 호출 완료 후 실행 함수
-            //webViewLoad();
-        });
-    };
 
     // WebView 호출 완료 후 실행 함수
     const webViewLoad = async (webview): Promise<void> => {

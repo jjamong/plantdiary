@@ -17,8 +17,6 @@ const BannerContainer = Styled.View`height:60px`
 /*
  * MyPlantDiaryForm 다이어리 폼 스크린
  */
-let firstLoadCheck = true;  // 처음 로드됬는지 체크
-
 const MyPlantDiaryForm = () => {
     const navigation = useNavigation();
     const router = useRoute();
@@ -29,19 +27,7 @@ const MyPlantDiaryForm = () => {
     } = useContext(ConfigContext);
     
     useEffect(() => {
-        myplantFormWebview.reload();
-        firstLoadCheck = true;
-        screenFocus();
     }, []);
-
-    // 화면 포커스 시 실행되는 함수
-    const screenFocus = (): void => {
-        navigation.addListener('focus', () => {
-            if (firstLoadCheck) return;
-            // WebView 호출 완료 후 실행 함수
-            webViewLoad();
-        });
-    };
 
     // WebView 호출 완료 후 실행 함수
     const webViewLoad = async (): Promise<void> => {
@@ -63,7 +49,6 @@ const MyPlantDiaryForm = () => {
             }
         }
         webViewSendMessage(myplantFormWebview, message);
-        firstLoadCheck = false;
     };
 
     // WebView 메시지
@@ -77,13 +62,13 @@ const MyPlantDiaryForm = () => {
             
         // 저장 완료 후 리스트 스크린 이동
         } else if (key === 'insertSuccess') {
-            setPlantNotification(data.notificationData);
+            if (data.notificationData) setPlantNotification(data.notificationData);
             navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
 
         // 수정 완료 후 리스트 스크린 이동
         } else if (key === 'updateSuccess') {
-            setPlantNotification(data.notificationData);
-            navigation.navigate('MyPlantDiaryList', {myplantSeq: data.myplantSeq});
+            if (data.notificationData) setPlantNotification(data.notificationData);
+            navigation.navigate('MyPlantDiaryDetail', {myplantSeq: data.myplantSeq});
         }
     };
 

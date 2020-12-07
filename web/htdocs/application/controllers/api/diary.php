@@ -180,7 +180,7 @@ class diary extends CI_Controller {
             $myplant_row = $myplant_query->row();
 
             // 물주기 Y일 경우
-            $notificationData = array();
+            $notificationData;
             if ($water_yn == 'Y') {
                 $new_water_day = date('Ymd', strtotime('+'.$myplant_row->water_interval.' days'));
                 $this->db->set('water_day', $new_water_day);
@@ -269,20 +269,23 @@ class diary extends CI_Controller {
             'water_yn' => 'Y',
 			'del_yn'	=>	'N',
 		);
-		$this->db->where($diary_where);
+        $this->db->where($diary_where);
+        $this->db->order_by('diary_date', 'desc');
 		$query = $this->db->get('myplant_diary');
         $diary_row = $query->row();
         $diary_count = $query->num_rows();
 
         // 전체 다이러리 물주기 개수가 1개일 경우에 그 다이어리의 물주기를 비활성화 변경 시 
-        if ($diary_count == 1 && $water_yn == 'N' && $diary_row->myplant_diary_seq == $myplant_diary_seq) {
-            // 응답 값 설정
-            $result = array(
-                'key' => 'waterCountFailure',
-                'data' => array()
-            );
-            echo json_encode($result);
-            return;
+        if ($diary_count == 1 && $water_yn == 'N') {
+            if ($diary_row->myplant_diary_seq == $myplant_diary_seq) {
+                // 응답 값 설정
+                $result = array(
+                    'key' => 'waterCountFailure',
+                    'data' => array()
+                );
+                echo json_encode($result);
+                return;
+            }
         }
 
         // DB 처리
@@ -343,7 +346,8 @@ class diary extends CI_Controller {
             $new_water_day = date('Ymd', strtotime('+'.$myplant_row->water_interval.' days'));
         // 물주기 N일 경우
         } else if ($water_yn == 'N') {
-            $new_water_day = date('Ymd', strtotime($myplant_row->water_day.' -'.$myplant_row->water_interval.' days'));
+            //$new_water_day = date('Ymd', strtotime($myplant_row->water_day.' -'.$myplant_row->water_interval.' days'));
+            $new_water_day = $diary_row->diary_date;
         }
         $this->db->set('water_day', $new_water_day);
         $this->db->where('del_yn', 'N');
@@ -369,7 +373,7 @@ class diary extends CI_Controller {
         } else {
             $result['key'] = 'failure';
         }
-
+        //$this->output->enable_profiler(TRUE);
 		echo json_encode($result);
     }
     

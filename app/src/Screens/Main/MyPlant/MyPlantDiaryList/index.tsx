@@ -34,8 +34,7 @@ const MyPlantDiaryList = () => {
     const screenFocus = (): void => {
         navigation.addListener('focus', () => {
             if (firstLoadCheck) return;
-            //webViewLoad();
-            myplantDiaryListWebview.reload();
+            webViewLoad(myplantDiaryListWebview);
         });
     };
 

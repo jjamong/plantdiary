@@ -72,12 +72,6 @@
 							dayPlantList(selectDay);
 						}
 					}
-
-					// 웹 상태일 경우
-					if (app.webMode) {
-						// 캘린더 데이터 가져오기
-						getCalendar();
-					}
 					
 					// 캘린더 설정
 					let calendarElement = $('#calendar')[0];
@@ -135,6 +129,12 @@
 					let plantListHeight = windowHeight - headerHeight - plantArrowHeight - plantDateHeight - 16; // 1rem(16px) 
 					let vh1 = windowHeight / 100;
 					$('.plant-list .list').css('height', (plantListHeight / vh1) + 'vh');
+
+					// 웹 상태일 경우
+					if (app.webMode) {
+						// 캘린더 데이터 가져오기
+						getCalendar();
+					}
 					
 					// 캘린더 데이터 가져오기
 					function getCalendar() {
@@ -160,6 +160,10 @@
 								}
 							});
 						} else {
+							$('#calendar .fc-daygrid-day').each(function(index, item) {
+								$(this).find('.fc-daygrid-day-events').html('');
+							});
+
 							// 웹뷰 준비 완료
 							app.webViewReady();
 						}
@@ -201,9 +205,6 @@
 							$('#calendar .fc-scrollgrid-section tr').css('border-bottom', '0.01rem solid #ddd');
 							$('#calendar .fc-scrollgrid-section tr:last-child()').css('border-bottom', '0');
 						}
-						
-						// 선택한 날짜 선택효과
-						//selectedDayEffect();
 					});
 
 					// 날짜 선택기(월) 설정
@@ -227,7 +228,6 @@
 					// 캘린더 이벤트 렌더링
 					function eventRender () {
 						let dataCount = calendarData.length;
-
 						$('#calendar .fc-daygrid-day').each(function(index, item) {
 							$(this).find('.fc-daygrid-day-events').html('');
 							

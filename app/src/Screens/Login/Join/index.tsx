@@ -41,7 +41,6 @@ const Join = () => {
 
         // 회원가입 성공
         } else if (key === 'joinSuccess') {
-            console.log()
             navigation.navigate('Login')
         }
     };

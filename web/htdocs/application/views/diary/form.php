@@ -146,8 +146,8 @@
 
 					// 웹 상태일 경우
 					if (app.webMode) {
-						myplantSeq = 171;
-						myplantDiarySeq = 207;
+						myplantSeq = 172;
+						//myplantDiarySeq = 207;
 
 						// 등록일 경우
 						if (!myplantDiarySeq) {
@@ -369,11 +369,16 @@
 										key : 'insertSuccess',
 										data : {
 											myplantSeq : myplantSeq,
-											notificationData : {
-												myplantSeq : data.notificationData.myplantSeq,
-												myplantName : data.notificationData.myplantName,
-												waterDay : util.dateFormat('noDivision', data.notificationData.waterDay),
-											}
+											notificationData : data.notificationData
+										}
+									}
+
+									// 물주기 Y로 선택하여 알림등록일 경우
+									if (data.notificationData) {
+										message.data.notificationData = {
+											myplantSeq : data.notificationData.myplantSeq,
+											myplantName : data.notificationData.myplantName,
+											waterDay : util.dateFormat('noDivision', data.notificationData.waterDay),
 										}
 									}
 									app.reactNativePostMessage(message);
