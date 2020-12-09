@@ -50,23 +50,9 @@ class File_manager extends CI_Model {
 
 		for($i=0; $i<sizeof($arrayFile); $i++){
 			if ($this->upload->do_upload($arrayFile[$i])) {
-				//$upload_data = $this->upload->data($arrayFile[$i]);
 				$upload_data = $this->upload->data();
-				//$$arrayFile[$i] = element('file_name', $upload_data);	// 파일 이름 암호화 저장
-				$sys_name[$i] = element('file_name', $upload_data);	// 파일 이름 암호화 저장
+				$sys_name[$i] = element('file_name', $upload_data);	    // 파일 이름 암호화 저장
 				$orig_name[$i] = element('orig_name', $upload_data);	// 파일 이름 원본 저장
-
-				// 파일이 새로 들어오면 원래 있던 파일을 지우는 문단
-				if($arrayFile[$i] && $seq!=''){
-					$query = $this->db->select($arrayFile[$i])->where(strtolower(substr($tableName,3)).'_seq',$seq)->get($tableName);
-					$count = $query->result();	
-					foreach( $count as $row ){
-						$before_img_mobile = $row->$arrayFile[$i];
-					}
-					if(isset($before_img_mobile)){
-						$this->file_manager->deletefile($tableName, strtolower(substr($tableName,3)), $arrayFile[$i],  $before_img_mobile, $arrayFile[$i]);
-					}
-				}  
 
 			} else {
 				$sys_name[$i] = '';

@@ -156,7 +156,7 @@ class myplant extends CI_Controller {
 
 		// 내식물 이미지 저장
 		$path = 'user_'.$user_seq.'/myplant_'.$myplant_seq;
-		$this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0')); //1024kb = 1mb , 10240kb=10mb
+		$this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '1024')); //1024kb = 1mb , 10240kb=10mb
 		if($sys_myplant_img != '') {
 			$arrayFile = array('sys_myplant_img'); 
 			$this->file_manager->uploads($arrayFile, 'myplant');
@@ -188,7 +188,7 @@ class myplant extends CI_Controller {
 				mkdir(UPLOAD_PATH.$path, 0777, true);
 			}
 	
-			$config = $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0');
+			$config = $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '1024');
 			$this->load->library('upload', $config);
 			$this->upload->initialize($config);
 			
@@ -263,7 +263,7 @@ class myplant extends CI_Controller {
             $this->file_manager->deletefile($path, $deleteDBConfig);
         }
 
-		$this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0')); //1024kb = 1mb , 10240kb=10mb
+		$this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '1024')); //1024kb = 1mb , 10240kb=10mb
 		$arrayFile = array('sys_myplant_img'); 
 		$this->file_manager->uploads($arrayFile , 'myplant');
 

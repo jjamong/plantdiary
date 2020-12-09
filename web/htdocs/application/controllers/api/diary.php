@@ -163,7 +163,7 @@ class diary extends CI_Controller {
             for($i=0; $i<sizeof($arrayFile); $i++) {
                 
                 // 파일 저장
-                $this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0'));
+                $this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '1024'));
                 $this->file_manager->uploads(array($arrayFile[$i]), 'myplant_diary_img');
                 $diary_img_set = array(
                     'user_seq' => $user_seq,
@@ -326,7 +326,7 @@ class diary extends CI_Controller {
         
         for($i=0; $i<sizeof($arrayFile); $i++) {
             // 파일 저장
-            $this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '0'));
+            $this->load->library('upload', $this->file_manager->upload_config($path, 'gif|jpg|jpeg|png', '1024'));
             $this->file_manager->uploads(array($arrayFile[$i]), 'myplant_diary_img');
             $diary_img_set = array(
             	'user_seq' => $user_seq,
@@ -346,7 +346,6 @@ class diary extends CI_Controller {
             $new_water_day = date('Ymd', strtotime('+'.$myplant_row->water_interval.' days'));
         // 물주기 N일 경우
         } else if ($water_yn == 'N') {
-            //$new_water_day = date('Ymd', strtotime($myplant_row->water_day.' -'.$myplant_row->water_interval.' days'));
             $new_water_day = $diary_row->diary_date;
         }
         $this->db->set('water_day', $new_water_day);
@@ -373,7 +372,6 @@ class diary extends CI_Controller {
         } else {
             $result['key'] = 'failure';
         }
-        //$this->output->enable_profiler(TRUE);
 		echo json_encode($result);
     }
     

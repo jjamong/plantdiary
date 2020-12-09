@@ -156,15 +156,21 @@
 		/*
 			이미지 파일 찾기 시 미리보기
 		*/
-		imagePreview : function ($element, cancelImage) {
+		imagePreview : function ($element) {
 			$element.on('change', function(e) {
 				let file = e.target.files;
 				if (file.length > 0) {
 					let reader = new FileReader();
-					reader.onload = function(e) {
-						$element.parent().parent().find('label .img img').attr('src', e.target.result);
-					};
-					reader.readAsDataURL(e.target.files[0]);
+					let maxSize = 1 * 1024 * 1024 // 1MB
+					
+					if (e.target.files[0].size < maxSize) {
+						reader.onload = function(e) {
+							$element.parent().parent().find('label .img img').attr('src', e.target.result);
+						};
+						reader.readAsDataURL(e.target.files[0]);
+					} else {
+						$Layer.showLayer('alert_layer', '', '1MB 이하의 이미지만 첨부할 수 있습니다.');
+					}
 				}
 			});
 		},
